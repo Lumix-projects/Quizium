@@ -96,6 +96,14 @@ function Page() {
             {/* ===== Right Section (Image) ===== */}
 
             <div className="relative w-full sm:w-1/2 sm:h-screen hidden sm:block">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white z-20">
+                    <h2 className="text-4xl font-bold mb-3">Welcome to Quizium</h2>
+                    <h4 className="text-lg font-medium opacity-90">
+                        Dive into endless quizzes and discover your true potential.
+                    </h4>
+                </div>
+
+
                 <img
                     src="/logowhite.png"
                     alt="Logo"
@@ -107,6 +115,7 @@ function Page() {
                     className="h-full w-full object-cover"
                 />
             </div>
+
         </section>
     )
 }
