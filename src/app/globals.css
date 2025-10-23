@@ -3,11 +3,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary:#243642;
-  --secondary:#387478;
-  --main:#629584;
-  --submain:#E2F1E7;
-  --input:#D1E9FF;
+  --primary: #243642;
+  --secondary: #387478;
+  --main: #629584;
+  --submain: #e2f1e7;
+  --input: #d1e9ff;
 }
 
 @theme inline {
@@ -35,12 +35,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@layer components{
+@layer components {
   .input {
-    @apply border-3 border-input rounded-md pl-5 py-2
+    @apply border-3 border-input rounded-md pl-5 py-2 outline-0;
   }
-  .main-btn{
-    @apply bg-primary text-background py-1 rounded-md w-full cursor-pointer transition-all duration-300 hover:bg-primary/80 hover:scale-[1.02]
+  .main-btn {
+    @apply bg-primary text-background py-1 rounded-md w-full cursor-pointer transition-all duration-300 hover:bg-primary/80 hover:scale-[1.02];
   }
 }
-  
