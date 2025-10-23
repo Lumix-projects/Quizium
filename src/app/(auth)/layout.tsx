@@ -16,15 +16,29 @@ export default function AuthLayout({
       {/* Image Section */}
       <div
         className={cn(
-          "hidden lg:block relative h-full w-full",
+          "hidden lg:flex relative h-full w-full items-center justify-center ",
           registerPage ? "order-1" : "order-2"
         )}
       >
         <Image
-          src={registerPage ? "/auth/register.png" : "/auth/login.png"}
+          src={registerPage ? "/auth/register.jpg" : "/auth/login.png"}
           alt="Auth Image"
           fill
+          className="-z-10"
         />
+        {registerPage ? (
+          // Register Text
+          <ImageText
+            title="Join Quizium"
+            desc="Create your account and start your adventure today."
+          />
+        ) : (
+          // Login Text
+          <ImageText
+            title="Welcome Back"
+            desc="Sign in to continue your quest for knowledge."
+          />
+        )}
       </div>
 
       {/* Content Section */}
@@ -37,5 +51,14 @@ export default function AuthLayout({
         {children}
       </main>
     </section>
+  );
+}
+
+function ImageText({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="space-y-3 text-white text-center">
+      <h6 className="block text-5xl font-semibold">{title}</h6>
+      <p className="text-lg">{desc}</p>
+    </div>
   );
 }
