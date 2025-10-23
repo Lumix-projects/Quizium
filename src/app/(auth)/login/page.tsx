@@ -1,39 +1,18 @@
-function Page() {
+import Image from "next/image";
+import Link from "next/link";
+
+function LoginPage() {
   return (
     <>
+      <div className="relative h-20 w-20">
+        <Image src="/logotab.png" alt="login image" fill />
+      </div>
+
       <h1 className="text-xl sm:text-2xl font-bold text-primary text-center sm:text-left">
         Login into your account
       </h1>
 
       <form className="flex flex-col gap-5 max-w-md w-full">
-        {/* First + Last Name */}
-        <div className="flex flex-col sm:flex-row gap-5">
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-text-heading mb-1">
-              First Name
-            </label>
-            <input
-              type="text"
-              className="input w-full"
-              placeholder="First name"
-            />
-          </div>
-
-          <div className="flex-1">
-            <label
-              htmlFor="lastName"
-              className="block text-sm font-medium text-text-heading mb-1"
-            >
-              Last Name
-            </label>
-            <input
-              type="text"
-              className="input w-full"
-              placeholder="Last name"
-            />
-          </div>
-        </div>
-
         {/* Email */}
         <div>
           <label className="block text-sm font-medium text-text-heading mb-1">
@@ -58,16 +37,21 @@ function Page() {
           />
         </div>
 
-        {/* Confirm Password */}
-        <div>
-          <label className="block text-sm font-medium text-text-heading mb-1">
-            Confirm password
+        {/* Remember Me + Forgot Password */}
+        <div className="flex items-center justify-between text-sm text-primary mt-2">
+          <label className="flex items-center gap-2 text-muted-foreground">
+            <input
+              type="checkbox"
+              className="w-4 h-4 accent-primary cursor-pointer"
+              name="remember"
+              id="remember"
+            />
+            Remember me
           </label>
-          <input
-            type="password"
-            className="input w-full"
-            placeholder="Confirm your password"
-          />
+
+          <Link href="/forgotPassword" className="hover:underline">
+            Forgot Password?
+          </Link>
         </div>
 
         <button type="submit" className="main-btn py-3 w-full">
@@ -78,4 +62,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default LoginPage;
