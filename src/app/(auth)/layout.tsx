@@ -12,7 +12,7 @@ export default function AuthLayout({
   const registerPage = pathName === "/register";
 
   return (
-    <section className="grid min-h-screen lg:grid-cols-2 place-items-center-safe">
+    <section className="grid min-h-screen lg:grid-cols-2">
       {/* Image Section */}
       <div
         className={cn(
@@ -24,7 +24,7 @@ export default function AuthLayout({
           src={registerPage ? "/auth/register.png" : "/auth/login.png"}
           alt="Auth Image"
           fill
-          className="-z-10"
+          className="-z-10 object-cover"
         />
         {registerPage ? (
           // Register Text
