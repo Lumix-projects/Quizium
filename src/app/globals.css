@@ -6,8 +6,11 @@
   --primary: #243642;
   --secondary: #387478;
   --main: #629584;
-  --submain: #e2f1e7;
+  --subMain: #e2f1e7;
+  --border: #d1d5dc;
   --input: #d1e9ff;
+  --muted: #6a7282;
+  --input-focus: #93c9ff;
 }
 
 @theme inline {
@@ -16,8 +19,10 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-main: var(--main);
-  --color-submain: var(--submain);
+  --color-subMain: var(--subMain);
   --color-input: var(--input);
+  --color-border: var(--border);
+  --color-input-focus: var(--input-focus);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-inter: var(--font-inter);
@@ -37,9 +42,9 @@ body {
 
 @layer components {
   .input {
-    @apply border-3 border-input rounded-md pl-5 py-2 outline-0;
+    @apply border-2 border-input rounded-lg pl-5 py-1.5 outline-0 focus:border-input-focus duration-300;
   }
   .main-btn {
-    @apply bg-primary text-background py-1 rounded-md w-full cursor-pointer transition-all duration-300 hover:bg-primary/80 hover:scale-[1.02];
+    @apply bg-primary text-background py-2 rounded-lg w-full cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:-translate-y-0.5;
   }
 }

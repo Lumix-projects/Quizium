@@ -12,7 +12,7 @@ export default function AuthLayout({
   const registerPage = pathName === "/register";
 
   return (
-    <section className="grid min-h-screen lg:grid-cols-2">
+    <section className="grid min-h-screen lg:grid-cols-2 place-items-center-safe">
       {/* Image Section */}
       <div
         className={cn(
@@ -21,7 +21,7 @@ export default function AuthLayout({
         )}
       >
         <Image
-          src={registerPage ? "/auth/register.jpg" : "/auth/login.png"}
+          src={registerPage ? "/auth/register.png" : "/auth/login.png"}
           alt="Auth Image"
           fill
           className="-z-10"
@@ -44,7 +44,7 @@ export default function AuthLayout({
       {/* Content Section */}
       <main
         className={cn(
-          "flex flex-col gap-6 items-center justify-center px-6 sm:px-8 py-10 sm:py-0",
+          "w-full flex items-center justify-center",
           registerPage ? "order-2" : "order-1"
         )}
       >
