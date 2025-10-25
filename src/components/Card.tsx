@@ -30,7 +30,7 @@ export function CardHeader({
   children: React.ReactNode;
 }) {
   return (
-    <header className={cn("text-center space-y-1 p-6", className)}>
+    <header className={cn("text-center space-y-1 p-3 lg:p-6", className)}>
       {children}
     </header>
   );
@@ -45,7 +45,7 @@ export function CardContent({
   children: React.ReactNode;
 }) {
   return (
-    <div className={cn("px-6 py-8 border-y border-border", className)}>
+    <div className={cn("px-6 py-5 lg:py-8 border-y border-border", className)}>
       {children}
     </div>
   );
