@@ -1,22 +1,14 @@
 import api from "@/lib/axios";
 import { registerSchema, RegisterSchema } from "@/schemas/registerSchema";
+import { SignUpData } from "@/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-interface SignUpData {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  rePassword: string;
-  phone: string;
-}
-
 export function useRegister() {
+  // Hooks
   const router = useRouter();
   const {
     register,
@@ -42,7 +34,11 @@ export function useRegister() {
       // Calling API
       const response = await api.post("/auth/signup", values);
       console.log(response.data);
+
+      // Success Message
       toast.success(`Welcome ${response.data.user.firstName}`);
+
+      // Navigate User
       router.push("/login");
       reset();
     } catch (error) {
