@@ -42,7 +42,7 @@ body {
 
 @layer components {
   .input {
-    @apply border-2 border-input rounded-lg pl-5 py-1.5 outline-0 focus:border-input-focus duration-300;
+    @apply border-2 border-input rounded-lg px-3 py-1.5 outline-0 focus:border-input-focus duration-300 w-full;
   }
   .main-btn {
     @apply bg-primary text-background py-2 rounded-lg w-full cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:-translate-y-0.5;

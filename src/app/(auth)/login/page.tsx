@@ -1,14 +1,17 @@
+"use client";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
+import InputField from "@/components/InputField";
+import { useLogin } from "@/hooks/useLogin";
 import Link from "next/link";
 
 function LoginPage() {
+  const { register, handleSubmit, login, errors, isSubmitting } = useLogin();
+
   return (
     <Card>
       {/* Header */}
       <CardHeader>
-        <h1 className="text-2xl font-bold text-primary">
-          Login into your account
-        </h1>
+        <h1 className="text-2xl font-bold text-primary">Login into your account</h1>
         <p className="text-sm text-muted">
           Please log in or sign up to continue using our app.
         </p>
@@ -16,30 +19,28 @@ function LoginPage() {
 
       {/* Form */}
       <CardContent>
-        <form className="flex flex-col gap-5 ">
+        <form onSubmit={handleSubmit(login)} 
+        className="flex flex-col gap-5">
+          
           {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-text-heading mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              className="input w-full"
-              placeholder="Enter your email"
-            />
-          </div>
+          <InputField
+            label="Email"
+            type="email"
+            name="email"
+            register={register}
+            error={errors.email}
+            placeholder="Enter your email"
+          />
 
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-text-heading mb-1">
-              Password
-            </label>
-            <input
+
+            <InputField
+              label="Password"
               type="password"
-              className="input w-full"
+              name="password"
+              register={register}
+              error={errors.password}
               placeholder="Enter your password"
             />
-          </div>
 
           {/* Remember Me + Forgot Password */}
           <div className="flex items-center justify-between text-sm">
@@ -47,21 +48,22 @@ function LoginPage() {
               <input
                 type="checkbox"
                 className="w-4 h-4 accent-primary cursor-pointer"
-                id="remember"
               />
               Remember me
             </label>
 
-            <Link
-              href="/forgotPassword"
-              className="text-primary hover:underline"
-            >
+            <Link href="/forgotPassword" className="text-primary hover:underline">
               Forgot Password?
             </Link>
           </div>
 
-          <button type="submit" className="main-btn w-full">
-            Login
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="main-btn w-full disabled:opacity-50"
+          >
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
       </CardContent>

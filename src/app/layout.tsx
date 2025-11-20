@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,6 +25,16 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} antialiased font-inter`}>
         <main>{children}</main>
+        <Toaster
+          toastOptions={{
+            success: {
+              className: "!bg-green-500 !text-white",
+            },
+            error: {
+              className: "!bg-red-500 !text-white",
+            },
+          }}
+        />
       </body>
     </html>
   );

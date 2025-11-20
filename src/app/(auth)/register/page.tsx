@@ -1,10 +1,17 @@
+"use client";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
+import InputField from "@/components/InputField";
+import { useRegister } from "@/hooks/useRegister";
+import { Loader } from "lucide-react";
 import Link from "next/link";
 
-function RegisterPage() {
+export default function RegisterPage() {
+  const { register, handleSubmit, SignUp, errors, isSubmitting } =
+    useRegister();
+
   return (
     <Card>
-      {/* Header */}
+      {/* Register Header */}
       <CardHeader>
         <h1 className="text-xl lg:text-2xl font-bold text-primary">
           Create your account
@@ -14,106 +21,82 @@ function RegisterPage() {
         </p>
       </CardHeader>
 
-      {/* Form */}
+      {/* Register Form */}
       <CardContent>
-        <form className="flex flex-col gap-3 lg:gap-5">
+        <form
+          className="flex flex-col gap-3 lg:gap-5"
+          onSubmit={handleSubmit(SignUp)}
+        >
           {/* First + Last Name */}
-          <div className="flex flex-col sm:flex-row gap-5">
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-text-heading mb-1">
-                First Name
-              </label>
-              <input
-                type="text"
-                className="input w-full"
-                placeholder="First name"
-              />
-            </div>
+          <InputField
+            label="Your name"
+            placeholder="Enter your full name"
+            register={register}
+            name="name"
+            error={errors.name}
+          />
 
-            <div className="flex-1">
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium text-text-heading mb-1"
-              >
-                Last Name
-              </label>
-              <input
-                type="text"
-                className="input w-full"
-                placeholder="Last name"
-              />
-            </div>
-          </div>
-
-          {/* user name */}
-          <div>
-            <label className="block text-sm font-medium text-text-heading mb-1">
-              User name
-            </label>
-            <input
-              type="text"
-              className="input w-full"
-              placeholder="Enter your user name"
-            />
-          </div>
+          {/* Username */}
+          <InputField
+            label="Username"
+            placeholder="Enter your username"
+            register={register}
+            name="username"
+            error={errors.username}
+          />
 
           {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-text-heading mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              className="input w-full"
-              placeholder="Enter your email"
-            />
-          </div>
+          <InputField
+            label="Email"
+            type="email"
+            placeholder="Enter your email"
+            register={register}
+            name="email"
+            error={errors.email}
+          />
 
-          {/* Phone number */}
-          <div>
-            <label className="block text-sm font-medium text-text-heading mb-1">
-              Phone Number
-            </label>
-            <input
-              type="email"
-              className="input w-full"
-              placeholder="Enter your phone number"
-            />
-          </div>
+          {/* Phone */}
+          <InputField
+            label="Phone Number"
+            placeholder="Enter your phone number"
+            register={register}
+            name="phone"
+            error={errors.phone}
+          />
 
           {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-text-heading mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              className="input w-full"
-              placeholder="Enter your password"
-            />
-          </div>
+          <InputField
+            label="Password"
+            type="password"
+            placeholder="Enter your password"
+            register={register}
+            name="password"
+            error={errors.password}
+          />
 
           {/* Confirm Password */}
-          <div>
-            <label className="block text-sm font-medium text-text-heading mb-1">
-              Confirm password
-            </label>
-            <input
-              type="password"
-              className="input w-full"
-              placeholder="Confirm your password"
-            />
-          </div>
+          <InputField
+            label="Confirm Password"
+            type="password"
+            placeholder="Confirm your password"
+            register={register}
+            name="rePassword"
+            error={errors.rePassword}
+          />
 
-          <button type="submit" className="main-btn w-full">
-            Login
+          <button
+            type="submit"
+            className="main-btn w-full flex items-center justify-center"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? <Loader className="animate-spin" /> : "Sign Up"}
           </button>
         </form>
       </CardContent>
 
-      {/* Footer */}
+      {/* Register Footer */}
       <CardFooter>
-        Already have an account ?{" "}
+        Already have an account?{" "}
         <Link href="/login" className="text-primary underline">
           Login
         </Link>
@@ -121,5 +104,3 @@ function RegisterPage() {
     </Card>
   );
 }
-
-export default RegisterPage;
