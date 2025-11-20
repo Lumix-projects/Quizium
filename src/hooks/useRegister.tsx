@@ -1,12 +1,9 @@
-import api from "@/lib/axios";
 import { registerSchema, RegisterSchema } from "@/schemas/registerSchema";
-import { SignUpData } from "@/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { registerlogic } from "@/services/auth";
+import { registerUser } from "@/services/auth";
 export function useRegister() {
   // Hooks
   const router = useRouter();
@@ -32,7 +29,7 @@ async function SignUp(values: RegisterSchema) {
   try {
     const { rePassword, phone, ...rest } = values;
 
-    const response = await registerlogic(rest);
+    const response = await registerUser(rest);
 
     if (response && response.user) {
       router.push("/login");
