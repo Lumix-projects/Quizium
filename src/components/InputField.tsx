@@ -31,7 +31,7 @@ export default function InputField<T extends FieldValues>({
       <input
         type={type}
         {...register(name)}
-        className="input"
+        className="input w-full"
         placeholder={placeholder}
       />
 
