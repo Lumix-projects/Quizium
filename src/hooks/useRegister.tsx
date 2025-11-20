@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-
+import { registerlogic } from "@/services/auth";
 export function useRegister() {
   // Hooks
   const router = useRouter();
@@ -18,37 +18,36 @@ export function useRegister() {
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       username: "",
       email: "",
-      phone: "",
       password: "",
       rePassword: "",
+      phone: "",
     },
     mode: "onSubmit",
   });
 
-  async function SignUp(values: SignUpData) {
-    try {
-      // Calling API
-      const response = await api.post("/auth/signup", values);
-      console.log(response.data);
+async function SignUp(values: RegisterSchema) {
+  try {
+    const { rePassword, phone, ...rest } = values;
 
-      // Success Message
-      toast.success(`Welcome ${response.data.user.firstName}`);
+    const response = await registerlogic(rest);
 
-      // Navigate User
+    if (response && response.user) {
       router.push("/login");
       reset();
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data || error.message);
-      } else {
-        console.error(error);
-      }
+    } else {
+      toast.error("Registration failed. Please try again.");
     }
+
+  } catch (error: any) {
+    toast.error(error.message || "Something went wrong");
+    console.error(error);
   }
+}
+
+
 
   return { register, handleSubmit, errors, SignUp, isSubmitting };
 }

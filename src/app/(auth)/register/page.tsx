@@ -28,23 +28,13 @@ export default function RegisterPage() {
           onSubmit={handleSubmit(SignUp)}
         >
           {/* First + Last Name */}
-          <div className="flex flex-col sm:flex-row gap-5">
-            <InputField
-              label="First Name"
-              placeholder="First name"
-              register={register}
-              name="firstName"
-              error={errors.firstName}
-            />
-
-            <InputField
-              label="Last Name"
-              placeholder="Last name"
-              register={register}
-              name="lastName"
-              error={errors.lastName}
-            />
-          </div>
+          <InputField
+            label="Your name"
+            placeholder="Enter your full name"
+            register={register}
+            name="name"
+            error={errors.name}
+          />
 
           {/* Username */}
           <InputField
