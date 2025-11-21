@@ -1,33 +1,34 @@
 "use client";
-import { FaBook, FaClipboardList, FaCommentDots, FaCog, FaSignOutAlt } from "react-icons/fa";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { FaBook, FaClipboardList, FaCommentDots, FaCog, FaSignOutAlt } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
 import { HiX, HiMenu } from "react-icons/hi";
 
 export default function Sidebar() {
-    const [activeItem, setActiveItem] = useState('dashboard');
+    const pathname = usePathname();
     const [open, setOpen] = useState(false);
 
     const menuItems = [
-        { id: 'dashboard', icon: MdSpaceDashboard, label: 'Dashboard' },
-        { id: 'subject', icon: FaBook, label: 'Subject' },
-        { id: 'exams', icon: FaClipboardList, label: 'Exams' },
-        { id: 'feedback', icon: FaCommentDots, label: 'Feedback' },
+        { id: 'dashboard', href: '/user', icon: MdSpaceDashboard, label: 'Dashboard' },
+        { id: 'quizzes', href: '/user/quizzes', icon: FaBook, label: 'My Quizzes' },
+        { id: 'history', href: '/user/history', icon: FaClipboardList, label: 'History' },
+        { id: 'settings', href: '/user/settings', icon: FaCog, label: 'Settings' },
     ];
 
     return (
         <>
-            {/* Mobile Toggle Button */}
+            {/* toggle button */}
             <button
-                className={`lg:hidden fixed  z-50 p-2 rounded-md transition-all duration-300 ${
-                    open ? "text-white left-50 top-8" : "text-black left-5 top-8"
-                }`}
+                className={`lg:hidden fixed z-50 p-2 rounded-md transition-all duration-300 ${open ? "text-white left-50 top-8" : "text-black left-5 top-10"
+                    }`}
                 onClick={() => setOpen(!open)}
             >
                 {open ? <HiX className="text-2xl" /> : <HiMenu className="text-2xl" />}
             </button>
 
-            {/* Overlay */}
+            {/* overlay */}
             {open && (
                 <div
                     className="lg:hidden fixed inset-0 bg-black/50 z-30"
@@ -36,35 +37,35 @@ export default function Sidebar() {
             )}
 
             <aside
-                className={`flex flex-col justify-between rounded-r-3xl w-64 h-screen text-white p-6 fixed lg:static top-0 left-0 transition-transform duration-300 z-40  ${
-                    open ? 'translate-x-0 bg-black' : '-translate-x-full lg:translate-x-0'
-                }`}
+                className={`flex flex-col justify-between rounded-r-3xl w-64 h-screen text-white p-6 fixed lg:static top-0 left-0 transition-transform duration-300 z-40 bg-black ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+                    }`}
             >
-                {/* Logo & Menu */}
+                {/* logo & menu */}
                 <div className="flex flex-col gap-12 relative z-10">
                     {/* Logo */}
                     <div className="text-3xl font-bold flex items-center gap-2">
                         Quizium
                     </div>
 
-                    {/* Menu Items */}
+                    {/* tabs */}
                     <nav className="flex flex-col gap-4">
                         {menuItems.map((item) => {
                             const Icon = item.icon;
-                            const isActive = activeItem === item.id;
+                            // Check if the current path starts with the item's href
+                            // Exact match for root '/user', startsWith for others to handle sub-routes if any
+                            const isActive = item.href === '/user'
+                                ? pathname === '/user'
+                                : pathname.startsWith(item.href);
 
                             return (
-                                <button
+                                <Link
                                     key={item.id}
-                                    onClick={() => {
-                                        setActiveItem(item.id);
-                                        setOpen(false); // Close sidebar on mobile when item is clicked
-                                    }}
-                                    className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 group relative overflow-hidden ${
-                                        isActive
+                                    href={item.href}
+                                    onClick={() => setOpen(false)}
+                                    className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 group relative overflow-hidden ${isActive
                                             ? 'bg-white/10 text-white shadow-lg shadow-white/10'
                                             : 'hover:bg-white/5 text-slate-300 hover:text-white'
-                                    }`}
+                                        }`}
                                 >
                                     <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
@@ -74,20 +75,15 @@ export default function Sidebar() {
                                     {isActive && (
                                         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-r-full"></div>
                                     )}
-                                </button>
+                                </Link>
                             );
                         })}
                     </nav>
                 </div>
 
-                {/* Bottom Actions */}
+                {/* bottom actions */}
                 <div className="flex flex-col gap-3 relative z-10">
                     <div className="h-px bg-linear-to-r from-transparent via-slate-600 to-transparent mb-2"></div>
-
-                    <button className="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-300 group">
-                        <FaCog className="text-xl group-hover:rotate-90 transition-transform duration-500" />
-                        <span className="font-medium">Settings</span>
-                    </button>
 
                     <button className="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-300 hover:text-red-400 hover:bg-red-500/10 transition-all duration-300 group">
                         <FaSignOutAlt className="text-xl group-hover:translate-x-1 transition-transform duration-300" />
