@@ -7,8 +7,10 @@ import { loginUser } from "@/services/auth";
 import { LoginData } from "@/types/auth";
 import { loginSchema, LoginSchema } from "@/schemas/loginSchema";
 import { useRouter } from "next/navigation";
+import { setAuthCookie } from "@/lib/token";
 
 export function useLogin() {
+  // Hooks
   const router = useRouter();
 
   const {
@@ -33,6 +35,11 @@ export function useLogin() {
     if (result.error) {
       toast.error(result.error);
       return;
+    }
+
+    // Set auth cookie and handle errors
+    if (!setAuthCookie(result.data.token)) {
+      toast.error("Error during login");
     }
 
     // Show success toast

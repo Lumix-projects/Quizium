@@ -11,13 +11,14 @@ export const setAuthCookie = (token: string) => {
     // Set Token To Cookie
     Cookies.set("auth_token", token, {
       expires: 7,
-      httpOnly: true,
       secure: true,
       sameSite: "strict",
-      path: "/",
     });
+
+    return true;
   } catch {
     toast.error("Invalid token");
+    return false;
   }
 };
 

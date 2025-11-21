@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { registerUser } from "@/services/auth";
+import { setAuthCookie } from "@/lib/token";
 
 export function useRegister() {
   // Hooks
@@ -39,6 +40,11 @@ export function useRegister() {
     if (result.error) {
       toast.error(result.error);
       return;
+    }
+
+    // Set auth cookie and handle errors
+    if (!setAuthCookie(result.data.token)) {
+      toast.error("Error during registration");
     }
 
     // Show success toast
