@@ -27,11 +27,11 @@ export const setAuthCookie = (token: string) => {
 };
 
 // Get user data from token
-export const getUserFromToken = () => {
-  const token = getValidatedToken();
-  if (!token) return null;
-
+export const getUserFromToken = (serverToken?: string) => {
   try {
+    const token = serverToken || getValidatedToken();
+    if (!token) return null;
+
     const decoded = jwtDecode<DecodedToken>(token);
     return {
       id: decoded.userId,
