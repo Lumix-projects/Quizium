@@ -7,7 +7,6 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { HiX, HiMenu } from "react-icons/hi";
 import cookies from "js-cookie";
 import toast from "react-hot-toast";
-
 export default function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
@@ -15,7 +14,8 @@ export default function Sidebar() {
 
     const menuItems = [
         { id: 'dashboard', href: '/user', icon: MdSpaceDashboard, label: 'Dashboard' },
-        { id: 'quizzes', href: '/user/quizzes', icon: FaBook, label: 'My Quizzes' },
+        { id: 'subjects', href: '/user/subjects', icon: FaBook, label: 'Subjects' },
+        { id: 'quizzes', href: '/user/quizzes', icon: FaClipboardList, label: 'My Quizzes' },
         { id: 'history', href: '/user/history', icon: FaClipboardList, label: 'History' },
         { id: 'settings', href: '/user/settings', icon: FaCog, label: 'Settings' },
     ];
