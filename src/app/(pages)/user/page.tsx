@@ -43,7 +43,6 @@ export default function page() {
     ? Math.round(scores.reduce((acc, curr) => acc + curr.percentage, 0) / totalQuizzes)
     : 0;
 
-  // Mock data for time spent and streak as API doesn't provide it yet
   const timeSpent = "4h 30m";
   const activeStreak = "3 Days";
 
@@ -75,14 +74,12 @@ export default function page() {
           value={totalQuizzes}
           icon={FiCheckCircle}
           color="blue"
-          trend={{ value: totalQuizzes, isPositive: true }}
         />
         <StatsCard
           title="Average Score"
           value={`${averageScore}%`}
           icon={FiTrendingUp}
           color="main"
-          trend={{ value: 5, isPositive: true }}
         />
         <StatsCard
           title="Time Spent"
