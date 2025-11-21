@@ -2,6 +2,7 @@
 import { FaBook, FaClipboardList, FaCommentDots, FaCog, FaSignOutAlt } from "react-icons/fa";
 import { useState } from "react";
 import { MdSpaceDashboard } from "react-icons/md";
+import { HiX, HiMenu } from "react-icons/hi";
 
 export default function Sidebar() {
     const [activeItem, setActiveItem] = useState('dashboard');
@@ -18,15 +19,25 @@ export default function Sidebar() {
         <>
             {/* Mobile Toggle Button */}
             <button
-                className="lg:hidden fixed top-5 left-5 z-50 bg-black/80 text-white p-2 rounded-md"
+                className={`lg:hidden fixed  z-50 p-2 rounded-md transition-all duration-300 ${
+                    open ? "text-white left-50 top-8" : "text-black left-5 top-8"
+                }`}
                 onClick={() => setOpen(!open)}
             >
-                ☰
+                {open ? <HiX className="text-2xl" /> : <HiMenu className="text-2xl" />}
             </button>
 
+            {/* Overlay */}
+            {open && (
+                <div
+                    className="lg:hidden fixed inset-0 bg-black/50 z-30"
+                    onClick={() => setOpen(false)}
+                ></div>
+            )}
+
             <aside
-                className={`flex flex-col justify-between w-64 h-screen text-white p-6 fixed lg:static top-0 transition-transform duration-300 bg-black/90 z-40 ${
-                    open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+                className={`flex flex-col justify-between rounded-r-3xl w-64 h-screen text-white p-6 fixed lg:static top-0 left-0 transition-transform duration-300 z-40  ${
+                    open ? 'translate-x-0 bg-black' : '-translate-x-full lg:translate-x-0'
                 }`}
             >
                 {/* Logo & Menu */}
@@ -45,20 +56,23 @@ export default function Sidebar() {
                             return (
                                 <button
                                     key={item.id}
-                                    onClick={() => setActiveItem(item.id)}
+                                    onClick={() => {
+                                        setActiveItem(item.id);
+                                        setOpen(false); // Close sidebar on mobile when item is clicked
+                                    }}
                                     className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 group relative overflow-hidden ${
                                         isActive
-                                            ? 'bg-linear-to-r from-background/40 to-background/10 text-background shadow-lg shadow-white/10'
-                                            : 'hover:bg-background/80 text-background/80 hover:text-background'
+                                            ? 'bg-white/10 text-white shadow-lg shadow-white/10'
+                                            : 'hover:bg-white/5 text-slate-300 hover:text-white'
                                     }`}
                                 >
-                                    <div className="absolute inset-0 bg-linear-to-r from-background/40 to-background/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                                     <Icon className={`text-xl relative z-10 ${isActive ? 'animate-pulse' : ''}`} />
                                     <span className="font-medium relative z-10">{item.label}</span>
 
                                     {isActive && (
-                                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-background rounded-r-full"></div>
+                                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-r-full"></div>
                                     )}
                                 </button>
                             );

@@ -7,8 +7,8 @@ export default function page() {
     <Sidebar />
 
     {/* main content */}
-    <section className='p-4 w-full '>
-      <div className='bg-white p-10 h-full rounded-3xl'>
+    <section className='p-4 w-full min-h-screen'>
+      <div className='bg-white/85 py-6 px-14 h-full rounded-3xl'>
       test
       </div>
     </section>
