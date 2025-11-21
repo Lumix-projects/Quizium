@@ -30,7 +30,7 @@ export function useLogin() {
       const response = await loginUser(values);
 
       if (response && response.user) {
-        router.push("/");
+        router.push("/user");
         reset();
       } else {
         toast.error("Invalid email or password");

@@ -1,13 +1,16 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaBook, FaClipboardList, FaCommentDots, FaCog, FaSignOutAlt } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
 import { HiX, HiMenu } from "react-icons/hi";
+import cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 export default function Sidebar() {
     const pathname = usePathname();
+    const router = useRouter();
     const [open, setOpen] = useState(false);
 
     const menuItems = [
@@ -16,6 +19,12 @@ export default function Sidebar() {
         { id: 'history', href: '/user/history', icon: FaClipboardList, label: 'History' },
         { id: 'settings', href: '/user/settings', icon: FaCog, label: 'Settings' },
     ];
+
+    const handleLogout = () => {
+        cookies.remove("token");
+        toast.success("Logged out successfully");
+        router.push("/login");
+    };
 
     return (
         <>
@@ -63,8 +72,8 @@ export default function Sidebar() {
                                     href={item.href}
                                     onClick={() => setOpen(false)}
                                     className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 group relative overflow-hidden ${isActive
-                                            ? 'bg-white/10 text-white shadow-lg shadow-white/10'
-                                            : 'hover:bg-white/5 text-slate-300 hover:text-white'
+                                        ? 'bg-white/10 text-white shadow-lg shadow-white/10'
+                                        : 'hover:bg-white/5 text-slate-300 hover:text-white'
                                         }`}
                                 >
                                     <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -85,7 +94,10 @@ export default function Sidebar() {
                 <div className="flex flex-col gap-3 relative z-10">
                     <div className="h-px bg-linear-to-r from-transparent via-slate-600 to-transparent mb-2"></div>
 
-                    <button className="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-300 hover:text-red-400 hover:bg-red-500/10 transition-all duration-300 group">
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-300 hover:text-red-400 hover:bg-red-500/10 transition-all duration-300 group"
+                    >
                         <FaSignOutAlt className="text-xl group-hover:translate-x-1 transition-transform duration-300" />
                         <span className="font-medium">Logout</span>
                     </button>

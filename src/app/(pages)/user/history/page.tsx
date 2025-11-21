@@ -1,40 +1,51 @@
+"use client";
+
 import DashboardCard from '@/components/shared/dashboard/DashboardCard'
-import React from 'react'
+import HistoryTable from '@/components/shared/dashboard/HistoryTable'
+import React, { useEffect, useState } from 'react'
+import { getUserScores } from '@/services/user'
+import { Score } from '@/types'
+import toast from 'react-hot-toast'
 
 export default function page() {
+    const [scores, setScores] = useState<Score[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const scoresData = await getUserScores();
+                setScores(scoresData);
+            } catch (error) {
+                console.error("Failed to fetch history data", error);
+                toast.error("Failed to load history");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <div className="flex items-center justify-center min-h-[60vh] text-slate-500">Loading history...</div>;
+    }
+
     return (
         <div className="space-y-6">
-            <h1 className="text-2xl font-bold text-slate-800">History</h1>
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-2xl font-bold text-slate-800">History</h1>
+                    <p className="text-slate-500">View your past quiz attempts and scores</p>
+                </div>
+                <div className="text-right">
+                    <span className="block text-2xl font-bold text-slate-800">{scores.length}</span>
+                    <span className="text-xs text-slate-500">Total Attempts</span>
+                </div>
+            </div>
 
             <DashboardCard title="Quiz History">
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm text-slate-600">
-                        <thead className="bg-slate-50 text-slate-800 font-semibold uppercase text-xs">
-                            <tr>
-                                <th className="px-4 py-3 rounded-l-lg">Quiz Name</th>
-                                <th className="px-4 py-3">Date</th>
-                                <th className="px-4 py-3">Score</th>
-                                <th className="px-4 py-3">Status</th>
-                                <th className="px-4 py-3 rounded-r-lg">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100">
-                            {[1, 2, 3, 4, 5].map((i) => (
-                                <tr key={i} className="hover:bg-slate-50 transition-colors">
-                                    <td className="px-4 py-3 font-medium text-slate-800">Introduction to React</td>
-                                    <td className="px-4 py-3">Oct 24, 2023</td>
-                                    <td className="px-4 py-3 font-bold">85%</td>
-                                    <td className="px-4 py-3">
-                                        <span className="px-2 py-1 rounded-full bg-green-100 text-green-600 text-xs font-medium">Passed</span>
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        <button className="text-blue-600 hover:underline">View Details</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                <HistoryTable scores={scores} />
             </DashboardCard>
         </div>
     )
