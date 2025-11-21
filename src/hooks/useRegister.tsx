@@ -50,8 +50,9 @@ export function useRegister() {
     // Show success toast
     toast.success("Registration successful!");
 
-    // Redirect to home page after successful registration
-    router.push("/");
+    // Redirect based on user role (admin goes to admin dashboard, user goes to home)
+    const redirectPath = result.data.user.isAdmin ? "/admin" : "/";
+    router.push(redirectPath);
 
     // Reset form after registration
     reset();
