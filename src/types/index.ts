@@ -14,7 +14,6 @@ export interface Subject {
     name: string;
     description?: string;
     subjectImage: string;
-    pdfUrl: string[];
     createdBy: string | User;
     createdAt: string;
     updatedAt: string;

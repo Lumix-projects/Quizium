@@ -33,7 +33,6 @@ export default function page() {
             const updatedUser = await updateProfile(profileData);
             setUser(updatedUser);
         } catch (error) {
-            // Error handled in hook
         }
     };
 
@@ -43,7 +42,6 @@ export default function page() {
             await updatePassword(passwordData);
             setPasswordData({ currentPassword: '', newPassword: '' });
         } catch (error) {
-            // Error handled in hook
         }
     };
 
@@ -55,7 +53,6 @@ export default function page() {
             const imageUrl = await uploadAvatar(file);
             setUser(prev => prev ? { ...prev, profileImage: imageUrl } : null);
         } catch (error) {
-            // Error handled in hook
         }
     };
 
@@ -65,9 +62,8 @@ export default function page() {
         try {
             await removeAccount();
             cookies.remove('token');
-            router.push('/login');
+            router.push('/register');
         } catch (error) {
-            // Error handled in hook
         }
     };
 
