@@ -2,30 +2,11 @@
 
 import DashboardCard from '@/components/shared/dashboard/DashboardCard'
 import HistoryTable from '@/components/shared/dashboard/HistoryTable'
-import React, { useEffect, useState } from 'react'
-import { getUserScores } from '@/services/user'
-import { Score } from '@/types'
-import toast from 'react-hot-toast'
+import React from 'react'
+import { useScores } from '@/hooks/useScores'
 
 export default function page() {
-    const [scores, setScores] = useState<Score[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const scoresData = await getUserScores();
-                setScores(scoresData);
-            } catch (error) {
-                console.error("Failed to fetch history data", error);
-                toast.error("Failed to load history");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
+    const { scores, loading } = useScores();
 
     if (loading) {
         return <div className="flex items-center justify-center min-h-[60vh] text-slate-500">Loading history...</div>;

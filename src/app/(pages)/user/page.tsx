@@ -2,36 +2,16 @@
 
 import DashboardCard from '@/components/shared/dashboard/DashboardCard'
 import StatsCard from '@/components/shared/dashboard/StatsCard'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { FiSearch, FiTrendingUp, FiActivity, FiCheckCircle, FiClock } from 'react-icons/fi'
-import { getUserProfile, getUserScores } from '@/services/user'
-import { User, Score } from '@/types'
-import toast from 'react-hot-toast'
+import { useUser } from '@/hooks/useUser'
+import { useScores } from '@/hooks/useScores'
 
 export default function page() {
-  const [user, setUser] = useState<User | null>(null);
-  const [scores, setScores] = useState<Score[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { user, loading: userLoading } = useUser();
+  const { scores, loading: scoresLoading } = useScores();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [userData, scoresData] = await Promise.all([
-          getUserProfile(),
-          getUserScores()
-        ]);
-        setUser(userData);
-        setScores(scoresData);
-      } catch (error) {
-        console.error("Failed to fetch dashboard data", error);
-        toast.error("Failed to load dashboard data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const loading = userLoading || scoresLoading;
 
   if (loading) {
     return <div className="flex items-center justify-center min-h-[60vh] text-muted-foreground">Loading dashboard...</div>;

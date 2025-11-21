@@ -1,59 +1,49 @@
 "use client";
 
+
 import DashboardCard from '@/components/shared/dashboard/DashboardCard'
 import React, { useEffect, useState } from 'react'
-import { getUserProfile, updateUserProfile, uploadProfileImage, changePassword, deleteAccount } from '@/services/user'
-import { User } from '@/types'
+import { useUser, useUpdateProfile, useUploadAvatar } from '@/hooks/useUser'
+import { useChangePassword, useDeleteAccount } from '@/hooks/useSettings'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import cookies from 'js-cookie'
 
 export default function page() {
     const router = useRouter();
-    const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
+    const { user, loading: userLoading, setUser } = useUser();
+    const { updateProfile, loading: updatingProfile } = useUpdateProfile();
+    const { uploadAvatar, loading: uploadingImage } = useUploadAvatar();
+    const { updatePassword, loading: changingPassword } = useChangePassword();
+    const { removeAccount, loading: deletingAccount } = useDeleteAccount();
 
     // Form States
     const [profileData, setProfileData] = useState({ name: '', email: '' });
     const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '' });
-    const [uploadingImage, setUploadingImage] = useState(false);
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const userData = await getUserProfile();
-                setUser(userData);
-                setProfileData({ name: userData.name, email: userData.email });
-            } catch (error) {
-                console.error("Failed to fetch user profile", error);
-                toast.error("Failed to load profile");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUser();
-    }, []);
+        if (user) {
+            setProfileData({ name: user.name, email: user.email });
+        }
+    }, [user]);
 
     const handleProfileUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const updatedUser = await updateUserProfile(profileData);
+            const updatedUser = await updateProfile(profileData);
             setUser(updatedUser);
-            toast.success("Profile updated successfully");
-        } catch (error: any) {
-            toast.error(error.message || "Failed to update profile");
+        } catch (error) {
+            // Error handled in hook
         }
     };
 
     const handlePasswordChange = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await changePassword(passwordData);
-            toast.success("Password changed successfully");
+            await updatePassword(passwordData);
             setPasswordData({ currentPassword: '', newPassword: '' });
-        } catch (error: any) {
-            toast.error(error.message || "Failed to change password");
+        } catch (error) {
+            // Error handled in hook
         }
     };
 
@@ -61,15 +51,11 @@ export default function page() {
         if (!e.target.files || e.target.files.length === 0) return;
 
         const file = e.target.files[0];
-        setUploadingImage(true);
         try {
-            const imageUrl = await uploadProfileImage(file);
+            const imageUrl = await uploadAvatar(file);
             setUser(prev => prev ? { ...prev, profileImage: imageUrl } : null);
-            toast.success("Profile image updated");
-        } catch (error: any) {
-            toast.error(error.message || "Failed to upload image");
-        } finally {
-            setUploadingImage(false);
+        } catch (error) {
+            // Error handled in hook
         }
     };
 
@@ -77,16 +63,15 @@ export default function page() {
         if (!window.confirm("Are you sure you want to delete your account? This action is irreversible.")) return;
 
         try {
-            await deleteAccount();
+            await removeAccount();
             cookies.remove('token');
-            toast.success("Account deleted");
             router.push('/login');
-        } catch (error: any) {
-            toast.error(error.message || "Failed to delete account");
+        } catch (error) {
+            // Error handled in hook
         }
     };
 
-    if (loading) {
+    if (userLoading) {
         return <div className="flex items-center justify-center min-h-[60vh] text-slate-500">Loading settings...</div>;
     }
 

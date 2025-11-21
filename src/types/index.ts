@@ -48,3 +48,16 @@ export interface Score {
     answers: AnswerResult[];
     createdAt: string;
 }
+
+export interface Exam {
+    _id: string;
+    title: string;
+    description: string;
+    subject: string | Subject;
+    duration: number;
+    totalMarks: number;
+    questions: string[] | Question[];
+    createdBy: string | User;
+    createdAt: string;
+    updatedAt: string;
+}
