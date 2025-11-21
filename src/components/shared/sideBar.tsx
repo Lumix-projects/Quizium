@@ -2,11 +2,12 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaBook, FaClipboardList, FaCommentDots, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { FaBook, FaClipboardList, FaCog, FaSignOutAlt } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
 import { HiX, HiMenu } from "react-icons/hi";
 import cookies from "js-cookie";
 import toast from "react-hot-toast";
+
 export default function Sidebar() {
     const pathname = usePathname();
     const router = useRouter();
@@ -15,7 +16,7 @@ export default function Sidebar() {
     const menuItems = [
         { id: 'dashboard', href: '/user', icon: MdSpaceDashboard, label: 'Dashboard' },
         { id: 'subjects', href: '/user/subjects', icon: FaBook, label: 'Subjects' },
-        { id: 'quizzes', href: '/user/quizzes', icon: FaClipboardList, label: 'My Quizzes' },
+        { id: 'quizzes', href: '/user/quizzes', icon: FaClipboardList, label: 'Quizzes' },
         { id: 'history', href: '/user/history', icon: FaClipboardList, label: 'History' },
         { id: 'settings', href: '/user/settings', icon: FaCog, label: 'Settings' },
     ];
@@ -28,40 +29,41 @@ export default function Sidebar() {
 
     return (
         <>
-            {/* toggle button */}
+            {/* Mobile toggle button */}
             <button
-                className={`lg:hidden fixed z-50 p-2 rounded-md transition-all duration-300 ${open ? "text-white left-50 top-8" : "text-black left-5 top-10"
+                className={`lg:hidden fixed z-50 top-6 left-6 p-2 rounded-lg bg-card border border-border transition-all duration-200 ${open ? "text-foreground" : "text-foreground"
                     }`}
                 onClick={() => setOpen(!open)}
             >
-                {open ? <HiX className="text-2xl" /> : <HiMenu className="text-2xl" />}
+                {open ? <HiX className="text-xl" /> : <HiMenu className="text-xl" />}
             </button>
 
-            {/* overlay */}
+            {/* Overlay for mobile */}
             {open && (
                 <div
                     className="lg:hidden fixed inset-0 bg-black/50 z-30"
                     onClick={() => setOpen(false)}
-                ></div>
+                ></div >
             )}
 
             <aside
-                className={`flex flex-col justify-between rounded-r-3xl w-64 h-screen text-white p-6 fixed lg:static top-0 left-0 transition-transform duration-300 z-40 bg-black ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+                className={`flex flex-col justify-between w-64 h-screen bg-sidebar-bg border-r border-sidebar-border p-5 fixed lg:static top-0 left-0 transition-transform duration-200 z-40 ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
                     }`}
             >
-                {/* logo & menu */}
-                <div className="flex flex-col gap-12 relative z-10">
+                {/* Logo & Navigation */}
+                <div className="flex flex-col gap-8">
                     {/* Logo */}
-                    <div className="text-3xl font-bold flex items-center gap-2">
-                        Quizium
+                    <div className="flex items-center gap-3 px-1">
+                        <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center">
+                            <span className="text-white font-bold text-lg">Q</span>
+                        </div>
+                        <span className="text-xl font-semibold text-foreground">Quizium</span>
                     </div>
 
-                    {/* tabs */}
-                    <nav className="flex flex-col gap-4">
+                    {/* Navigation */}
+                    <nav className="flex flex-col gap-1">
                         {menuItems.map((item) => {
                             const Icon = item.icon;
-                            // Check if the current path starts with the item's href
-                            // Exact match for root '/user', startsWith for others to handle sub-routes if any
                             const isActive = item.href === '/user'
                                 ? pathname === '/user'
                                 : pathname.startsWith(item.href);
@@ -71,35 +73,29 @@ export default function Sidebar() {
                                     key={item.id}
                                     href={item.href}
                                     onClick={() => setOpen(false)}
-                                    className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 group relative overflow-hidden ${isActive
-                                        ? 'bg-white/10 text-white shadow-lg shadow-white/10'
-                                        : 'hover:bg-white/5 text-slate-300 hover:text-white'
+                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 font-medium text-sm ${isActive
+                                            ? 'bg-primary text-white'
+                                            : 'text-muted-foreground hover:bg-card-hover hover:text-foreground'
                                         }`}
                                 >
-                                    <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                                    <Icon className={`text-xl relative z-10 ${isActive ? 'animate-pulse' : ''}`} />
-                                    <span className="font-medium relative z-10">{item.label}</span>
-
-                                    {isActive && (
-                                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-r-full"></div>
-                                    )}
+                                    <Icon className="text-base" />
+                                    <span>{item.label}</span>
                                 </Link>
                             );
                         })}
                     </nav>
                 </div>
 
-                {/* bottom actions */}
-                <div className="flex flex-col gap-3 relative z-10">
-                    <div className="h-px bg-linear-to-r from-transparent via-slate-600 to-transparent mb-2"></div>
+                {/* Logout */}
+                <div className="flex flex-col gap-3">
+                    <div className="h-px bg-border"></div>
 
                     <button
                         onClick={handleLogout}
-                        className="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-300 hover:text-red-400 hover:bg-red-500/10 transition-all duration-300 group"
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-muted-foreground hover:text-error hover:bg-error/5 transition-all duration-150 font-medium text-sm"
                     >
-                        <FaSignOutAlt className="text-xl group-hover:translate-x-1 transition-transform duration-300" />
-                        <span className="font-medium">Logout</span>
+                        <FaSignOutAlt className="text-base" />
+                        <span>Logout</span>
                     </button>
                 </div>
             </aside>

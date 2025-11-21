@@ -20,24 +20,12 @@ export interface Subject {
     updatedAt: string;
 }
 
-export interface Exam {
-    _id: string;
-    title: string;
-    description: string;
-    subject: Subject | string;
-    duration: number; // in minutes
-    totalMarks: number;
-    createdBy: string | User;
-    createdAt: string;
-    updatedAt: string;
-}
-
 export interface Question {
     _id: string;
     exam: string;
     questionText: string;
     options: string[];
-    correctAnswer?: number; // Hidden for non-admins usually
+    correctAnswer?: number;
     marks: number;
     createdBy: string;
     createdAt: string;
@@ -53,22 +41,10 @@ export interface AnswerResult {
 export interface Score {
     _id: string;
     user: string | User;
-    exam: string | Exam;
+    exam: string;
     score: number;
     totalMarks: number;
     percentage: number;
     answers: AnswerResult[];
     createdAt: string;
-}
-
-export interface LeaderboardEntry {
-    user: {
-        _id: string;
-        name: string;
-        username: string;
-        profileImage?: string;
-    };
-    totalScore: number;
-    totalExams: number;
-    averagePercentage: number;
 }

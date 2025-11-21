@@ -12,38 +12,38 @@ export default function ExamCard({ exam, onStart }: ExamCardProps) {
     const subjectImage = typeof exam.subject === 'string' ? null : (exam.subject as Subject).subjectImage;
 
     return (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col h-full group">
-            <div className="h-32 bg-slate-100 relative overflow-hidden">
+        <div className="bg-card border border-border rounded-xl overflow-hidden transition-all duration-200 hover:border-primary/40 hover:shadow-sm group">
+            <div className="h-32 bg-muted/20 relative overflow-hidden">
                 {subjectImage ? (
-                    <img src={subjectImage} alt={subjectName} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={subjectImage} alt={subjectName} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-slate-200 text-slate-400">
-                        <FiBook className="text-4xl" />
+                    <div className="w-full h-full flex items-center justify-center bg-muted/10 text-muted">
+                        <FiBook className="text-3xl" />
                     </div>
                 )}
-                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-semibold text-slate-700 shadow-sm">
+                <div className="absolute top-3 right-3 bg-card/95 backdrop-blur-sm px-2.5 py-1 rounded-md text-xs font-medium text-foreground border border-border">
                     {subjectName}
                 </div>
             </div>
 
-            <div className="p-5 flex flex-col flex-grow">
-                <h3 className="text-lg font-bold text-slate-800 mb-2 line-clamp-1" title={exam.title}>{exam.title}</h3>
-                <p className="text-slate-500 text-sm mb-4 line-clamp-2 flex-grow" title={exam.description}>{exam.description}</p>
+            <div className="p-5">
+                <h3 className="text-base font-semibold text-foreground mb-2 line-clamp-1" title={exam.title}>{exam.title}</h3>
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-2" title={exam.description}>{exam.description}</p>
 
-                <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
+                <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
                     <div className="flex items-center gap-1.5">
-                        <FiClock className="text-blue-500" />
-                        <span>{exam.duration} mins</span>
+                        <FiClock className="text-primary" />
+                        <span>{exam.duration} min</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                        <FiAward className="text-orange-500" />
-                        <span>{exam.totalMarks} Marks</span>
+                        <FiAward className="text-warning" />
+                        <span>{exam.totalMarks} pts</span>
                     </div>
                 </div>
 
                 <button
                     onClick={() => onStart && onStart(exam._id)}
-                    className="w-full py-2.5 rounded-xl bg-slate-800 text-white font-medium hover:bg-slate-900 transition-colors flex items-center justify-center gap-2"
+                    className="w-full py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-primary-hover transition-all duration-200 active:scale-95"
                 >
                     Start Quiz
                 </button>

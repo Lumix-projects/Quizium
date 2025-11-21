@@ -9,9 +9,9 @@ interface DashboardCardProps {
 
 export default function DashboardCard({ title, children, className = "", action }: DashboardCardProps) {
     return (
-        <div className={`bg-white rounded-2xl border border-slate-100 shadow-sm p-6 ${className}`}>
-            <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold text-slate-800">{title}</h3>
+        <div className={`bg-card border border-border rounded-xl p-6 ${className}`}>
+            <div className="flex items-center justify-between mb-5">
+                <h3 className="text-lg font-semibold text-foreground">{title}</h3>
                 {action && <div>{action}</div>}
             </div>
             <div>

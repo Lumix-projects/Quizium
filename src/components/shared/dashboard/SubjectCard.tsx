@@ -9,34 +9,31 @@ interface SubjectCardProps {
 
 export default function SubjectCard({ subject }: SubjectCardProps) {
     return (
-        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col h-full group">
-            <div className="h-32 bg-slate-100 relative overflow-hidden">
+        <div className="bg-card border border-border rounded-xl overflow-hidden transition-all duration-200 hover:border-primary/40 hover:shadow-sm group">
+            <div className="h-32 bg-muted/20 relative overflow-hidden">
                 {subject.subjectImage ? (
-                    <img src={subject.subjectImage} alt={subject.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={subject.subjectImage} alt={subject.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-slate-200 text-slate-400">
-                        <FiBook className="text-4xl" />
+                    <div className="w-full h-full flex items-center justify-center bg-muted/10 text-muted">
+                        <FiBook className="text-3xl" />
                     </div>
                 )}
             </div>
 
-            <div className="p-5 flex flex-col flex-grow">
-                <h3 className="text-lg font-bold text-slate-800 mb-2 line-clamp-1" title={subject.name}>{subject.name}</h3>
-                <p className="text-slate-500 text-sm mb-4 line-clamp-2 flex-grow" title={subject.description}>{subject.description || "No description available."}</p>
+            <div className="p-5">
+                <h3 className="text-base font-semibold text-foreground mb-2 line-clamp-1" title={subject.name}>{subject.name}</h3>
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-2" title={subject.description}>{subject.description || "No description available."}</p>
 
-                <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
-                    {/* Placeholder for potential stats like number of quizzes */}
-                    <div className="flex items-center gap-1.5">
-                        <FiLayers className="text-blue-500" />
-                        <span>View Quizzes</span>
-                    </div>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4">
+                    <FiLayers className="text-primary" />
+                    <span>Browse Quizzes</span>
                 </div>
 
                 <Link
                     href={`/user/quizzes?subject=${subject._id}`}
-                    className="w-full py-2.5 rounded-xl bg-slate-800 text-white font-medium hover:bg-slate-900 transition-colors flex items-center justify-center gap-2"
+                    className="w-full py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-primary-hover transition-all duration-200 active:scale-95 flex items-center justify-center"
                 >
-                    View Exams
+                    View Quizzes
                 </Link>
             </div>
         </div>

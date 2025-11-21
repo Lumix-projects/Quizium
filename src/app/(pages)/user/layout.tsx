@@ -1,4 +1,6 @@
 import Sidebar from '@/components/shared/sideBar'
+import ThemeToggle from '@/components/shared/ThemeToggle';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 import React from 'react'
 
 export default function UserLayout({
@@ -7,15 +9,22 @@ export default function UserLayout({
     children: React.ReactNode
 }) {
     return (
-        <section className='flex bg-black/80 min-h-screen'>
-            <Sidebar />
+        <ThemeProvider>
+            <section className='flex bg-background min-h-screen'>
+                <Sidebar />
 
-            {/* main content wrapper */}
-            <section className='p-4 w-full h-screen overflow-y-auto'>
-                <div className='bg-white/85 py-6 px-8 md:px-14 min-h-full rounded-3xl'>
-                    {children}
-                </div>
+                {/* main content wrapper */}
+                <section className='flex-1 h-screen overflow-y-auto'>
+                    <div className='p-6 md:p-8'>
+                        {/* Top bar with theme toggle */}
+                        <div className='flex justify-end mb-6'>
+                            <ThemeToggle />
+                        </div>
+
+                        {children}
+                    </div>
+                </section>
             </section>
-        </section>
+        </ThemeProvider>
     )
 }
