@@ -10,13 +10,32 @@ export interface User {
 }
 
 export interface Subject {
-    _id: string;
+    id: string;
+    _id?: string;
     name: string;
     description?: string;
-    subjectImage: string;
+    image: string;
     createdBy: string | User;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface Topic {
+    id: string;
+    title: string;
+    description: string;
+    image: string | null;
+    tags: string[];
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface SubjectDetail {
+    id: string;
+    title: string;
+    description?: string;
+    image: string | null;
+    topics: Topic[];
 }
 
 export interface Question {
