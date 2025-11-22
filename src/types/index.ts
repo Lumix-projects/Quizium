@@ -26,6 +26,7 @@ export interface Topic {
     description: string;
     image: string | null;
     tags: string[];
+    subject: string | Subject;
     createdAt: string;
     updatedAt: string;
 }

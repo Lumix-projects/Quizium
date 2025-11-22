@@ -1,5 +1,5 @@
 import api from "@/lib/axios";
-import { Subject, SubjectDetail } from "@/types";
+import { Subject, SubjectDetail, Topic } from "@/types";
 
 export const getAllSubjects = async (): Promise<Subject[]> => {
     try {
@@ -24,3 +24,15 @@ export const getSubjectById = async (subjectId: string): Promise<SubjectDetail> 
     }
 };
 
+export const getAllTopics = async (subjectId: string): Promise<Topic[]> => {
+    if (!subjectId || subjectId === 'undefined') {
+        throw new Error("Invalid subject ID");
+    }
+    try {
+        const response = await api.get<{ topics: Topic[] }>(`/subjects/${subjectId}/topics`);
+        return response.data.topics;
+    } catch (error: any) {
+        const message = error?.response?.data?.message || error?.message || "Something went wrong";
+        throw new Error(message);
+    }
+}

@@ -2,35 +2,42 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getSubjectById } from "@/services/content";
-import { SubjectDetail } from "@/types";
+import { getSubjectById, getAllTopics } from "@/services/content";
+import { SubjectDetail, Topic } from "@/types";
 import { FiArrowLeft, FiBook, FiLayers, FiClock, FiAward } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 
 export default function SubjectDetailsPage() {
     const { id } = useParams();
     const router = useRouter();
     const [subject, setSubject] = useState<SubjectDetail | null>(null);
+    const [topics, setTopics] = useState<Topic[]>([]);
     const [loading, setLoading] = useState(true);
     const [imageError, setImageError] = useState(false);
 
     useEffect(() => {
-        const fetchSubject = async () => {
+        const fetchData = async () => {
             if (!id || id === 'undefined') return;
             try {
-                const data = await getSubjectById(id as string);
-                setSubject(data);
-            } catch (error: any) {
-                toast.error(error.message || "Failed to load subject details");
+                const [subjectData, topicsData] = await Promise.all([
+                    getSubjectById(id as string),
+                    getAllTopics(id as string)
+                ]);
+                setSubject(subjectData);
+                setTopics(topicsData);
+            } catch (error) {
+                const err = error as AxiosError<{ message: string }>;
+                toast.error(err.response?.data.message || "Failed to load data");
                 router.push("/user/subjects");
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchSubject();
+        fetchData();
     }, [id, router]);
 
     if (loading) {
@@ -58,7 +65,7 @@ export default function SubjectDetailsPage() {
 
             {/* Hero Section */}
             <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
-                <div className="relative h-48 md:h-64 bg-muted/20">
+                <div className="relative h-64 md:h-96 bg-muted/20">
                     {subject.image && !imageError ? (
                         <Image
                             src={subject.image}
@@ -73,7 +80,7 @@ export default function SubjectDetailsPage() {
                             <FiBook className="text-6xl opacity-20" />
                         </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                    <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end">
                         <div className="p-6 md:p-8 text-white w-full">
                             <h1 className="text-3xl md:text-4xl font-bold mb-2">{subject.title}</h1>
                             <div className="flex items-center gap-4 text-sm md:text-base opacity-90">
@@ -81,15 +88,14 @@ export default function SubjectDetailsPage() {
                                     <FiLayers />
                                     Subject Details
                                 </span>
-                                {subject.topics && (
-                                    <>
-                                        <span>•</span>
-                                        <span className="flex items-center gap-1">
-                                            <FiBook />
-                                            {subject.topics.length} Topics
-                                        </span>
-                                    </>
-                                )}
+                                <>
+                                    <span>•</span>
+                                    <span className="flex items-center gap-1">
+                                        <FiBook />
+                                        {topics.length} Topics
+                                    </span>
+                                </>
+
                             </div>
                         </div>
                     </div>
@@ -106,11 +112,11 @@ export default function SubjectDetailsPage() {
                             </div>
 
                             {/* Topics Section */}
-                            {subject.topics && subject.topics.length > 0 && (
+                            {topics.length > 0 ? (
                                 <div>
                                     <h2 className="text-xl font-semibold text-foreground mb-4">Topics</h2>
                                     <div className="grid gap-4">
-                                        {subject.topics.map((topic) => (
+                                        {topics.map((topic) => (
                                             <div key={topic.id} className="p-4 rounded-xl border border-border bg-card hover:border-primary/30 transition-colors">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <h3 className="font-medium text-foreground">{topic.title}</h3>
@@ -124,10 +130,14 @@ export default function SubjectDetailsPage() {
                                                         </div>
                                                     )}
                                                 </div>
-                                                <p className="text-sm text-muted-foreground line-clamp-2">{topic.description}</p>
+                                                <p className="text-sm text-muted-foreground line-clamp-1">{topic.description}</p>
                                             </div>
                                         ))}
                                     </div>
+                                </div>
+                            ) : (
+                                <div className="text-center py-8 bg-muted/10 rounded-xl border border-dashed border-border">
+                                    <p className="text-muted-foreground">No topics available for this subject yet.</p>
                                 </div>
                             )}
 
@@ -155,7 +165,7 @@ export default function SubjectDetailsPage() {
                                 <div className="flex justify-between items-center py-2 border-b border-border/50 last:border-0">
                                     <span className="text-muted-foreground text-sm">Topics</span>
                                     <span className="font-medium text-foreground text-sm">
-                                        {subject.topics?.length || 0}
+                                        {topics.length}
                                     </span>
                                 </div>
                             </div>

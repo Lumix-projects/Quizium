@@ -55,7 +55,7 @@ export default function SubjectsPage() {
                 {subjects.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {subjects.map((subject) => (
-                            <SubjectCard key={subject._id} subject={subject} />
+                            <SubjectCard key={subject.id || subject._id} subject={subject} />
                         ))}
                     </div>
                 ) : (
