@@ -1,71 +1,23 @@
 "use client";
 
-
 import DashboardCard from '@/components/shared/dashboard/DashboardCard'
-import React, { useEffect, useState } from 'react'
-import { useUser, useUpdateProfile, useUploadAvatar } from '@/hooks/useUser'
-import { useChangePassword, useDeleteAccount } from '@/hooks/useSettings'
-import toast from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
-import cookies from 'js-cookie'
+import React from 'react'
+import { useSettingsPage } from '@/hooks/useSettings'
 
 export default function page() {
-    const router = useRouter();
-    const { user, loading: userLoading, setUser } = useUser();
-    const { updateProfile, loading: updatingProfile } = useUpdateProfile();
-    const { uploadAvatar, loading: uploadingImage } = useUploadAvatar();
-    const { updatePassword, loading: changingPassword } = useChangePassword();
-    const { removeAccount, loading: deletingAccount } = useDeleteAccount();
-
-    // Form States
-    const [profileData, setProfileData] = useState({ name: '', email: '' });
-    const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '' });
-
-    useEffect(() => {
-        if (user) {
-            setProfileData({ name: user.name, email: user.email });
-        }
-    }, [user]);
-
-    const handleProfileUpdate = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            const updatedUser = await updateProfile(profileData);
-            setUser(updatedUser);
-        } catch (error) {
-        }
-    };
-
-    const handlePasswordChange = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            await updatePassword(passwordData);
-            setPasswordData({ currentPassword: '', newPassword: '' });
-        } catch (error) {
-        }
-    };
-
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files || e.target.files.length === 0) return;
-
-        const file = e.target.files[0];
-        try {
-            const imageUrl = await uploadAvatar(file);
-            setUser(prev => prev ? { ...prev, profileImage: imageUrl } : null);
-        } catch (error) {
-        }
-    };
-
-    const handleDeleteAccount = async () => {
-        if (!window.confirm("Are you sure you want to delete your account? This action is irreversible.")) return;
-
-        try {
-            await removeAccount();
-            cookies.remove('token');
-            router.push('/register');
-        } catch (error) {
-        }
-    };
+    const {
+        user,
+        userLoading,
+        uploadingImage,
+        profileData,
+        setProfileData,
+        passwordData,
+        setPasswordData,
+        handleProfileUpdate,
+        handlePasswordChange,
+        handleImageUpload,
+        handleDeleteAccount
+    } = useSettingsPage();
 
     if (userLoading) {
         return <div className="flex items-center justify-center min-h-[60vh] text-slate-500">Loading settings...</div>;

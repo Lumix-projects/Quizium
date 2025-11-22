@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { changePassword, deleteAccount } from '@/services/user';
 import toast from 'react-hot-toast';
+import { useUser, useUpdateProfile, useUploadAvatar } from '@/hooks/useUser';
+import { useRouter } from 'next/navigation';
+import cookies from 'js-cookie';
 
 export const useChangePassword = () => {
     const [loading, setLoading] = useState(false);
@@ -48,4 +51,79 @@ export const useDeleteAccount = () => {
     };
 
     return { removeAccount, loading, error };
+};
+
+export const useSettingsPage = () => {
+    const router = useRouter();
+    const { user, loading: userLoading, setUser } = useUser();
+    const { updateProfile, loading: updatingProfile } = useUpdateProfile();
+    const { uploadAvatar, loading: uploadingImage } = useUploadAvatar();
+    const { updatePassword, loading: changingPassword } = useChangePassword();
+    const { removeAccount, loading: deletingAccount } = useDeleteAccount();
+
+    const [profileData, setProfileData] = useState({ name: '', email: '' });
+    const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '' });
+
+    useEffect(() => {
+        if (user) {
+            setProfileData({ name: user.name, email: user.email });
+        }
+    }, [user]);
+
+    const handleProfileUpdate = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const updatedUser = await updateProfile(profileData);
+            setUser(updatedUser);
+        } catch (error) {
+        }
+    };
+
+    const handlePasswordChange = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await updatePassword(passwordData);
+            setPasswordData({ currentPassword: '', newPassword: '' });
+        } catch (error) {
+        }
+    };
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files || e.target.files.length === 0) return;
+
+        const file = e.target.files[0];
+        try {
+            const imageUrl = await uploadAvatar(file);
+            setUser(prev => prev ? { ...prev, profileImage: imageUrl } : null);
+        } catch (error) {
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        if (!window.confirm("Are you sure you want to delete your account? This action is irreversible.")) return;
+
+        try {
+            await removeAccount();
+            cookies.remove('token');
+            router.push('/register');
+        } catch (error) {
+        }
+    };
+
+    return {
+        user,
+        userLoading,
+        updatingProfile,
+        uploadingImage,
+        changingPassword,
+        deletingAccount,
+        profileData,
+        setProfileData,
+        passwordData,
+        setPasswordData,
+        handleProfileUpdate,
+        handlePasswordChange,
+        handleImageUpload,
+        handleDeleteAccount
+    };
 };
