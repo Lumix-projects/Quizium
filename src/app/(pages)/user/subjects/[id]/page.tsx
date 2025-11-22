@@ -1,44 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { getSubjectById, getAllTopics } from "@/services/content";
-import { SubjectDetail, Topic } from "@/types";
 import { FiArrowLeft, FiBook, FiLayers, FiClock, FiAward } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
-import toast from "react-hot-toast";
-import { AxiosError } from "axios";
+import { useSubjectDetails } from "@/hooks/useSubject";
 
 export default function SubjectDetailsPage() {
     const { id } = useParams();
     const router = useRouter();
-    const [subject, setSubject] = useState<SubjectDetail | null>(null);
-    const [topics, setTopics] = useState<Topic[]>([]);
-    const [loading, setLoading] = useState(true);
     const [imageError, setImageError] = useState(false);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (!id || id === 'undefined') return;
-            try {
-                const [subjectData, topicsData] = await Promise.all([
-                    getSubjectById(id as string),
-                    getAllTopics(id as string)
-                ]);
-                setSubject(subjectData);
-                setTopics(topicsData);
-            } catch (error) {
-                const err = error as AxiosError<{ message: string }>;
-                toast.error(err.response?.data.message || "Failed to load data");
-                router.push("/user/subjects");
-            } finally {
-                setLoading(false);
-            }
-        };
+    const { subject, topics, loading } = useSubjectDetails(id as string);
 
-        fetchData();
-    }, [id, router]);
 
     if (loading) {
         return (

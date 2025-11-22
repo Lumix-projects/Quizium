@@ -1,30 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
-import { getAllSubjects } from "@/services/content";
-import { Subject } from "@/types";
 import SubjectCard from "@/components/shared/dashboard/SubjectCard";
 import DashboardCard from "@/components/shared/dashboard/DashboardCard";
 import { FiLayers } from "react-icons/fi";
-import toast from "react-hot-toast";
+import { useSubjects } from "@/hooks/useSubject";
 
 export default function SubjectsPage() {
-    const [subjects, setSubjects] = useState<Subject[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchSubjects = async () => {
-            try {
-                const data = await getAllSubjects();
-                setSubjects(data);
-            } catch (error: any) {
-                toast.error(error.message || "Failed to load subjects");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchSubjects();
-    }, []);
+    const { subjects, loading } = useSubjects();
 
     if (loading) {
         return (
