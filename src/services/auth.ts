@@ -47,3 +47,17 @@ export async function verifyOTP(email: string, otp: string) {
     return { data: null, error: message };
   }
 }
+
+// Set New Password
+export async function SetNewPassword(email: string, newPassword: string) {
+  try {
+    const response = await api.post("/auth/set-new-password", {
+      email,
+      newPassword,
+    });
+    return { data: response.data, error: null };
+  } catch (err) {
+    const message = GetErrorMessage(err);
+    return { data: null, error: message };
+  }
+}

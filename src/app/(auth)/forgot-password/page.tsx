@@ -1,10 +1,14 @@
 "use client";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
 import { Divider } from "@/components/Divider";
+import InputField from "@/components/InputField";
 import useVerifyOTP from "@/hooks/useVerifyOTP";
-import { forgotPassword } from "@/services/auth";
+import { ResetPasswordSchema, resetPasswordSchema } from "@/schemas/AuthSchema";
+import { forgotPassword, SetNewPassword } from "@/services/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Clock } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -22,12 +26,14 @@ export default function ForgotPassword() {
 
       {/* Step 2: OTP verification */}
       <OtpInput email={email} setEmail={setEmail} />
+
+      {/* Step : Update Password */}
+      <NewPassword email={email} />
     </Wizard>
   );
 }
 
 // Email input function
-
 function EnterYourEmail({
   email,
   setEmail,
@@ -223,6 +229,99 @@ function OtpInput({
             : "Resend Code"}
         </button>
       </CardFooter>
+    </Card>
+  );
+}
+
+// New Password Function
+function NewPassword({ email }: { email: string | null }) {
+  // Hooks
+  const router = useRouter();
+  const { goToStep } = useWizard();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ResetPasswordSchema>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: {
+      newPassword: "",
+      rePassword: "",
+    },
+    mode: "onSubmit",
+  });
+
+  // Handle password reset submission
+  const onSubmit = async (values: ResetPasswordSchema) => {
+    // Check if email exists before setting new password
+    if (!email) {
+      toast.error("Something went wrong. Please re-enter your email.");
+      goToStep(0);
+      return;
+    }
+
+    // Call backend service to set new password
+    const result = await SetNewPassword(email, values.newPassword);
+
+    // Show error and abort if password reset failed
+    if (result.error) {
+      toast.error(result.error);
+      reset();
+      return;
+    }
+
+    // Show success toast
+    toast.success(result.data.message);
+
+    // Navigate user to login page
+    router.push("/login");
+
+    // Reset form
+    reset();
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <h1 className="text-2xl font-bold text-primary">Create New Password</h1>
+        <p className="text-sm text-muted">Enter your new password below.</p>
+      </CardHeader>
+
+      <CardContent>
+        {/* Password form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+          {/* New Password Field */}
+          <InputField
+            label="Enter your new password"
+            name="newPassword"
+            register={register}
+            error={errors.newPassword}
+            placeholder="Enter your new password"
+            type="password"
+          />
+
+          {/* Confirm Password Field */}
+          <InputField
+            label="Confirm your password"
+            name="rePassword"
+            register={register}
+            error={errors.rePassword}
+            placeholder="Confirm your password"
+            type="password"
+          />
+
+          {/* Submit button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="main-btn w-full disabled:opacity-50 mt-3"
+          >
+            {isSubmitting ? "Updating..." : "Update Password"}
+          </button>
+        </form>
+      </CardContent>
     </Card>
   );
 }
