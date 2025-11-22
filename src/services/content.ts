@@ -36,3 +36,16 @@ export const getAllTopics = async (subjectId: string): Promise<Topic[]> => {
         throw new Error(message);
     }
 }
+
+export const getTopicById = async (subjectId: string, topicId: string): Promise<Topic[]> => {
+    if (!subjectId || subjectId === 'undefined' || !topicId || topicId === 'undefined') {
+        throw new Error("Invalid topic ID");
+    }
+    try {
+        const response = await api.get<{ topic: Topic[] }>(`/subjects/${subjectId}/topics/${topicId}`);
+        return response.data.topic;
+    } catch (error: any) {
+        const message = error?.response?.data?.message || error?.message || "Something went wrong";
+        throw new Error(message);
+    }
+}

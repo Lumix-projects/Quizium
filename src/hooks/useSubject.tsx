@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getSubjectById, getAllTopics, getAllSubjects } from "@/services/content";
+import { getSubjectById, getAllTopics, getAllSubjects, getTopicById } from "@/services/content";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -15,8 +15,9 @@ export const useSubjects = () => {
             try {
                 const data = await getAllSubjects();
                 setSubjects(data);
-            } catch (error: any) {
-                toast.error(error.message || "Failed to load subjects");
+            } catch (error) {
+                const err = error as AxiosError<{ message: string }>;
+                toast.error(err.response?.data.message || "Failed to load subjects");
             } finally {
                 setLoading(false);
             }
@@ -26,7 +27,6 @@ export const useSubjects = () => {
     }, []);
     return { subjects, loading };
 }
-
 
 export const useSubjectDetails = (id: string) => {
     const router = useRouter();
@@ -56,4 +56,37 @@ export const useSubjectDetails = (id: string) => {
         fetchData();
     }, [id, router]);
     return { subject, topics, loading };
+}
+
+export const useTopicDetails = (subjectId: string, topicId: string) => {
+    const router = useRouter();
+    const [topic, setTopic] = useState<Topic | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchTopic = async () => {
+            if (!subjectId || subjectId === 'undefined' || !topicId || topicId === 'undefined') return;
+            try {
+                const data = await getTopicById(subjectId, topicId);
+                // Handle potential array return from API 
+                if (Array.isArray(data) && data.length > 0) {
+                    setTopic(data[0]);
+                } else if (!Array.isArray(data)) {
+                    setTopic(data);
+                } else {
+                    throw new Error("Topic not found");
+                }
+            } catch (error) {
+                const err = error as AxiosError<{ message: string }>;
+                toast.error(err.response?.data.message || "Failed to load topic");
+                router.push(`/user/subjects/${subjectId}`);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTopic();
+    }, [subjectId, topicId, router]);
+
+    return { topic, loading };
 }

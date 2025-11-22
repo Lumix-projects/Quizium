@@ -92,21 +92,23 @@ export default function SubjectDetailsPage() {
                                     <h2 className="text-xl font-semibold text-foreground mb-4">Topics</h2>
                                     <div className="grid gap-4">
                                         {topics.map((topic) => (
-                                            <div key={topic.id} className="p-4 rounded-xl border border-border bg-card hover:border-primary/30 transition-colors">
-                                                <div className="flex justify-between items-start mb-2">
-                                                    <h3 className="font-medium text-foreground">{topic.title}</h3>
-                                                    {topic.tags && topic.tags.length > 0 && (
-                                                        <div className="flex gap-2">
-                                                            {topic.tags.map(tag => (
-                                                                <span key={tag} className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">
-                                                                    {tag}
-                                                                </span>
-                                                            ))}
-                                                        </div>
-                                                    )}
+                                            <Link href={`/user/subjects/${id}/${topic.id}`} key={topic.id} className="block">
+                                                <div className="p-4 rounded-xl border border-border bg-card hover:border-primary/30 transition-colors">
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <h3 className="font-medium text-foreground">{topic.title}</h3>
+                                                        {topic.tags && topic.tags.length > 0 && (
+                                                            <div className="flex gap-2">
+                                                                {topic.tags.map(tag => (
+                                                                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">
+                                                                        {tag}
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <p className="text-sm text-muted-foreground line-clamp-1">{topic.description}</p>
                                                 </div>
-                                                <p className="text-sm text-muted-foreground line-clamp-1">{topic.description}</p>
-                                            </div>
+                                            </Link>
                                         ))}
                                     </div>
                                 </div>

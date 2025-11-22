@@ -20,6 +20,14 @@ export interface Subject {
     updatedAt: string;
 }
 
+export interface SubjectDetail {
+    id: string;
+    title: string;
+    description?: string;
+    image: string | null;
+    topics: Topic[];
+}
+
 export interface Topic {
     id: string;
     title: string;
@@ -31,13 +39,7 @@ export interface Topic {
     updatedAt: string;
 }
 
-export interface SubjectDetail {
-    id: string;
-    title: string;
-    description?: string;
-    image: string | null;
-    topics: Topic[];
-}
+
 
 export interface Question {
     _id: string;
