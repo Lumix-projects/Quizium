@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// Register Schema
 export const registerSchema = z
   .object({
     name: z.string().min(2, "First name must be at least 2 characters"),
@@ -15,3 +16,22 @@ export const registerSchema = z
   });
 
 export type RegisterSchema = z.infer<typeof registerSchema>;
+
+// Login Schema
+export const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+export type LoginSchema = z.infer<typeof loginSchema>;
+
+// Reset Password Schema
+export const resetPasswordSchema = z
+  .object({
+    newPassword: z.string().min(6, "Password must be at least 6 characters"),
+    rePassword: z.string().min(6, "Please confirm your password"),
+  })
+  .refine((data) => data.newPassword === data.rePassword, {
+    message: "Passwords do not match",
+    path: ["rePassword"],
+  });
+export type ResetPasswordSchema = z.infer<typeof resetPasswordSchema>;
