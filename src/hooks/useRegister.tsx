@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { registerSchema, RegisterSchema } from "@/schemas/registerSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { registerUser } from "@/services/auth";
 import { setAuthCookie } from "@/lib/token";
+import { registerSchema, RegisterSchema } from "@/schemas/AuthSchema";
 
 export function useRegister() {
   // Hooks

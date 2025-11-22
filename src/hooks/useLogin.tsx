@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { loginUser } from "@/services/auth";
 import { LoginData } from "@/types/auth";
-import { loginSchema, LoginSchema } from "@/schemas/loginSchema";
 import { useRouter } from "next/navigation";
 import { setAuthCookie } from "@/lib/token";
+import { loginSchema, LoginSchema } from "@/schemas/AuthSchema";
 
 export function useLogin() {
   // Hooks
