@@ -7,6 +7,7 @@ import { Clock } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import OTPInput from "react-otp-input";
 import { Wizard, useWizard } from "react-use-wizard";
 
@@ -17,43 +18,58 @@ export default function ForgotPassword() {
   return (
     <Wizard>
       {/* Step 1: Email input */}
-      <EnterYourEmail setEmail={setEmail} />
+      <EnterYourEmail email={email} setEmail={setEmail} />
 
       {/* Step 2: OTP verification */}
-      <OtpInput email={email} />
+      <OtpInput email={email} setEmail={setEmail} />
     </Wizard>
   );
 }
 
-function EnterYourEmail({ setEmail }: { setEmail: (email: string) => void }) {
+// Email input function
+
+function EnterYourEmail({
+  email,
+  setEmail,
+}: {
+  email: string | null;
+  setEmail: (email: string) => void;
+}) {
+  // Form Hook
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    setError,
+    reset,
+    formState: { isSubmitting },
   } = useForm({
-    defaultValues: { email: "" },
+    defaultValues: { emailValue: email ?? "" },
     mode: "onSubmit",
   });
 
+  // Wizard Hook
   const { nextStep } = useWizard();
 
   // Handle email submission + send OTP
-  const onSubmit = async ({ email }: { email: string }) => {
-    try {
-      const result = await forgotPassword(email);
+  const onSubmit = async ({ emailValue }: { emailValue: string }) => {
+    // Call backend sendOTP service
+    const result = await forgotPassword(emailValue);
 
-      // Backend success → save email + move to OTP step
-      if (result.data) {
-        setEmail(email);
-        nextStep();
-      } else {
-        // Backend returned error message
-        setError("email", { message: result.error || "Failed to send OTP" });
-      }
-    } catch {
-      setError("email", { message: "Something went wrong, try again." });
+    // Show error and abort if Verifying failed
+    if (result.error) {
+      toast.error(result.error);
+      reset();
+      return;
     }
+
+    // Show success toast
+    toast.success(result.data.message);
+
+    // Save Email & Move to reset password step
+    setEmail(emailValue);
+    nextStep();
+
+    // reset Form
+    reset();
   };
 
   return (
@@ -75,7 +91,7 @@ function EnterYourEmail({ setEmail }: { setEmail: (email: string) => void }) {
           {/* Email input with validation */}
           <input
             type="email"
-            {...register("email", {
+            {...register("emailValue", {
               required: "Email is required",
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -85,13 +101,6 @@ function EnterYourEmail({ setEmail }: { setEmail: (email: string) => void }) {
             className="input w-full pr-10"
             placeholder="Enter your email"
           />
-
-          {/* Validation error */}
-          {errors.email && (
-            <p className="text-red-500 text-xs px-3 py-2 border border-border rounded-lg mt-2">
-              {errors.email.message}
-            </p>
-          )}
 
           {/* Submit button */}
           <button
@@ -114,7 +123,14 @@ function EnterYourEmail({ setEmail }: { setEmail: (email: string) => void }) {
   );
 }
 
-function OtpInput({ email }: { email: string | null }) {
+// Otp Input Function
+function OtpInput({
+  email,
+  setEmail,
+}: {
+  email: string | null;
+  setEmail: (email: string | null) => void;
+}) {
   // Wizard Steps
   const { nextStep, previousStep } = useWizard();
 
@@ -129,7 +145,8 @@ function OtpInput({ email }: { email: string | null }) {
     setOtp,
     expiry,
     countdown,
-  } = useVerifyOTP({ email, nextStep, previousStep });
+    handleChangeEmail,
+  } = useVerifyOTP({ email, setEmail, nextStep, previousStep });
 
   return (
     <Card>
@@ -137,7 +154,12 @@ function OtpInput({ email }: { email: string | null }) {
         <h1 className="text-2xl font-bold text-primary">Check Your Email</h1>
         <p className="text-sm text-muted">
           We&apos;ve sent a 6-digit code to{" "}
-          <span className="font-bold text-primary">{email}</span>
+          <button
+            className="font-bold text-primary underline cursor-pointer"
+            onClick={handleChangeEmail}
+          >
+            {email}
+          </button>
         </p>
       </CardHeader>
 

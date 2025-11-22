@@ -2,17 +2,20 @@ import { forgotPassword, verifyOTP } from "@/services/auth";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-interface useVerifyOTP_Props {
+type UseVerifyOTPProps = {
   email: string | null;
+  setEmail: (email: string | null) => void;
   nextStep: () => void;
   previousStep: () => void;
-}
+};
 
 export default function useVerifyOTP({
   email,
+  setEmail,
   nextStep,
   previousStep,
-}: useVerifyOTP_Props) {
+}: UseVerifyOTPProps) {
+  // ! Hooks
   const [otp, setOtp] = useState("");
 
   // Countdown for resend button (1 minute)
@@ -40,6 +43,8 @@ export default function useVerifyOTP({
       return () => clearTimeout(t);
     }
   }, [expiry]);
+
+  // ! Verify Functions
 
   // Verify OTP code with backend
   const handleVerifyOTP = async () => {
@@ -119,12 +124,27 @@ export default function useVerifyOTP({
     setIsResending(false);
   };
 
-  // Format countdown timer (mm:ss)
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+  const handleChangeEmail = () => {
+    // Clear email
+    setEmail(null);
+
+    // Reset OTP input
+    setOtp("");
+
+    // Reset all timers
+    setCountdown(0);
+    setExpiry(0);
+
+    // Go back to email step
+    previousStep();
+
+    // Show Toast
+    toast.success("please enter your new email.");
   };
+
+  // Format countdown timer (mm:ss)
+  const formatTime = (seconds: number) =>
+    new Date(seconds * 1000).toISOString().substr(14, 5);
 
   return {
     isVerifying,
@@ -136,5 +156,6 @@ export default function useVerifyOTP({
     setOtp,
     expiry,
     countdown,
+    handleChangeEmail,
   };
 }
