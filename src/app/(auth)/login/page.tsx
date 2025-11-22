@@ -11,7 +11,9 @@ function LoginPage() {
     <Card>
       {/* Header */}
       <CardHeader>
-        <h1 className="text-2xl font-bold text-primary">Login into your account</h1>
+        <h1 className="text-2xl font-bold text-primary">
+          Login into your account
+        </h1>
         <p className="text-sm text-muted">
           Please log in or sign up to continue using our app.
         </p>
@@ -19,9 +21,7 @@ function LoginPage() {
 
       {/* Form */}
       <CardContent>
-        <form onSubmit={handleSubmit(login)} 
-        className="flex flex-col gap-5">
-          
+        <form onSubmit={handleSubmit(login)} className="flex flex-col gap-5">
           {/* Email */}
           <InputField
             label="Email"
@@ -32,15 +32,14 @@ function LoginPage() {
             placeholder="Enter your email"
           />
 
-
-            <InputField
-              label="Password"
-              type="password"
-              name="password"
-              register={register}
-              error={errors.password}
-              placeholder="Enter your password"
-            />
+          <InputField
+            label="Password"
+            type="password"
+            name="password"
+            register={register}
+            error={errors.password}
+            placeholder="Enter your password"
+          />
 
           {/* Remember Me + Forgot Password */}
           <div className="flex items-center justify-between text-sm">
@@ -52,7 +51,10 @@ function LoginPage() {
               Remember me
             </label>
 
-            <Link href="/forgotPassword" className="text-primary hover:underline">
+            <Link
+              href="/forgot-password"
+              className="text-primary hover:underline"
+            >
               Forgot Password?
             </Link>
           </div>

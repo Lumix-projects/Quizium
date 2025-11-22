@@ -25,3 +25,13 @@ export async function loginUser(values: LoginData) {
     return { data: null, error: message };
   }
 }
+
+export async function forgotPassword(email: string) {
+  try {
+    const response = await api.post("/auth/forgot-password", { email });
+    return { data: response.data, error: null };
+  } catch (err) {
+    const message = GetErrorMessage(err);
+    return { data: null, error: message };
+  }
+}
