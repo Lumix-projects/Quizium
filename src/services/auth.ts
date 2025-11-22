@@ -26,9 +26,21 @@ export async function loginUser(values: LoginData) {
   }
 }
 
+// Send forgot password request
 export async function forgotPassword(email: string) {
   try {
     const response = await api.post("/auth/forgot-password", { email });
+    return { data: response.data, error: null };
+  } catch (err) {
+    const message = GetErrorMessage(err);
+    return { data: null, error: message };
+  }
+}
+
+// Verify OTP request
+export async function verifyOTP(email: string, otp: string) {
+  try {
+    const response = await api.post("/auth/reset-password", { email, otp });
     return { data: response.data, error: null };
   } catch (err) {
     const message = GetErrorMessage(err);

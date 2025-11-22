@@ -14,6 +14,7 @@
 }
 
 @theme inline {
+  --color-muted: var(--muted);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
