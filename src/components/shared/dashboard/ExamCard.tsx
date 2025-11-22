@@ -9,7 +9,7 @@ interface ExamCardProps {
 
 export default function ExamCard({ exam, onStart }: ExamCardProps) {
     const subjectName = typeof exam.subject === 'string' ? 'Unknown Subject' : (exam.subject as Subject).name;
-    const subjectImage = typeof exam.subject === 'string' ? null : (exam.subject as Subject).subjectImage;
+    const subjectImage = typeof exam.subject === 'string' ? null : (exam.subject as Subject).image;
 
     return (
         <div className="bg-card border border-border rounded-xl overflow-hidden transition-all duration-200 hover:border-primary/40 hover:shadow-sm group">

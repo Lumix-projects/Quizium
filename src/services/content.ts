@@ -23,3 +23,4 @@ export const getSubjectById = async (subjectId: string): Promise<SubjectDetail> 
         throw new Error(message);
     }
 };
+
