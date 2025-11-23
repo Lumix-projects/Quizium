@@ -4,12 +4,13 @@ import DashboardCard from '@/components/shared/dashboard/DashboardCard'
 import HistoryTable from '@/components/shared/dashboard/HistoryTable'
 import React from 'react'
 import { useScores } from '@/hooks/useScores'
+import LoadingSpinner from '@/components/shared/LoadingSpinner'
 
 export default function page() {
     const { scores, loading } = useScores();
 
     if (loading) {
-        return <div className="flex items-center justify-center min-h-[60vh] text-slate-500">Loading history...</div>;
+        return <LoadingSpinner size="lg" message="Loading history..." />;
     }
 
     return (

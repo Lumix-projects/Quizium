@@ -6,6 +6,7 @@ import React from 'react'
 import { FiSearch, FiTrendingUp, FiActivity, FiCheckCircle, FiClock } from 'react-icons/fi'
 import { useUser } from '@/hooks/useUser'
 import { useScores } from '@/hooks/useScores'
+import LoadingSpinner from '@/components/shared/LoadingSpinner'
 
 export default function page() {
   const { user, loading: userLoading } = useUser();
@@ -14,7 +15,7 @@ export default function page() {
   const loading = userLoading || scoresLoading;
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-[60vh] text-muted-foreground">Loading dashboard...</div>;
+    return <LoadingSpinner size="lg" message="Loading dashboard..." />;
   }
 
   // Calculate Stats

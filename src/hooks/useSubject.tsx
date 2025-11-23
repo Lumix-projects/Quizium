@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getSubjectById, getAllTopics, getAllSubjects, getTopicById } from "@/services/content";
+import { getSubjectById, getAllTopics, getAllSubjects, getTopicById, getAllExams } from "@/services/content";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Subject, SubjectDetail, Topic } from "@/types";
+import { Exam, Subject, SubjectDetail, Topic } from "@/types";
 
 
 export const useSubjects = () => {
@@ -89,4 +89,26 @@ export const useTopicDetails = (subjectId: string, topicId: string) => {
     }, [subjectId, topicId, router]);
 
     return { topic, loading };
+}
+
+export const useExams = () => {
+    const [loading, setLoading] = useState(true);
+    const [exams, setExams] = useState<Exam[]>([]);
+
+    useEffect(() => {
+        const fetchExams = async () => {
+            try {
+                const data = await getAllExams();
+                setExams(data);
+            } catch (error) {
+                const err = error as AxiosError<{ message: string }>;
+                toast.error(err.response?.data.message || "Failed to load exams");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchExams();
+    }, []);
+    return { exams, loading };
 }

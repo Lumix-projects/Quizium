@@ -24,7 +24,7 @@ export interface SubjectDetail {
     id: string;
     title: string;
     description?: string;
-    image: string | null;
+    image?: string;
     topics: Topic[];
 }
 
@@ -32,7 +32,7 @@ export interface Topic {
     id: string;
     title: string;
     description: string;
-    image: string | null;
+    image?: string;
     tags: string[];
     subject: string | Subject;
     createdAt: string;
