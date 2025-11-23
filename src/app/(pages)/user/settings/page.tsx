@@ -1,8 +1,10 @@
 "use client";
 
+import React from 'react';
+import { useSettingsPage } from '@/hooks/useSettings';
+import { FiUser, FiLock, FiUpload } from 'react-icons/fi';
+import LoadingSpinner from '@/components/shared/LoadingSpinner';
 import DashboardCard from '@/components/shared/dashboard/DashboardCard'
-import React from 'react'
-import { useSettingsPage } from '@/hooks/useSettings'
 
 export default function page() {
     const {
@@ -20,7 +22,7 @@ export default function page() {
     } = useSettingsPage();
 
     if (userLoading) {
-        return <div className="flex items-center justify-center min-h-[60vh] text-slate-500">Loading settings...</div>;
+        return <LoadingSpinner size="lg" message="Loading settings..." />;
     }
 
     return (

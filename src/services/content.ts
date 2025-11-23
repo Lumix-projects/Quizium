@@ -1,6 +1,8 @@
 import api from "@/lib/axios";
-import { Subject, SubjectDetail, Topic } from "@/types";
+import { Exam, Subject, SubjectDetail, Topic } from "@/types";
 
+
+// subjects fetch
 export const getAllSubjects = async (): Promise<Subject[]> => {
     try {
         const response = await api.get<{ subjects: Subject[] }>("/subjects");
@@ -11,6 +13,7 @@ export const getAllSubjects = async (): Promise<Subject[]> => {
     }
 };
 
+// single subject fetch
 export const getSubjectById = async (subjectId: string): Promise<SubjectDetail> => {
     if (!subjectId || subjectId === 'undefined') {
         throw new Error("Invalid subject ID");
@@ -24,6 +27,7 @@ export const getSubjectById = async (subjectId: string): Promise<SubjectDetail> 
     }
 };
 
+// topics fetch
 export const getAllTopics = async (subjectId: string): Promise<Topic[]> => {
     if (!subjectId || subjectId === 'undefined') {
         throw new Error("Invalid subject ID");
@@ -37,6 +41,7 @@ export const getAllTopics = async (subjectId: string): Promise<Topic[]> => {
     }
 }
 
+// single topic fetch
 export const getTopicById = async (subjectId: string, topicId: string): Promise<Topic[]> => {
     if (!subjectId || subjectId === 'undefined' || !topicId || topicId === 'undefined') {
         throw new Error("Invalid topic ID");
@@ -44,6 +49,31 @@ export const getTopicById = async (subjectId: string, topicId: string): Promise<
     try {
         const response = await api.get<{ topic: Topic[] }>(`/subjects/${subjectId}/topics/${topicId}`);
         return response.data.topic;
+    } catch (error: any) {
+        const message = error?.response?.data?.message || error?.message || "Something went wrong";
+        throw new Error(message);
+    }
+}
+
+// exams fetch
+export const getAllExams = async (): Promise<Exam[]> => {
+    try {
+        const response = await api.get<{ exams: Exam[] }>("/exams");
+        return response.data.exams;
+    } catch (error: any) {
+        const message = error?.response?.data?.message || error?.message || "Something went wrong";
+        throw new Error(message);
+    }
+}
+
+// single exam fetch
+export const getExamById = async (examId: string): Promise<Exam> => {
+    if (!examId || examId === 'undefined') {
+        throw new Error("Invalid exam ID");
+    }
+    try {
+        const response = await api.get<{ exam: Exam }>(`/exams/${examId}`);
+        return response.data.exam;
     } catch (error: any) {
         const message = error?.response?.data?.message || error?.message || "Something went wrong";
         throw new Error(message);

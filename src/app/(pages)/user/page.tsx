@@ -2,6 +2,7 @@
 
 import DashboardCard from "@/components/shared/dashboard/DashboardCard";
 import StatsCard from "@/components/shared/dashboard/StatsCard";
+import React from "react";
 import {
   FiSearch,
   FiTrendingUp,

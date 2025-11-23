@@ -6,6 +6,7 @@ import { useTopicDetails } from "@/hooks/useSubject";
 import { FiArrowLeft, FiBook, FiClock, FiAward, FiList } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export default function TopicDetailsPage() {
     const { id, topicId } = useParams();
@@ -14,11 +15,7 @@ export default function TopicDetailsPage() {
     const { topic, loading } = useTopicDetails(id as string, topicId as string);
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-800"></div>
-            </div>
-        );
+        return <LoadingSpinner />;
     }
 
     if (!topic) {

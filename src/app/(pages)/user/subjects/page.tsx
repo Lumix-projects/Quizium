@@ -3,16 +3,13 @@ import SubjectCard from "@/components/shared/dashboard/SubjectCard";
 import DashboardCard from "@/components/shared/dashboard/DashboardCard";
 import { FiLayers } from "react-icons/fi";
 import { useSubjects } from "@/hooks/useSubject";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 export default function SubjectsPage() {
     const { subjects, loading } = useSubjects();
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-800"></div>
-            </div>
-        );
+        return <LoadingSpinner />;
     }
 
     return (
