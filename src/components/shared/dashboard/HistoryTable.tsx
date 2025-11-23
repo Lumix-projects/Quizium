@@ -1,5 +1,5 @@
 import React from 'react';
-import { Score } from '@/types';
+import { Score, Exam } from '@/types';
 import { FiCheckCircle, FiXCircle } from 'react-icons/fi';
 
 interface HistoryTableProps {
@@ -10,6 +10,13 @@ export default function HistoryTable({ scores }: HistoryTableProps) {
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    };
+
+    const getExamTitle = (exam: string | Exam): string => {
+        if (typeof exam === 'string') {
+            return 'Quiz Attempt';
+        }
+        return exam.title || 'Quiz Attempt';
     };
 
     return (
@@ -30,7 +37,7 @@ export default function HistoryTable({ scores }: HistoryTableProps) {
                         return (
                             <tr key={score._id} className="border-b border-border hover:bg-card-hover transition-colors">
                                 <td className="py-3.5 px-4">
-                                    <span className="text-sm font-medium text-foreground">Quiz Attempt</span>
+                                    <span className="text-sm font-medium text-foreground">{getExamTitle(score.exam)}</span>
                                 </td>
                                 <td className="py-3.5 px-4">
                                     <span className="text-sm text-muted-foreground">{formatDate(score.createdAt)}</span>
