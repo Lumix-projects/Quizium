@@ -1,27 +1,39 @@
 "use client";
 
-import DashboardCard from '@/components/shared/dashboard/DashboardCard'
-import StatsCard from '@/components/shared/dashboard/StatsCard'
-import React from 'react'
-import { FiSearch, FiTrendingUp, FiActivity, FiCheckCircle, FiClock } from 'react-icons/fi'
-import { useUser } from '@/hooks/useUser'
-import { useScores } from '@/hooks/useScores'
+import DashboardCard from "@/components/shared/dashboard/DashboardCard";
+import StatsCard from "@/components/shared/dashboard/StatsCard";
+import {
+  FiSearch,
+  FiTrendingUp,
+  FiActivity,
+  FiCheckCircle,
+  FiClock,
+} from "react-icons/fi";
+import { useUser } from "@/hooks/useUser";
+import { useScores } from "@/hooks/useScores";
 
-export default function page() {
+export default function HomePage() {
   const { user, loading: userLoading } = useUser();
   const { scores, loading: scoresLoading } = useScores();
 
   const loading = userLoading || scoresLoading;
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-[60vh] text-muted-foreground">Loading dashboard...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[60vh] text-muted-foreground">
+        Loading dashboard...
+      </div>
+    );
   }
 
   // Calculate Stats
   const totalQuizzes = scores.length;
-  const averageScore = totalQuizzes > 0
-    ? Math.round(scores.reduce((acc, curr) => acc + curr.percentage, 0) / totalQuizzes)
-    : 0;
+  const averageScore =
+    totalQuizzes > 0
+      ? Math.round(
+          scores.reduce((acc, curr) => acc + curr.percentage, 0) / totalQuizzes
+        )
+      : 0;
 
   const timeSpent = "4h 30m";
   const activeStreak = "3 Days";
@@ -31,10 +43,12 @@ export default function page() {
   return (
     <div className="space-y-8">
       {/* Header Section */}
-      <div className='flex flex-col md:flex-row md:items-center justify-between gap-4'>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className='text-3xl font-bold text-foreground'>Dashboard</h1>
-          <p className='text-muted-foreground'>Welcome back, {user?.name || 'User'}!</p>
+          <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+          <p className="text-muted-foreground">
+            Welcome back, {user?.name || "User"}!
+          </p>
         </div>
 
         <div className="w-full md:w-auto relative">
@@ -76,35 +90,70 @@ export default function page() {
       </div>
 
       {/* Recent Activity */}
-      <DashboardCard title="Recent Activity" action={<button className="text-sm text-primary font-medium hover:underline">View All</button>}>
+      <DashboardCard
+        title="Recent Activity"
+        action={
+          <button className="text-sm text-primary font-medium hover:underline">
+            View All
+          </button>
+        }
+      >
         <div className="space-y-3">
           {recentActivity.length > 0 ? (
             recentActivity.map((score) => {
               const isPassed = score.percentage >= 50;
 
               return (
-                <div key={score._id} className="flex items-center justify-between p-4 rounded-lg bg-card-hover hover:bg-muted/10 transition-colors">
+                <div
+                  key={score._id}
+                  className="flex items-center justify-between p-4 rounded-lg bg-card-hover hover:bg-muted/10 transition-colors"
+                >
                   <div className="flex items-center gap-4">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isPassed ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>
-                      {isPassed ? <FiCheckCircle className="text-lg" /> : <FiClock className="text-lg" />}
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        isPassed
+                          ? "bg-success/10 text-success"
+                          : "bg-error/10 text-error"
+                      }`}
+                    >
+                      {isPassed ? (
+                        <FiCheckCircle className="text-lg" />
+                      ) : (
+                        <FiClock className="text-lg" />
+                      )}
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground">Quiz Attempt</h4>
-                      <p className="text-xs text-muted-foreground">Completed on {new Date(score.createdAt).toLocaleDateString()}</p>
+                      <h4 className="font-semibold text-foreground">
+                        Quiz Attempt
+                      </h4>
+                      <p className="text-xs text-muted-foreground">
+                        Completed on{" "}
+                        {new Date(score.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="block font-bold text-foreground">{score.percentage}%</span>
-                    <span className={`text-xs font-medium ${isPassed ? 'text-success' : 'text-error'}`}>{isPassed ? 'Passed' : 'Failed'}</span>
+                    <span className="block font-bold text-foreground">
+                      {score.percentage}%
+                    </span>
+                    <span
+                      className={`text-xs font-medium ${
+                        isPassed ? "text-success" : "text-error"
+                      }`}
+                    >
+                      {isPassed ? "Passed" : "Failed"}
+                    </span>
                   </div>
                 </div>
               );
             })
           ) : (
-            <p className="text-muted-foreground text-center py-8">No recent activity.</p>
+            <p className="text-muted-foreground text-center py-8">
+              No recent activity.
+            </p>
           )}
         </div>
       </DashboardCard>
     </div>
-  )
+  );
 }

@@ -1,104 +1,123 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 import { FaBook, FaClipboardList, FaCog, FaSignOutAlt } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
-import { HiX, HiMenu } from "react-icons/hi";
+import { HiX } from "react-icons/hi";
 import cookies from "js-cookie";
 import toast from "react-hot-toast";
 
-export default function Sidebar() {
-    const pathname = usePathname();
-    const router = useRouter();
-    const [open, setOpen] = useState(false);
+interface SidebarProps {
+  open: boolean;
+  setOpen: (value: boolean) => void;
+}
 
-    const menuItems = [
-        { id: 'dashboard', href: '/user', icon: MdSpaceDashboard, label: 'Dashboard' },
-        { id: 'subjects', href: '/user/subjects', icon: FaBook, label: 'Subjects' },
-        { id: 'quizzes', href: '/user/quizzes', icon: FaClipboardList, label: 'Quizzes' },
-        { id: 'history', href: '/user/history', icon: FaClipboardList, label: 'History' },
-        { id: 'settings', href: '/user/settings', icon: FaCog, label: 'Settings' },
-    ];
+export default function Sidebar({ open, setOpen }: SidebarProps) {
+  const pathname = usePathname();
+  const router = useRouter();
 
-    const handleLogout = () => {
-        cookies.remove("token");
-        toast.success("Logged out successfully");
-        router.push("/login");
-    };
+  const menuItems = [
+    {
+      id: "dashboard",
+      href: "/user",
+      icon: MdSpaceDashboard,
+      label: "Dashboard",
+    },
+    { id: "subjects", href: "/user/subjects", icon: FaBook, label: "Subjects" },
+    {
+      id: "quizzes",
+      href: "/user/quizzes",
+      icon: FaClipboardList,
+      label: "Quizzes",
+    },
+    {
+      id: "history",
+      href: "/user/history",
+      icon: FaClipboardList,
+      label: "History",
+    },
+    { id: "settings", href: "/user/settings", icon: FaCog, label: "Settings" },
+  ];
 
-    return (
-        <>
-            {/* Mobile toggle button */}
+  const handleLogout = () => {
+    cookies.remove("token");
+    toast.success("Logged out successfully");
+    router.push("/login");
+  };
+
+  return (
+    <>
+      {/* Overlay for mobile */}
+      {open && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/50 z-30"
+          onClick={() => setOpen(false)}
+        ></div>
+      )}
+      <div
+        className={`flex flex-col justify-between w-64 h-full bg-sidebar-bg border-r border-sidebar-border p-5 fixed lg:relative top-0 z-40 transition-all transition-discrete duration-300 ease-in-out ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Logo & Navigation */}
+        <div className="flex flex-col gap-8">
+          {/* Logo */}
+          <div className="flex items-center gap-3 px-1">
+            <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center">
+              <span className="text-white font-bold text-lg">Q</span>
+            </div>
+            <span className="text-xl font-semibold text-foreground">
+              Quizium
+            </span>
             <button
-                className={`lg:hidden fixed z-50 top-6 left-6 p-2 rounded-lg bg-card border border-border transition-all duration-200 ${open ? "text-foreground" : "text-foreground"
-                    }`}
-                onClick={() => setOpen(!open)}
+              className="ms-auto cursor-pointer"
+              onClick={() => setOpen(false)}
             >
-                {open ? <HiX className="text-xl" /> : <HiMenu className="text-xl" />}
+              <HiX />
             </button>
+          </div>
 
-            {/* Overlay for mobile */}
-            {open && (
-                <div
-                    className="lg:hidden fixed inset-0 bg-black/50 z-30"
-                    onClick={() => setOpen(false)}
-                ></div >
-            )}
+          {/* Navigation */}
+          <nav className="flex flex-col gap-1">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              const isActive =
+                item.href === "/user"
+                  ? pathname === "/user"
+                  : pathname.startsWith(item.href);
 
-            <aside
-                className={`flex flex-col justify-between w-64 h-screen bg-sidebar-bg border-r border-sidebar-border p-5 fixed lg:static top-0 left-0 transition-transform duration-200 z-40 ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-                    }`}
-            >
-                {/* Logo & Navigation */}
-                <div className="flex flex-col gap-8">
-                    {/* Logo */}
-                    <div className="flex items-center gap-3 px-1">
-                        <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center">
-                            <span className="text-white font-bold text-lg">Q</span>
-                        </div>
-                        <span className="text-xl font-semibold text-foreground">Quizium</span>
-                    </div>
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 font-medium text-sm ${
+                    isActive
+                      ? "bg-primary text-white"
+                      : "text-muted-foreground hover:bg-card-hover hover:text-foreground"
+                  }`}
+                >
+                  <Icon className="text-base" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
 
-                    {/* Navigation */}
-                    <nav className="flex flex-col gap-1">
-                        {menuItems.map((item) => {
-                            const Icon = item.icon;
-                            const isActive = item.href === '/user'
-                                ? pathname === '/user'
-                                : pathname.startsWith(item.href);
+        {/* Logout */}
+        <div className="flex flex-col gap-3">
+          <div className="h-px bg-border"></div>
 
-                            return (
-                                <Link
-                                    key={item.id}
-                                    href={item.href}
-                                    onClick={() => setOpen(false)}
-                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 font-medium text-sm ${isActive
-                                            ? 'bg-primary text-white'
-                                            : 'text-muted-foreground hover:bg-card-hover hover:text-foreground'
-                                        }`}
-                                >
-                                    <Icon className="text-base" />
-                                    <span>{item.label}</span>
-                                </Link>
-                            );
-                        })}
-                    </nav>
-                </div>
-
-                {/* Logout */}
-                <div className="flex flex-col gap-3">
-                    <div className="h-px bg-border"></div>
-
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-muted-foreground hover:text-error hover:bg-error/5 transition-all duration-150 font-medium text-sm"
-                    >
-                        <FaSignOutAlt className="text-base" />
-                        <span>Logout</span>
-                    </button>
-                </div>
-            </aside>
-        </>
-    );
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-muted-foreground hover:text-error hover:bg-error/5 transition-all duration-150 font-medium text-sm"
+          >
+            <FaSignOutAlt className="text-base" />
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </>
+  );
 }
