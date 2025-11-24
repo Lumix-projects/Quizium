@@ -35,13 +35,13 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
             <div className="p-5">
                 <Link href={subjectId ? `/user/subjects/${subjectId}` : '#'} className="block">
                     <h3 className="text-base font-semibold text-foreground mb-2 line-clamp-1 hover:text-primary transition-colors" title={subject.name}>{subject.name}</h3>
-                </Link>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2" title={subject.description}>{subject.description || "No description available."}</p>
+                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2" title={subject.description}>{subject.description || "No description available."}</p>
 
-                <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4">
-                    <FiLayers className="text-primary" />
-                    <span>Browse Quizzes</span>
-                </div>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4">
+                        <FiLayers className="text-primary" />
+                        <span>Browse Quizzes</span>
+                    </div>
+                </Link>
 
                 <div className="grid grid-cols-2 gap-3">
                     <Link
