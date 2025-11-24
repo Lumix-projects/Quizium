@@ -19,9 +19,10 @@ export default function UserLayout({
       {/* main content wrapper */}
       <section className="flex-1 h-screen overflow-y-auto">
         {/* Top bar with theme toggle */}
-        <header className="bg-sidebar py-2 px-6 md:px-8 flex justify-between items-center gap-2">
-          {/* Sheet Toggle Button */}
+        <header className="bg-sidebar py-2 px-6 md:px-8 flex justify-between items-center gap-2 border-b border-border">
+          {/* Sheet Toggler Container And Logo */}
           <div className="flex items-center ">
+            {/* Sheet Toggle Button */}
             <button
               className="secondary-btn lg:hidden"
               onClick={() => setOpen(!open)}
@@ -38,11 +39,15 @@ export default function UserLayout({
 
           {/* Search Input */}
           <div className="w-1/2 relative hidden lg:flex justify-center group">
-            <button className="bg-background rounded-s-full text-muted-foreground px-4 border-2 border-input-border border-e-0 group-focus-within:border-primary duration-300">
+            <label
+              htmlFor="searchInput"
+              className="bg-background rounded-s-full text-muted-foreground px-4 border-2 border-input-border border-e-0 group-focus-within:border-primary duration-300 flex items-center cursor-text"
+            >
               <Search size={18} />
-            </button>
+            </label>
             <input
               type="text"
+              id="searchInput"
               placeholder="Search Subjects..."
               className="w-2/3 focus:w-full duration-300 border-s-0 py-2.5 rounded-e-full bg-background text-foreground placeholder-muted-foreground outline-none border-2 border-input-border focus:border-primary group-focus-within:border-primary"
             />
