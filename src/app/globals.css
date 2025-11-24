@@ -18,7 +18,7 @@
   --error: #ef4444;
   --muted: #a1a1aa;
   --muted-foreground: #71717a;
-  --sidebar-bg: #fafafa;
+  --sidebar: #fafafa;
   --sidebar-border: #e4e4e7;
 }
 
@@ -40,7 +40,7 @@
   --error: #f87171;
   --muted: #52525b;
   --muted-foreground: #a1a1aa;
-  --sidebar-bg: #18181b;
+  --sidebar: #18181b;
   --sidebar-border: #27272a;
 }
 
@@ -61,16 +61,17 @@
   --color-error: var(--error);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-sidebar-bg: var(--sidebar-bg);
+  --color-sidebar: var(--sidebar);
   --color-sidebar-border: var(--sidebar-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-inter: var(--font-inter);
 }
 
-* {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-}
+/* * {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+} */
 
 body {
   background: var(--background);
@@ -79,10 +80,14 @@ body {
 
 @layer components {
   .input {
-    @apply bg-input border border-input-border rounded-lg px-3 py-2 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 duration-200 w-full text-foreground;
+    @apply bg-input border border-input-border rounded-lg px-3 py-2 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 duration-300 w-full text-foreground;
   }
 
   .main-btn {
-    @apply bg-primary text-white py-2.5 px-4 rounded-lg w-full cursor-pointer transition-all duration-200 hover:bg-primary-hover active:scale-95 font-medium;
+    @apply bg-primary text-white py-2.5 px-4 rounded-lg w-full cursor-pointer transition-all duration-300 hover:bg-primary-hover active:scale-95 font-medium;
+  }
+
+  .secondary-btn {
+    @apply p-2.5 rounded-full bg-card hover:bg-card-hover border border-border transition-all duration-300 cursor-pointer;
   }
 }

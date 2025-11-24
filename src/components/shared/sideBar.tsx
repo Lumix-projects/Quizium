@@ -6,6 +6,7 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { HiX } from "react-icons/hi";
 import cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { cn } from "@/lib/utils";
 
 interface SidebarProps {
   open: boolean;
@@ -54,10 +55,11 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
           onClick={() => setOpen(false)}
         ></div>
       )}
-      <div
-        className={`flex flex-col justify-between w-64 h-full bg-sidebar-bg border-r border-sidebar-border p-5 fixed lg:relative top-0 z-40 transition-all transition-discrete duration-300 ease-in-out ${
-          open ? "translate-x-0" : "-translate-x-full"
-        }`}
+      <aside
+        className={cn(
+          "flex flex-col justify-between h-screen w-64 bg-sidebar border-r border-sidebar-border fixed top-0 z-40 lg:static p-5 transition-all duration-300 ease-in-out",
+          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        )}
       >
         {/* Logo & Navigation */}
         <div className="flex flex-col gap-8">
@@ -70,7 +72,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
               Quizium
             </span>
             <button
-              className="ms-auto cursor-pointer"
+              className="ms-auto cursor-pointer lg:hidden"
               onClick={() => setOpen(false)}
             >
               <HiX />
@@ -117,7 +119,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
             <span>Logout</span>
           </button>
         </div>
-      </div>
+      </aside>
     </>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
+import Logo from "@/components/Logo";
 import Sidebar from "@/components/shared/sideBar";
 import ThemeToggle from "@/components/shared/ThemeToggle";
-import { ThemeProvider } from "@/contexts/ThemeContext";
-import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
+import { Bell, CircleChevronRight, Search } from "lucide-react";
 import { useState } from "react";
 
 export default function UserLayout({
@@ -13,32 +13,61 @@ export default function UserLayout({
   const [open, setOpen] = useState(false);
 
   return (
-    <ThemeProvider>
-      <section className="flex bg-background min-h-screen">
-        <Sidebar open={open} setOpen={setOpen} />
+    <section className="flex bg-background min-h-screen">
+      <Sidebar open={open} setOpen={setOpen} />
 
-        {/* main content wrapper */}
-        <section className="flex-1 h-screen overflow-y-auto">
-          {/* Top bar with theme toggle */}
-          <header className="bg-sidebar-bg py-2 px-6 md:px-8 flex justify-between items-center">
-            {/* Sheet Toggle Button */}
+      {/* main content wrapper */}
+      <section className="flex-1 h-screen overflow-y-auto">
+        {/* Top bar with theme toggle */}
+        <header className="bg-sidebar py-2 px-6 md:px-8 flex justify-between items-center gap-2">
+          {/* Sheet Toggle Button */}
+          <div className="flex items-center ">
             <button
-              className="p-2 rounded-lg bg-card hover:bg-card-hover border border-border transition-all duration-200 cursor-pointer"
+              className="secondary-btn lg:hidden"
               onClick={() => setOpen(!open)}
             >
-              {open ? (
-                <CircleChevronRight size={18} />
-              ) : (
-                <CircleChevronLeft size={18} />
-              )}
+              <CircleChevronRight size={18} />
             </button>
 
-            {/* Mode Toggle Button */}
+            {/* Website Logo */}
+            <h3 className="flex items-center font-semibold text-2xl">
+              <Logo />
+              <span>uizium</span>
+            </h3>
+          </div>
+
+          {/* Search Input */}
+          <div className="w-1/2 relative hidden lg:flex justify-center group">
+            <button className="bg-background rounded-s-full text-muted-foreground px-4 border-2 border-input-border border-e-0 group-focus-within:border-primary duration-300">
+              <Search size={18} />
+            </button>
+            <input
+              type="text"
+              placeholder="Search Subjects..."
+              className="w-2/3 focus:w-full duration-300 border-s-0 py-2.5 rounded-e-full bg-background text-foreground placeholder-muted-foreground outline-none border-2 border-input-border focus:border-primary group-focus-within:border-primary"
+            />
+          </div>
+
+          {/* Mode Toggle & Notification Button */}
+          <div className="space-x-2">
+            {/* Search Button */}
+            <button className="secondary-btn lg:hidden">
+              <Search size={18} />
+            </button>
+
+            {/* Notification Button */}
+            <button className="secondary-btn">
+              <Bell size={18} />
+            </button>
+
+            {/* Mode Toggle */}
             <ThemeToggle />
-          </header>
-          <main className="p-6 md:p-8">{children}</main>
-        </section>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="p-6 md:p-8">{children}</main>
       </section>
-    </ThemeProvider>
+    </section>
   );
 }
