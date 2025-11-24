@@ -78,19 +78,26 @@ export default function ExamCard({ exam, onStart }: ExamCardProps) {
   const difficultyStyles = getDifficultyStyles(exam.difficulty);
 
   return (
-    <div className="rounded-xl shadow-md transition-all duration-300 overflow-hidden border border-border group bg-background hover:shadow-xl hover:border-primary/20">
+    <div className="rounded-xl shadow-md transition-all duration-300 overflow-hidden border border-border group bg-background hover:shadow-xl hover:border-primary/20 flex flex-col">
       {/* Card Header: title + creator name */}
-      <div className="p-6 border-b border-border bg-linear-to-br from-primary/10 to-transparent">
-        {/* Exam title and difficulty badge */}
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <h3 className="text-xl font-bold text-foreground line-clamp-2 transition-colors duration-300 group-hover:text-primary">
-            {exam.title}
-          </h3>
+      <div className="p-6 border-b border-border bg-linear-to-br from-primary/10 to-transparent space-y-2">
+        {/* Exam title */}
+        <h3 className="text-xl font-bold text-foreground line-clamp-1 transition-colors duration-300 group-hover:text-primary">
+          {exam.title}
+        </h3>
+
+        {/* Creator info and Difficulty badge */}
+        <div className="flex justify-between items-center text-sm text-muted-foreground">
+          {/* Creator info */}
+          <h6 className="flex items-center gap-2">
+            <FiUser className="w-4 h-4" />
+            <span>{creatorName}</span>
+          </h6>
 
           {/* Difficulty badge */}
           <span
             className={cn(
-              "shrink-0 px-3 py-1 rounded-full text-xs font-semibold border",
+              "shrink-0 px-3 py-1 rounded-full font-semibold border text-xs",
               difficultyStyles.bg,
               difficultyStyles.text,
               difficultyStyles.border
@@ -99,16 +106,10 @@ export default function ExamCard({ exam, onStart }: ExamCardProps) {
             {difficultyStyles.label}
           </span>
         </div>
-
-        {/* Creator info */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <FiUser className="w-4 h-4" />
-          <span>{creatorName}</span>
-        </div>
       </div>
 
       {/* Body: description + stats */}
-      <div className="p-6 space-y-4">
+      <div className="p-6 space-y-4 flex-1">
         {/* Exam description */}
         <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">
           {exam.description}
@@ -132,9 +133,9 @@ export default function ExamCard({ exam, onStart }: ExamCardProps) {
           </div>
 
           {/* Points box */}
-          <div className="flex items-center gap-3 p-3 rounded-lg border bg-purple-50 border-purple-100 dark:bg-purple-600 dark:border-purple-700">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <FiTrendingUp className="w-5 h-5 text-purple-600" />
+          <div className="flex items-center gap-3 p-3 rounded-lg border bg-secondary/5 border-secondary/20">
+            <div className="p-2 bg-secondary/20 rounded-lg">
+              <FiTrendingUp className="w-5 h-5 text-secondary" />
             </div>
             <div>
               <p className="text-xs text-muted-foreground font-medium">
