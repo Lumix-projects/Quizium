@@ -26,6 +26,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
   const router = useRouter();
   const { user } = useUser();
 
+  // Menu Links
   const menuItems = [
     {
       id: "dashboard",
@@ -49,6 +50,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
     { id: "settings", href: "/user/settings", icon: FaCog, label: "Settings" },
   ];
 
+  // Logout Function
   const handleLogout = () => {
     cookies.remove("token");
     toast.success("Logged out successfully");
