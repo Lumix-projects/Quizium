@@ -62,14 +62,14 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
             {/* Overlay for mobile */}
             {open && (
                 <div
-                    className="lg:hidden fixed inset-0 bg-black/50 z-30"
+                    className="xl:hidden fixed inset-0 bg-black/50 z-30"
                     onClick={() => setOpen(false)}
                 ></div>
             )}
             <aside
                 className={cn(
-                    "flex flex-col gap-5 h-screen w-64 bg-sidebar border-r border-sidebar-border fixed top-0 z-40 lg:static py-4 transition-all duration-300 ease-in-out",
-                    open ? "translate-x-0 w-80" : "-translate-x-full lg:translate-x-0"
+                    "flex flex-col gap-5 h-screen w-64 bg-sidebar border-r border-sidebar-border fixed top-0 z-40 xl:static py-4 transition-all duration-300 ease-in-out",
+                    open ? "translate-x-0 w-80" : "-translate-x-full xl:translate-x-0"
                 )}
             >
                 {/* Logo & Navigation */}
@@ -111,12 +111,11 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                             <Link
                                 key={item.id}
                                 href={item.href}
-                                onClick={() => setOpen(false)}
                                 className={cn(
-                                    "flex items-center gap-3 px-3 py-2.5 rounded-full duration-300 font-medium text-sm",
+                                    "flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium",
                                     isActive
                                         ? "bg-primary text-white"
-                                        : "text-muted-foreground hover:bg-card-hover hover:text-foreground"
+                                        : "text-muted-foreground hover:bg-muted/5"
                                 )}
                             >
                                 <Icon className="text-base" />
@@ -125,6 +124,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
                         );
                     })}
                 </nav>
+
 
                 {/* Logout */}
 
