@@ -8,6 +8,8 @@ import {
 } from "@/services/content";
 import ExamCard from "@/components/shared/dashboard/ExamCard";
 
+export const revalidate = 600;
+
 export default async function SubjectDetailsPage({
   params,
 }: {
@@ -174,7 +176,7 @@ export default async function SubjectDetailsPage({
           <h2 className="text-xl font-semibold text-foreground mt-4">
             Subject Quizzes
           </h2>
-          <div className="col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="col-span-3 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-8">
             {exams.map((exam) => (
               <ExamCard exam={exam} key={exam._id} />
             ))}

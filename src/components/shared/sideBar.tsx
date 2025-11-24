@@ -62,14 +62,14 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
       {/* Overlay for mobile */}
       {open && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-30"
+          className="xl:hidden fixed inset-0 bg-black/50 z-30"
           onClick={() => setOpen(false)}
         ></div>
       )}
       <aside
         className={cn(
-          "flex flex-col gap-5 h-screen w-64 bg-sidebar border-r border-sidebar-border fixed top-0 z-40 lg:static py-4 transition-all duration-300 ease-in-out",
-          open ? "translate-x-0 w-80" : "-translate-x-full lg:translate-x-0"
+          "flex flex-col gap-5 h-screen w-64 bg-sidebar border-r border-sidebar-border fixed top-0 z-40 xl:static py-4 transition-all duration-300 ease-in-out",
+          open ? "translate-x-0 w-80" : "-translate-x-full xl:translate-x-0"
         )}
       >
         {/* Logo & Navigation */}

@@ -24,7 +24,7 @@ export default function UserLayout({
           <div className="flex items-center ">
             {/* Sheet Toggle Button */}
             <button
-              className="secondary-btn lg:hidden"
+              className="secondary-btn xl:hidden"
               onClick={() => setOpen(!open)}
             >
               <CircleChevronRight size={18} />
