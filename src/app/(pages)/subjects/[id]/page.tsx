@@ -7,25 +7,27 @@ import {
   getSubjectById,
 } from "@/services/content";
 import ExamCard from "@/components/shared/dashboard/ExamCard";
+import DifficultyFilter from "@/components/shared/dashboard/DifficultyFilter";
 
 export const revalidate = 600;
 
 export default async function SubjectDetailsPage({
   params,
+  searchParams,
 }: {
   params: { id: string };
+  searchParams: { difficulty?: string };
 }) {
-  // Extract the subject ID from the route parameters
   const { id } = await params;
+  const { difficulty } = await searchParams;
 
-  // Fetch the subject details, associated topics, and exams concurrently
+  // Fetch subject, topics & exams
   const [subject, topics, exams] = await Promise.all([
     getSubjectById(id),
     getAllTopics(id),
     getExamBySubject(id),
   ]);
 
-  // Handle the case where the ID parameter is missing
   if (!id) {
     return (
       <div className="max-w-5xl mx-auto text-center py-16">
@@ -36,7 +38,6 @@ export default async function SubjectDetailsPage({
     );
   }
 
-  // Handle the case where no subject exists for the given ID
   if (!subject) {
     return (
       <div className="max-w-5xl mx-auto text-center py-16">
@@ -46,6 +47,11 @@ export default async function SubjectDetailsPage({
       </div>
     );
   }
+
+  // Apply filtering on server
+  const filteredExams = difficulty
+    ? exams.filter((e) => e.difficulty === difficulty)
+    : exams;
 
   return (
     <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm max-w-7xl mx-auto">
@@ -64,16 +70,19 @@ export default async function SubjectDetailsPage({
             <FiBook className="text-6xl opacity-20" />
           </div>
         )}
+
         <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex items-end">
           <div className="p-6 md:p-8 text-white w-full">
             <h1 className="text-3xl md:text-4xl font-bold mb-2">
               {subject.title}
             </h1>
+
             <div className="flex items-center gap-4 text-sm md:text-base opacity-90">
               <span className="flex items-center gap-1">
                 <FiLayers />
                 Subject Details
               </span>
+
               <>
                 <span>•</span>
                 <span className="flex items-center gap-1">
@@ -88,9 +97,9 @@ export default async function SubjectDetailsPage({
 
       {/* Subject Content */}
       <div className="p-6 md:p-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-8">
           {/* Subject Description and Topics */}
-          <div className="md:col-span-2 space-y-8">
+          <div className="col-span-3 lg:col-span-2 space-y-8 w-full">
             {/* Subject Description */}
             <div>
               <h2 className="text-xl font-semibold text-foreground mb-3">
@@ -102,13 +111,14 @@ export default async function SubjectDetailsPage({
               </p>
             </div>
 
-            {/* Topics Section */}
+            {/* Topics */}
             {topics.length > 0 ? (
               <div>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
                   Topics
                 </h2>
-                <div className="grid gap-4">
+
+                <div className="flex flex-col gap-4">
                   {topics.map((topic) => (
                     <Link
                       href={`/subjects/${id}/${topic.id}`}
@@ -120,7 +130,8 @@ export default async function SubjectDetailsPage({
                           <h3 className="font-medium text-foreground">
                             {topic.title}
                           </h3>
-                          {topic.tags && topic.tags.length > 0 && (
+
+                          {topic.tags?.length > 0 && (
                             <div className="flex gap-2">
                               {topic.tags.map((tag) => (
                                 <span
@@ -133,6 +144,7 @@ export default async function SubjectDetailsPage({
                             </div>
                           )}
                         </div>
+
                         <p className="text-sm text-muted-foreground line-clamp-1">
                           {topic.description}
                         </p>
@@ -144,40 +156,65 @@ export default async function SubjectDetailsPage({
             ) : (
               <div className="text-center py-8 bg-muted/10 rounded-xl border border-dashed border-border">
                 <p className="text-muted-foreground">
-                  No topics available for this subject yet.
+                  No topics available yet.
                 </p>
               </div>
             )}
           </div>
 
-          {/* Quick Status Box */}
-          <div className="bg-muted/30 rounded-xl p-6 h-fit border border-border/50">
-            <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+          {/* Quick Stats */}
+          <div className="col-span-3 lg:col-span-1 bg-card rounded-xl p-4 md:p-6 h-fit border border-border shadow-sm">
+            <h3 className="font-semibold text-foreground mb-6 flex items-center gap-2">
               <FiBook className="text-primary" />
               Quick Stats
             </h3>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center py-2 border-b border-border/50 last:border-0">
-                <span className="text-muted-foreground text-sm">Status</span>
+
+            <div className="space-y-3">
+              <div className="flex justify-between items-center p-3 rounded-lg bg-muted/20 hover:bg-muted/30 transition-colors">
+                <span className="text-muted-foreground text-sm font-medium">
+                  Status
+                </span>
                 <span className="font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded text-xs">
                   Active
                 </span>
               </div>
-              <div className="flex justify-between items-center py-2 border-b border-border/50 last:border-0">
-                <span className="text-muted-foreground text-sm">Topics</span>
-                <span className="font-medium text-foreground text-sm">
+
+              <div className="flex justify-between items-center p-3 rounded-lg bg-muted/20 hover:bg-muted/30 transition-colors">
+                <span className="text-muted-foreground text-sm font-medium">
+                  Topics
+                </span>
+                <span className="font-semibold text-foreground text-base">
                   {topics.length}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center p-3 rounded-lg bg-muted/20 hover:bg-muted/30 transition-colors">
+                <span className="text-muted-foreground text-sm font-medium">
+                  Exams
+                </span>
+                <span className="font-semibold text-foreground text-base">
+                  {exams.length}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Subject Quizzes */}
-          <h2 className="text-xl font-semibold text-foreground mt-4">
-            Subject Quizzes
-          </h2>
+          {/* Subject Quizzes Section */}
+          <div className="col-span-3 my-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            {/* Subject Quizzes header */}
+            <h2 className="text-xl font-semibold text-foreground">
+              Subject Quizzes
+            </h2>
+
+            {/* Difficulty Filter */}
+            <div className="inline-flex justify-center items-center flex-wrap md:gap-2 p-1 bg-muted/30 rounded-xl border border-border/50 text-xs">
+              <DifficultyFilter current={difficulty} />
+            </div>
+          </div>
+
+          {/* Exams List */}
           <div className="col-span-3 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-8">
-            {exams.map((exam) => (
+            {filteredExams.map((exam) => (
               <ExamCard exam={exam} key={exam._id} />
             ))}
           </div>

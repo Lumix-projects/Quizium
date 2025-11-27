@@ -116,7 +116,7 @@ export default function ExamCard({ exam, onStart }: ExamCardProps) {
         </p>
 
         {/* Stats section: duration & total marks */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           {/* Duration box */}
           <div className="flex items-center gap-3 p-3 rounded-lg border bg-primary/5 border-primary/20">
             <div className="p-2 bg-primary/20 rounded-lg">
