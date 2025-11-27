@@ -30,24 +30,24 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
   const menuItems = [
     {
       id: "dashboard",
-      href: "/user",
+      href: "/",
       icon: MdSpaceDashboard,
       label: "Dashboard",
     },
-    { id: "subjects", href: "/user/subjects", icon: FaBook, label: "Subjects" },
+    { id: "subjects", href: "/subjects", icon: FaBook, label: "Subjects" },
     {
       id: "quizzes",
-      href: "/user/quizzes",
+      href: "/quizzes",
       icon: FaQuestionCircle,
       label: "Quizzes",
     },
     {
       id: "history",
-      href: "/user/history",
+      href: "/history",
       icon: FaClipboardList,
       label: "History",
     },
-    { id: "settings", href: "/user/settings", icon: FaCog, label: "Settings" },
+    { id: "settings", href: "/settings", icon: FaCog, label: "Settings" },
   ];
 
   // Logout Function
@@ -102,10 +102,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
         <nav className="flex flex-col gap-1 px-4 flex-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
-            const isActive =
-              item.href === "/user"
-                ? pathname === "/user"
-                : pathname.startsWith(item.href);
+            const isActive = pathname === item.href;
 
             return (
               <Link
