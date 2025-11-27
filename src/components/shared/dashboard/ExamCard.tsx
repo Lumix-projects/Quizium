@@ -7,6 +7,7 @@ import {
   FiUser,
   FiCalendar,
 } from "react-icons/fi";
+import Link from "next/link";
 
 interface ExamCardProps {
   exam: Exam;
@@ -157,12 +158,13 @@ export default function ExamCard({ exam }: ExamCardProps) {
         </div>
 
         {/* Start exam button */}
-        <button
+        <Link
+          href={`/exam/${exam._id}`}
           className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer bg-primary text-white shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-95 transition-all duration-300"
         >
           <FiPlay className="w-4 h-4" />
           Start Quiz
-        </button>
+        </Link>
       </div>
     </div>
   );

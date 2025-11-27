@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { loginUser } from "@/services/auth"; // ← غيّرها لاسم API اللوجين عندك
+import { loginUser } from "@/services/auth"; 
 import { LoginData } from "@/types/auth";
 import { loginSchema, LoginSchema } from "@/schemas/loginschema";
 import { useRouter } from "next/navigation";
@@ -30,7 +30,7 @@ export function useLogin() {
       const response = await loginUser(values);
 
       if (response && response.user) {
-        router.push("/user");
+        router.push("/");
         reset();
       } else {
         toast.error("Invalid email or password");
