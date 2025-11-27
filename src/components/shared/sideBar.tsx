@@ -68,7 +68,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
       )}
       <aside
         className={cn(
-          "flex flex-col gap-5 h-screen w-64 bg-sidebar border-r border-sidebar-border fixed top-0 z-40 xl:static py-4 transition-all duration-300 ease-in-out",
+          "flex flex-col gap-5 h-screen w-72 bg-sidebar border-r border-sidebar-border fixed top-0 z-40 xl:static py-4 transition-all duration-300 ease-in-out",
           open ? "translate-x-0 w-80" : "-translate-x-full xl:translate-x-0"
         )}
       >
@@ -108,6 +108,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
               <Link
                 key={item.id}
                 href={item.href}
+                onClick={() => setOpen(false)}
                 className={cn(
                   "flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium",
                   isActive

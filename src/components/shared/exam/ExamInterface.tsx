@@ -4,6 +4,7 @@ import { Question } from "@/types";
 import { useState } from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { cn } from "@/lib/utils";
+import { TriangleAlert } from "lucide-react";
 
 interface ExamInterfaceProps {
     questions: Question[];
@@ -130,7 +131,13 @@ export default function ExamInterface({ questions, examId }: ExamInterfaceProps)
                                                             </div>
                                                         </div>
                                                     );
+
                                                 })}
+                                                {isFlagged[question._id] && (
+                                                    <span className="flex items-center gap-1 text-sm text-yellow-600 font-medium">
+                                                       <TriangleAlert /> Flagged Question
+                                                    </span>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
