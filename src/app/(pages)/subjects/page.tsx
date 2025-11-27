@@ -2,13 +2,13 @@
 import SubjectCard from "@/components/shared/dashboard/SubjectCard";
 import DashboardCard from "@/components/shared/dashboard/DashboardCard";
 import { FiLayers } from "react-icons/fi";
-import { useSubjects } from "@/hooks/useSubject";
 import { Skeleton } from "@/components/shared/Skeleton";
+import { getAllSubjects } from "@/services/content";
 
-export default function SubjectsPage() {
-    const { subjects, loading } = useSubjects();
+export default async function SubjectsPage() {
+    const subjects = await getAllSubjects();
 
-    if (loading) {
+    if (!subjects) {
         return (
             <div className="space-y-8">
                 {/* Header Skeleton */}

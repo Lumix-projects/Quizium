@@ -7,10 +7,11 @@ import DifficultyFilter from "@/components/shared/dashboard/DifficultyFilter";
 export default async function QuizzesPage({
   searchParams,
 }: {
-  searchParams: { difficulty?: string };
+  searchParams: Promise<{ difficulty?: string }>;
 }) {
-  // Get Difficulty from Params
-  const { difficulty } = await searchParams;
+  // Get Difficulty from Params - await the promise first
+  const params = await searchParams;
+  const difficulty = params.difficulty;
 
   // Fetch exams
   const exams = await getAllExams();

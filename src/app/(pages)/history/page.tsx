@@ -1,15 +1,12 @@
-"use client";
 
 import DashboardCard from '@/components/shared/dashboard/DashboardCard'
 import HistoryTable from '@/components/shared/dashboard/HistoryTable'
-import React from 'react'
-import { useScores } from '@/hooks/useScores'
 import { Skeleton } from "@/components/shared/Skeleton";
+import { getUserScores } from '@/services/user';
 
-export default function page() {
-    const { scores, loading } = useScores();
-
-    if (loading) {
+export default async function HistoryPage() {
+    const scores = await getUserScores();
+    if (!scores) {
         return (
             <div className="space-y-6">
                 <div className="flex items-center justify-between">

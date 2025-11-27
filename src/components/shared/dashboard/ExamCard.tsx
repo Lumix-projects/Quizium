@@ -10,7 +10,6 @@ import {
 
 interface ExamCardProps {
   exam: Exam;
-  onStart?: (examId: string) => void;
 }
 
 // Format creation date into human-friendly text
@@ -67,7 +66,7 @@ const getDifficultyStyles = (difficulty: string) => {
 };
 
 // Card component that displays exam info
-export default function ExamCard({ exam, onStart }: ExamCardProps) {
+export default function ExamCard({ exam }: ExamCardProps) {
   // Resolve the creator's name (string OR User object)
   const creatorName =
     typeof exam.createdBy === "string"
@@ -158,15 +157,12 @@ export default function ExamCard({ exam, onStart }: ExamCardProps) {
         </div>
 
         {/* Start exam button */}
-        {onStart && (
-          <button
-            onClick={() => onStart(exam._id)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer bg-primary text-white shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-95 transition-all duration-300"
-          >
-            <FiPlay className="w-4 h-4" />
-            Start Quiz
-          </button>
-        )}
+        <button
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer bg-primary text-white shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-95 transition-all duration-300"
+        >
+          <FiPlay className="w-4 h-4" />
+          Start Quiz
+        </button>
       </div>
     </div>
   );

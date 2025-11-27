@@ -1,4 +1,3 @@
-"use client";
 
 import DashboardCard from "@/components/shared/dashboard/DashboardCard";
 import StatsCard from "@/components/shared/dashboard/StatsCard";
@@ -9,17 +8,15 @@ import {
   FiClock,
 } from "react-icons/fi";
 import { Skeleton } from "@/components/shared/Skeleton";
-import { useUser } from "@/hooks/useUser";
-import { useScores } from "@/hooks/useScores";
-import { useExams } from "@/hooks/useSubject";
+import { getUserProfile, getUserScores } from "@/services/user";
+import { getAllExams } from "@/services/content";
 
-export default function HomePage() {
-  const { user, loading: userLoading } = useUser();
-  const { scores, loading: scoresLoading } = useScores();
-  const { exams } = useExams();
-  const loading = userLoading || scoresLoading;
+export default async function HomePage() {
+  const user = await getUserProfile();
+  const scores = await getUserScores();
+  const exams = await getAllExams();
 
-  if (loading) {
+  if (!user) {
     return (
       <div className="space-y-8">
         {/* Header Skeleton */}
