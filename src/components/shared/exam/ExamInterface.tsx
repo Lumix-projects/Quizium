@@ -22,6 +22,7 @@ export default function ExamInterface({ questions, examId }: ExamInterfaceProps)
             ...prev,
             [currentQuestion._id]: optionIndex,
         }));
+        handleNext();
     };
 
     const handleNext = () => {
@@ -107,21 +108,13 @@ export default function ExamInterface({ questions, examId }: ExamInterfaceProps)
 
             {/* Navigation */}
             <div className="flex justify-end">
-                {isLastQuestion ? (
+                {isLastQuestion && (
                     <button
                         onClick={handleSubmit}
                         className="flex items-center gap-2 px-8 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20"
                     >
                         <FiCheckCircle className="text-xl" />
                         Submit Exam
-                    </button>
-                ) : (
-                    <button
-                        onClick={handleNext}
-                        className="flex items-center gap-2 px-8 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
-                    >
-                        <span>Next Question</span>
-                        <FiArrowRight className="text-xl" />
                     </button>
                 )}
             </div>
