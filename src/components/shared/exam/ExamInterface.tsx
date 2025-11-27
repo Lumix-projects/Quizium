@@ -142,18 +142,22 @@ export default function ExamInterface({ questions, examId }: ExamInterfaceProps)
                             {questions.map((q, idx) => {
                                 const isAnswered = answers[q._id] !== undefined;
                                 const isCurrent = currentQuestionIndex === idx;
+                                const isLocked = idx > 0 && answers[questions[idx - 1]._id] === undefined;
 
                                 return (
                                     <button
                                         key={q._id}
                                         onClick={() => setCurrentQuestionIndex(idx)}
+                                        disabled={isLocked}
                                         className={cn(
                                             "aspect-square rounded-lg flex items-center justify-center text-sm font-medium transition-all duration-200",
                                             isCurrent
                                                 ? "bg-primary text-white shadow-md ring-2 ring-primary ring-offset-2"
                                                 : isAnswered
                                                     ? "bg-green-100 text-green-700 border border-green-200"
-                                                    : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
+                                                    : isLocked
+                                                        ? "bg-muted/20 text-muted-foreground/50 cursor-not-allowed"
+                                                        : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
                                         )}
                                     >
                                         {idx + 1}
