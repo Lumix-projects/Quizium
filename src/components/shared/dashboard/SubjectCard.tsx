@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Subject } from "@/types";
 import { FiBook, FiLayers } from "react-icons/fi";
@@ -22,7 +23,7 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
         {subject.image && !imageError ? (
           <Image
             src={subject.image}
-            alt={subject.name || "Subject Image"}
+            alt={subject.title || "Subject Image"}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             onError={() => setImageError(true)}
@@ -42,9 +43,9 @@ export default function SubjectCard({ subject }: SubjectCardProps) {
         >
           <h3
             className="text-base font-semibold text-foreground mb-2 line-clamp-1 hover:text-primary transition-colors"
-            title={subject.name}
+            title={subject.title}
           >
-            {subject.name}
+            {subject.title}
           </h3>
           <p
             className="text-muted-foreground text-sm mb-4 line-clamp-2"

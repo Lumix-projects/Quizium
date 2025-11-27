@@ -12,7 +12,7 @@ export interface User {
 export interface Subject {
   id: string;
   _id?: string;
-  name: string;
+  title: string;
   description?: string;
   image: string;
   createdBy: string | User;
