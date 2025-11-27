@@ -120,15 +120,6 @@ export default function ExamInterface({ questions, examId }: ExamInterfaceProps)
                                 Submit Exam
                             </button>
                         )}
-                        {!isLastQuestion && (
-                            <button
-                                onClick={handleNext}
-                                className="flex items-center gap-2 px-8 py-3 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
-                            >
-                                <span>Next Question</span>
-                                <FiArrowRight className="text-xl" />
-                            </button>
-                        )}
                     </div>
                 </div>
 
