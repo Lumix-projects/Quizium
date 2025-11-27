@@ -111,7 +111,7 @@ export default async function SubjectDetailsPage({
                 <div className="grid gap-4">
                   {topics.map((topic) => (
                     <Link
-                      href={`/user/subjects/${id}/${topic.id}`}
+                      href={`/subjects/${id}/${topic.id}`}
                       key={topic.id}
                       className="block"
                     >

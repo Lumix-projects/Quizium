@@ -52,7 +52,7 @@ export const useSubjectDetails = (id: string) => {
       } catch (error) {
         const err = error as AxiosError<{ message: string }>;
         toast.error(err.response?.data.message || "Failed to load data");
-        router.push("/user/subjects");
+        router.push("/subjects");
       } finally {
         setLoading(false);
       }
@@ -90,7 +90,7 @@ export const useTopicDetails = (subjectId: string, topicId: string) => {
       } catch (error) {
         const err = error as AxiosError<{ message: string }>;
         toast.error(err.response?.data.message || "Failed to load topic");
-        router.push(`/user/subjects/${subjectId}`);
+        router.push(`/subjects/${subjectId}`);
       } finally {
         setLoading(false);
       }
