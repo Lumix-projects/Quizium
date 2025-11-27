@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/shared/Skeleton";
 
-export default function loading() {
+export default function Loading() {
   return (
     <div className="space-y-8">
       {/* Header Skeleton */}
@@ -16,7 +16,7 @@ export default function loading() {
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="p-6 rounded-xl border bg-card text-card-foreground shadow-sm"
+            className="p-6 rounded-xl border border-border bg-card text-card-foreground shadow-sm"
           >
             <div className="flex items-center gap-4">
               <Skeleton className="h-12 w-12 rounded-full" />
@@ -30,7 +30,7 @@ export default function loading() {
       </div>
 
       {/* Recent Activity Skeleton */}
-      <div className="rounded-xl border bg-card text-card-foreground shadow-sm">
+      <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm">
         <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
           <Skeleton className="h-6 w-32" />
           <Skeleton className="h-4 w-16" />
