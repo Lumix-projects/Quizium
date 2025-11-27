@@ -18,7 +18,10 @@ export default async function SubjectDetailsPage({
   params: { id: string };
   searchParams: { difficulty?: string };
 }) {
+  // Get ID from Params
   const { id } = await params;
+
+  // Get Difficulty from Params
   const { difficulty } = await searchParams;
 
   // Fetch subject, topics & exams
@@ -48,7 +51,7 @@ export default async function SubjectDetailsPage({
     );
   }
 
-  // Apply filtering on server
+  // Get Filtered Exams
   const filteredExams = difficulty
     ? exams.filter((e) => e.difficulty === difficulty)
     : exams;
@@ -207,9 +210,8 @@ export default async function SubjectDetailsPage({
             </h2>
 
             {/* Difficulty Filter */}
-            <div className="inline-flex justify-center items-center flex-wrap md:gap-2 p-1 bg-muted/30 rounded-xl border border-border/50 text-xs">
-              <DifficultyFilter current={difficulty} />
-            </div>
+
+            <DifficultyFilter current={difficulty} />
           </div>
 
           {/* Exams List */}
