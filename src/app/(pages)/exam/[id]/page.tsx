@@ -2,6 +2,11 @@ import { getExamQuestionsServer } from "@/services/server/examServer";
 import ExamInterface from "@/components/shared/exam/ExamInterface";
 import { FiAlertCircle } from "react-icons/fi";
 
+function shuffle<T>(arr: T[]): T[] {
+    return [...arr].sort(() => Math.random() - 0.5);
+}
+
+
 export default async function ExamPage({
     params,
 }: {
@@ -11,8 +16,9 @@ export default async function ExamPage({
 
     try {
         const questions = await getExamQuestionsServer(id);
+        const shuffledQuestions = shuffle(questions);
 
-        if (!questions || questions.length === 0) {
+        if (!shuffledQuestions || shuffledQuestions.length === 0) {
             return (
                 <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
                     <FiAlertCircle className="text-6xl text-muted-foreground" />
@@ -28,7 +34,7 @@ export default async function ExamPage({
 
         return (
             <div className="container mx-auto py-8 px-4">
-                <ExamInterface questions={questions} examId={id} />
+                <ExamInterface questions={shuffledQuestions} examId={id} />
             </div>
         );
     } catch (error) {
