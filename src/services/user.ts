@@ -5,7 +5,7 @@ import cookies from "js-cookie";
 
 export const getUserProfile = async (): Promise<User> => {
   try {
-    const response = await api.get<{ user: User }>("/profile", {
+    const response = await api.get<{ user: User }>("/user/profile", {
       headers: { Authorization: `Bearer ${cookies.get("token")}` },
     });
     return response.data.user;
