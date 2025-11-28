@@ -18,7 +18,7 @@ export async function getExamQuestions(examId: string) {
   }
 }
 
-export async function submitExam(examId: string, answers: Record<string, number>) {
+export async function submitExam(examId: string, answers: { question: string; selectedAnswer: number }[]) {
   try {
     const response = await api.post(
       `/scores/exam/${examId}/submit`,
