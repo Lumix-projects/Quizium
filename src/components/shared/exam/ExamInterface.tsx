@@ -105,12 +105,12 @@ export default function ExamInterface({ questions, examId, duration, examTitle }
         try {
             const formattedAnswers = Object.entries(answers).map(([questionId, answerIndex]) => ({
                 question: questionId,
-                selectedAnswer: answerIndex,
+                answer: answerIndex,
             }));
 
             await submitExam(examId, formattedAnswers);
             toast.success(autoSubmit ? "Exam submitted!" : "Exam submitted successfully!");
-            router.push("/");
+            router.push(`/exam/${examId}/result`);
         } catch (error) {
             toast.error(error instanceof Error ? error.message : "Failed to submit exam");
             setIsSubmitting(false);

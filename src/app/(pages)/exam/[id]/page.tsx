@@ -16,7 +16,6 @@ export default async function ExamPage({
     const { id } = await params;
 
     try {
-        // Fetch both exam details and questions
         const [examDetails, questions]: [Exam, Question[]] = await Promise.all([
             getExamDetailsServer(id),
             getExamQuestionsServer(id)

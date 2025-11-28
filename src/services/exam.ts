@@ -18,7 +18,7 @@ export async function getExamQuestions(examId: string) {
   }
 }
 
-export async function submitExam(examId: string, answers: { question: string; selectedAnswer: number }[]) {
+export async function submitExam(examId: string, answers: { question: string; answer: number }[]) {
   try {
     const response = await api.post(
       `/scores/exam/${examId}/submit`,
@@ -34,6 +34,22 @@ export async function submitExam(examId: string, answers: { question: string; se
       error?.response?.data?.message ||
       error?.message ||
       "Failed to submit exam";
+    throw new Error(message);
+  }
+}
+
+export async function getResult(examId: string) {
+  try {
+    const response = await api.get(`/scores/exam/${examId}/result`, {
+      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+    });
+
+    return response.data.result;
+  } catch (error: any) {
+    const message =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Failed to get result";
     throw new Error(message);
   }
 }
