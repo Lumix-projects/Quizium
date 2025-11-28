@@ -1,23 +1,66 @@
 "use client";
 
 import { Question } from "@/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { cn } from "@/lib/utils";
-import { TriangleAlert } from "lucide-react";
+import { TriangleAlert, Clock } from "lucide-react";
+import { submitExam } from "@/services/exam";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface ExamInterfaceProps {
     questions: Question[];
     examId: string;
+    duration: number;
+    examTitle?: string;
 }
 
-export default function ExamInterface({ questions, examId }: ExamInterfaceProps) {
+export default function ExamInterface({ questions, examId, duration, examTitle }: ExamInterfaceProps) {
+    const router = useRouter();
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [isReviewMode, setIsReviewMode] = useState(false);
     const [isFlagged, setFlagged] = useState<Record<string, boolean>>({});
+    const [timeRemaining, setTimeRemaining] = useState(duration * 60);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const currentQuestion = questions[currentQuestionIndex];
     const isLastQuestion = currentQuestionIndex === questions.length - 1;
+
+    useEffect(() => {
+        if (timeRemaining <= 0) return;
+
+        const timer = setInterval(() => {
+            setTimeRemaining((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timer);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [timeRemaining]);
+
+    useEffect(() => {
+        if (timeRemaining === 0 && !isSubmitting) {
+            toast.error("Time's up! Exam is being submitted automatically.");
+            handleSubmit(true);
+        }
+    }, [timeRemaining]);
+
+    const formatTime = (seconds: number) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
+    const getTimerColor = () => {
+        if (timeRemaining < 60) return "text-red-600 dark:text-red-400";
+        if (timeRemaining < 300) return "text-yellow-600 dark:text-yellow-400";
+        return "text-foreground";
+    };
 
     const handleOptionSelect = (optionIndex: number) => {
         setAnswers((prev) => ({
@@ -55,8 +98,19 @@ export default function ExamInterface({ questions, examId }: ExamInterfaceProps)
         }
     };
 
-    const handleSubmit = () => {
-        console.log("Submitting answers:", answers);
+    const handleSubmit = async (autoSubmit = false) => {
+        if (isSubmitting) return;
+
+        setIsSubmitting(true);
+        try {
+
+            await submitExam(examId, answers);
+            toast.success(autoSubmit ? "Exam submitted!" : "Exam submitted successfully!");
+            router.push("/");
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Failed to submit exam");
+            setIsSubmitting(false);
+        }
     };
 
     if (!currentQuestion && !isReviewMode) {
@@ -135,7 +189,7 @@ export default function ExamInterface({ questions, examId }: ExamInterfaceProps)
                                                 })}
                                                 {isFlagged[question._id] && (
                                                     <span className="flex items-center gap-1 text-sm text-yellow-600 font-medium">
-                                                       <TriangleAlert /> Flagged Question
+                                                        <TriangleAlert /> Flagged Question
                                                     </span>
                                                 )}
                                             </div>
@@ -150,15 +204,17 @@ export default function ExamInterface({ questions, examId }: ExamInterfaceProps)
                         <button
                             onClick={() => setIsReviewMode(false)}
                             className="flex-1 px-6 py-3 rounded-xl border-2 border-border text-foreground font-semibold hover:bg-muted transition-colors"
+                            disabled={isSubmitting}
                         >
                             Back to Questions
                         </button>
                         <button
-                            onClick={handleSubmit}
-                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20"
+                            onClick={() => handleSubmit(false)}
+                            disabled={isSubmitting}
+                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <FiCheckCircle className="text-xl" />
-                            Submit Exam
+                            {isSubmitting ? "Submitting..." : "Submit Exam"}
                         </button>
                     </div>
                 </div>
@@ -252,11 +308,12 @@ export default function ExamInterface({ questions, examId }: ExamInterfaceProps)
                                 </button>
 
                                 <button
-                                    onClick={handleSubmit}
-                                    className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20"
+                                    onClick={() => handleSubmit(false)}
+                                    disabled={isSubmitting}
+                                    className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <FiCheckCircle className="text-xl" />
-                                    Submit Exam
+                                    {isSubmitting ? "Submitting..." : "Submit Exam"}
                                 </button>
                             </>
                         ) : (
@@ -277,6 +334,27 @@ export default function ExamInterface({ questions, examId }: ExamInterfaceProps)
 
                 {/* Sidebar */}
                 <div className="lg:col-span-4 space-y-6">
+                    {/* Timer Display */}
+                    <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
+                        <div className="flex items-center justify-between mb-2">
+                            <h3 className="font-semibold text-foreground flex items-center gap-2">
+                                <Clock className="w-5 h-5" />
+                                Time Remaining
+                            </h3>
+                        </div>
+                        <div className={cn(
+                            "text-4xl font-bold text-center py-4 transition-colors",
+                            getTimerColor()
+                        )}>
+                            {formatTime(timeRemaining)}
+                        </div>
+                        {timeRemaining < 300 && timeRemaining > 0 && (
+                            <p className="text-sm text-center text-muted-foreground">
+                                {timeRemaining < 60 ? "⚠️ Less than 1 minute!" : "Hurry up!"}
+                            </p>
+                        )}
+                    </div>
+
                     <div className="bg-card border border-border rounded-2xl p-6 shadow-sm sticky top-6">
                         <h3 className="font-semibold text-foreground mb-4">
                             Question Navigator

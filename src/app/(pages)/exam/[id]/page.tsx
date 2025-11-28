@@ -1,6 +1,7 @@
-import { getExamQuestionsServer } from "@/services/server/examServer";
+import { getExamQuestionsServer, getExamDetailsServer } from "@/services/server/examServer";
 import ExamInterface from "@/components/shared/exam/ExamInterface";
 import { FiAlertCircle } from "react-icons/fi";
+import { Exam, Question } from "@/types";
 
 function shuffle<T>(arr: T[]): T[] {
     return [...arr].sort(() => Math.random() - 0.5);
@@ -15,7 +16,12 @@ export default async function ExamPage({
     const { id } = await params;
 
     try {
-        const questions = await getExamQuestionsServer(id);
+        // Fetch both exam details and questions
+        const [examDetails, questions]: [Exam, Question[]] = await Promise.all([
+            getExamDetailsServer(id),
+            getExamQuestionsServer(id)
+        ]);
+
         const shuffledQuestions = shuffle(questions);
 
         if (!shuffledQuestions || shuffledQuestions.length === 0) {
@@ -34,7 +40,12 @@ export default async function ExamPage({
 
         return (
             <div className="container mx-auto py-8 px-4">
-                <ExamInterface questions={shuffledQuestions} examId={id} />
+                <ExamInterface
+                    questions={shuffledQuestions}
+                    examId={id}
+                    duration={examDetails.duration}
+                    examTitle={examDetails.title}
+                />
             </div>
         );
     } catch (error) {
