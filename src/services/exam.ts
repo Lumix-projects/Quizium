@@ -1,4 +1,3 @@
-
 import api from "@/lib/axios";
 import { AxiosError } from "axios";
 import cookies from "js-cookie";
@@ -13,14 +12,15 @@ export async function getExamQuestions(examId: string) {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 }
 
-export async function submitExam(examId: string, answers: { question: string; answer: number }[]) {
+export async function submitExam(
+  examId: string,
+  answers: { questionId: string; selectedAnswer: number }[]
+) {
   try {
     const response = await api.post(
       `/scores/exam/${examId}/submit`,
@@ -34,9 +34,7 @@ export async function submitExam(examId: string, answers: { question: string; an
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Failed to submit exam";
+      err.response?.data?.message || err.message || "Failed to submit exam";
     throw new Error(message);
   }
 }
@@ -51,9 +49,7 @@ export async function getResult(examId: string) {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Failed to get result";
+      err.response?.data?.message || err.message || "Failed to get result";
     throw new Error(message);
   }
 }

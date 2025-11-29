@@ -3,14 +3,10 @@ import { AxiosError } from "axios";
 import { Exam, Subject, SubjectDetail, Topic } from "@/types";
 
 // subjects fetch
-export const getAllSubjects = async () => {
+export const getAllSubjects = async (): Promise<Subject[]> => {
   try {
-    // const response = await api.get<{ subjects: Subject[] }>("/subjects");
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/subjects`,
-      { cache: "force-cache" }
-    );
-    return response.json();
+    const response = await api.get<{ subjects: Subject[] }>("/subjects");
+    return response.data.subjects;
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
