@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import api from "@/lib/axios";
+import { AxiosError } from "axios";
 import cookies from "js-cookie";
 
 export async function getExamQuestions(examId: string) {
@@ -9,10 +10,11 @@ export async function getExamQuestions(examId: string) {
     });
 
     return response.data.questions;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }
@@ -29,10 +31,11 @@ export async function submitExam(examId: string, answers: { question: string; an
     );
 
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Failed to submit exam";
     throw new Error(message);
   }
@@ -45,10 +48,11 @@ export async function getResult(examId: string) {
     });
 
     return response.data.result;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Failed to get result";
     throw new Error(message);
   }

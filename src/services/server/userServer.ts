@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import api from "@/lib/axios";
+import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { User, Score } from "@/types";
 
@@ -15,10 +16,11 @@ export const getUserProfileServer = async (): Promise<User> => {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data.user;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }
@@ -31,10 +33,11 @@ export const getUserScoresServer = async (): Promise<Score[]> => {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data.scores;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }

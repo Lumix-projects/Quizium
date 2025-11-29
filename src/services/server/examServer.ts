@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import api from "@/lib/axios";
+import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { Question, Exam } from "@/types";
 
@@ -16,10 +17,11 @@ export async function getExamDetailsServer(examId: string) {
         });
 
         return response.data.exam as Exam;
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const err = error as AxiosError<{ message: string }>;
         const message =
-            error?.response?.data?.message ||
-            error?.message ||
+            err.response?.data?.message ||
+            err.message ||
             "Something went wrong";
         throw new Error(message);
     }
@@ -34,10 +36,11 @@ export async function getExamQuestionsServer(examId: string) {
         });
 
         return response.data.questions as Question[];
-    } catch (error: any) {
+    } catch (error: unknown) {
+        const err = error as AxiosError<{ message: string }>;
         const message =
-            error?.response?.data?.message ||
-            error?.message ||
+            err.response?.data?.message ||
+            err.message ||
             "Something went wrong";
         throw new Error(message);
     }

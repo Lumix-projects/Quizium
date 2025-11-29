@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import api from "@/lib/axios";
+import { AxiosError } from "axios";
 import { User, Score } from "@/types";
 import cookies from "js-cookie";
 
@@ -9,10 +10,11 @@ export const getUserProfile = async (): Promise<User> => {
       headers: { Authorization: `Bearer ${cookies.get("token")}` },
     });
     return response.data.user;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }
@@ -27,10 +29,11 @@ export const updateUserProfile = async (data: {
       headers: { Authorization: `Bearer ${cookies.get("token")}` },
     });
     return response.data.user;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }
@@ -52,10 +55,11 @@ export const uploadProfileImage = async (file: File): Promise<string> => {
       }
     );
     return response.data.profileImage;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }
@@ -69,10 +73,11 @@ export const changePassword = async (data: {
     await api.put("/change-password", data, {
       headers: { Authorization: `Bearer ${cookies.get("token")}` },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }
@@ -83,10 +88,11 @@ export const deleteAccount = async (): Promise<void> => {
     await api.delete("/account", {
       headers: { Authorization: `Bearer ${cookies.get("token")}` },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }
@@ -98,10 +104,11 @@ export const getUserScores = async (): Promise<Score[]> => {
       headers: { Authorization: `Bearer ${cookies.get("token")}` },
     });
     return response.data.scores;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }

@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 import { LoginData, SignUpData } from "@/types/auth";
 import api from "@/lib/axios";
+import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import cookies from "js-cookie";
 export async function registerUser(
@@ -12,10 +13,11 @@ export async function registerUser(
     toast.success("Registration successful!");
 
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }
@@ -31,10 +33,11 @@ export async function loginUser(values: LoginData) {
     }
 
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
     const message =
-      error?.response?.data?.message ||
-      error?.message ||
+      err.response?.data?.message ||
+      err.message ||
       "Something went wrong";
     throw new Error(message);
   }
