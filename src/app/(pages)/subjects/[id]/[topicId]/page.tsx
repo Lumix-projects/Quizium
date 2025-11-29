@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useTopicDetails } from "@/hooks/useSubject";
-import { FiArrowLeft, FiBook, FiAward, FiList } from "react-icons/fi";
+import { FiBook, FiAward, FiList } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
+import BackBtn from "@/components/shared/BackBtn";
 
 export default function TopicDetailsPage() {
   const { id, topicId } = useParams();
-  const router = useRouter();
   const [imageError, setImageError] = useState(false);
   const { topic } = useTopicDetails(id as string, topicId as string);
 
@@ -20,13 +20,8 @@ export default function TopicDetailsPage() {
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
       {/* Back Button */}
-      <button
-        onClick={() => router.back()}
-        className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors"
-      >
-        <FiArrowLeft />
-        <span>Back to Subject</span>
-      </button>
+
+      <BackBtn backTo="Subject" />
 
       {/* Hero Section */}
       <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">

@@ -60,7 +60,7 @@ export interface AnswerResult {
 export interface Score {
   _id: string;
   user: string | User;
-  exam: string | Exam;
+  exam: Exam;
   score: number;
   totalMarks: number;
   percentage: number;

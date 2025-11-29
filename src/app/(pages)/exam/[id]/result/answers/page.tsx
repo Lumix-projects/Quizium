@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import BackBtn from "@/components/shared/BackBtn";
 import { cn } from "@/lib/utils";
 import { getResultServer } from "@/services/server/examServer";
 
@@ -12,6 +13,7 @@ export default async function Answers({
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6">
+      <BackBtn />
       <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-sm">
         <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
           Exam Results
@@ -48,14 +50,18 @@ export default async function Answers({
             const question = answerItem.question;
             const userAnswer = answerItem.selectedAnswer;
             const correctAnswer = question.correctAnswer;
-            const isCorrect = userAnswer === correctAnswer;
+            const isAnswered = userAnswer !== null && userAnswer !== undefined;
+            const isCorrect = isAnswered && userAnswer === correctAnswer;
+            const isNotAnswered = !isAnswered;
 
             return (
               <div
                 key={question._id}
                 className={cn(
                   "border-2 rounded-xl p-4 md:p-6 space-y-4",
-                  isCorrect
+                  isNotAnswered
+                    ? "border-yellow-500 bg-yellow-50"
+                    : isCorrect
                     ? "border-green-500 bg-green-50"
                     : "border-red-500 bg-red-50"
                 )}
@@ -64,7 +70,11 @@ export default async function Answers({
                   <div
                     className={cn(
                       "shrink-0 w-8 h-8 rounded-full text-white flex items-center justify-center font-semibold",
-                      isCorrect ? "bg-green-500" : "bg-red-500"
+                      isNotAnswered
+                        ? "bg-yellow-500"
+                        : isCorrect
+                        ? "bg-green-500"
+                        : "bg-red-500"
                     )}
                   >
                     {index + 1}
@@ -77,12 +87,18 @@ export default async function Answers({
                       <span
                         className={cn(
                           "px-2 py-1 rounded text-sm font-medium self-start whitespace-nowrap",
-                          isCorrect
+                          isNotAnswered
+                            ? "bg-yellow-100 text-yellow-800"
+                            : isCorrect
                             ? "bg-green-100 text-green-800"
                             : "bg-red-100 text-red-800"
                         )}
                       >
-                        {isCorrect ? "Correct" : "Incorrect"}
+                        {isNotAnswered
+                          ? "Not Answered"
+                          : isCorrect
+                          ? "Correct"
+                          : "Incorrect"}
                       </span>
                     </div>
 
@@ -139,6 +155,29 @@ export default async function Answers({
                         }
                       )}
                     </div>
+
+                    {/* Show message if not answered */}
+                    {isNotAnswered && (
+                      <div className="mt-4 p-3 bg-yellow-100 border border-yellow-300 rounded-lg">
+                        <p className="text-sm text-yellow-800 font-medium">
+                          ⚠️ You did not answer this question.
+                        </p>
+                        <p className="text-sm text-yellow-700 mt-1">
+                          <span className="font-medium">Correct answer:</span>{" "}
+                          {question.options[correctAnswer]}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Show correct answer if answered incorrectly */}
+                    {isAnswered && !isCorrect && (
+                      <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p className="text-sm text-blue-800">
+                          <span className="font-medium">Correct answer:</span>{" "}
+                          {question.options[correctAnswer]}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
