@@ -8,46 +8,23 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 
-export default async function ExamPage({
-    params,
-}: {
-    params: Promise<{ id: string }>;
-}) {
+export default async function ExamPage({params}: {params: Promise<{ id: string }>}) {
     const { id } = await params;
 
+    let examDetails: Exam | null = null;
+    let questions: Question[] | null = null;
+    let error = false;
+
     try {
-        const [examDetails, questions]: [Exam, Question[]] = await Promise.all([
+        [examDetails, questions] = await Promise.all([
             getExamDetailsServer(id),
             getExamQuestionsServer(id)
         ]);
+    } catch {
+        error = true;
+    }
 
-        const shuffledQuestions = shuffle(questions);
-
-        if (!shuffledQuestions || shuffledQuestions.length === 0) {
-            return (
-                <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
-                    <FiAlertCircle className="text-6xl text-muted-foreground" />
-                    <h1 className="text-2xl font-bold text-foreground">
-                        No Questions Found
-                    </h1>
-                    <p className="text-muted-foreground text-center max-w-md">
-                        This exam currently has no questions. Please check back later!
-                    </p>
-                </div>
-            );
-        }
-
-        return (
-            <div className="container mx-auto py-8 px-4">
-                <ExamInterface
-                    questions={shuffledQuestions}
-                    examId={id}
-                    duration={examDetails.duration}
-                    examTitle={examDetails.title}
-                />
-            </div>
-        );
-    } catch (error) {
+    if (error || !examDetails || !questions) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
                 <FiAlertCircle className="text-6xl text-error" />
@@ -60,4 +37,31 @@ export default async function ExamPage({
             </div>
         );
     }
+
+    const shuffledQuestions = shuffle(questions);
+
+    if (shuffledQuestions.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+                <FiAlertCircle className="text-6xl text-muted-foreground" />
+                <h1 className="text-2xl font-bold text-foreground">
+                    No Questions Found
+                </h1>
+                <p className="text-muted-foreground text-center max-w-md">
+                    This exam currently has no questions. Please check back later!
+                </p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="container mx-auto py-8 px-4">
+            <ExamInterface
+                questions={shuffledQuestions}
+                examId={id}
+                duration={examDetails.duration}
+                examTitle={examDetails.title}
+            />
+        </div>
+    );
 }

@@ -1,40 +1,14 @@
-"use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
 import { getResult } from "@/services/exam";
-import { Score } from "@/types";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import Link from "next/link";
 import { Skeleton } from "@/components/shared/Skeleton";
-import toast from "react-hot-toast";
 
-export default function ExamResultPage() {
-    const { id } = useParams();
-    const router = useRouter();
-    const [result, setResult] = useState<Score | null>(null);
-    const [loading, setLoading] = useState(true);
+export default async function ExamResultPage({params}: {params: Promise<{ id: string }>}) {
+    const { id } = await params;
+    const result = await getResult(id as string); 
 
-    useEffect(() => {
-        const fetchResult = async () => {
-            try {
-                const data = await getResult(id as string);
-                setResult(data);
-                router.refresh();
-            } catch (error) {
-                toast.error("Failed to load results");
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (id) {
-            fetchResult();
-        }
-    }, [id, router]);
-
-    if (loading) {
+    if (!result) {
         return (
             <div className="max-w-4xl mx-auto p-6 space-y-8">
                 <div className="bg-card border border-border rounded-2xl p-8 text-center space-y-4">
