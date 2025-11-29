@@ -1,4 +1,3 @@
-
 import api from "@/lib/axios";
 import { AxiosError } from "axios";
 import { User, Score } from "@/types";
@@ -13,9 +12,7 @@ export const getUserProfile = async (): Promise<User> => {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -32,9 +29,7 @@ export const updateUserProfile = async (data: {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -45,7 +40,7 @@ export const uploadProfileImage = async (file: File): Promise<string> => {
     formData.append("profileImage", file);
 
     const response = await api.post<{ profileImage: string }>(
-      "/profile/image",
+      "user/profile/image",
       formData,
       {
         headers: {
@@ -58,9 +53,7 @@ export const uploadProfileImage = async (file: File): Promise<string> => {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -76,9 +69,7 @@ export const changePassword = async (data: {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -91,9 +82,7 @@ export const deleteAccount = async (): Promise<void> => {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -107,9 +96,21 @@ export const getUserScores = async (): Promise<Score[]> => {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
+    throw new Error(message);
+  }
+};
+
+export const deleteProfileImage = async (): Promise<User> => {
+  try {
+    const response = await api.delete<{ user: User }>("user/profile/image", {
+      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+    });
+    return response.data.user;
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
+    const message =
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
