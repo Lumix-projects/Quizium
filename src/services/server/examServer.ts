@@ -45,3 +45,22 @@ export async function getExamQuestionsServer(examId: string) {
         throw new Error(message);
     }
 }
+
+export async function getResultServer(examId: string) {
+    const token = await getServerToken();
+
+    try {
+        const response = await api.get(`/scores/exam/${examId}/result`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        return response.data.result;
+    } catch (error: unknown) {
+        const err = error as AxiosError<{ message: string }>;
+        const message =
+            err.response?.data?.message ||
+            err.message ||
+            "Failed to get result";
+        throw new Error(message);
+    }
+}

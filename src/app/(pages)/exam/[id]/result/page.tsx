@@ -1,12 +1,12 @@
 
-import { getResult } from "@/services/exam";
+import { getResultServer } from "@/services/server/examServer";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import Link from "next/link";
 import { Skeleton } from "@/components/shared/Skeleton";
 
 export default async function ExamResultPage({params}: {params: Promise<{ id: string }>}) {
     const { id } = await params;
-    const result = await getResult(id as string); 
+    const result = await getResultServer(id as string); 
 
     if (!result) {
         return (
