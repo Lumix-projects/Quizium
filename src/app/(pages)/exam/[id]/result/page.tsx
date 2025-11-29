@@ -93,6 +93,12 @@ export default async function ExamResultPage({
           Back to Dashboard
         </Link>
         <Link
+          href={`/exam/${id}/result/answers`}
+          className="px-8 py-3 rounded-xl border-2 border-border text-foreground font-semibold hover:bg-muted transition-colors"
+        >
+          Review Answers
+        </Link>
+        <Link
           href="/history"
           className="px-8 py-3 rounded-xl border-2 border-border text-foreground font-semibold hover:bg-muted transition-colors"
         >
