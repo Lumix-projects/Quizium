@@ -1,11 +1,13 @@
 "use client";
 import DashboardCard from "@/components/shared/dashboard/DashboardCard";
 import { useSettingsPage } from "@/hooks/useSettings";
+import { Trash2 } from "lucide-react";
 
 export default function SettingsPage() {
   const {
     user,
     uploadingImage,
+    removingImage,
     profileData,
     setProfileData,
     passwordData,
@@ -13,6 +15,7 @@ export default function SettingsPage() {
     handleProfileUpdate,
     handlePasswordChange,
     handleImageUpload,
+    handleRemoveProfileImage,
     handleDeleteAccount,
   } = useSettingsPage();
 
@@ -36,26 +39,38 @@ export default function SettingsPage() {
                   {user?.name?.charAt(0)}
                 </div>
               )}
-              {uploadingImage && (
+              {(uploadingImage || removingImage) && (
                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                 </div>
               )}
             </div>
-            <div>
-              <label className="block text-sm font-medium text-blue-600 cursor-pointer hover:text-blue-700 transition-colors">
-                Change Photo
-                <input
-                  type="file"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  disabled={uploadingImage}
-                />
-              </label>
-              <p className="text-xs text-slate-500 mt-1">
-                Max 5MB. JPG, PNG, GIF.
-              </p>
+            <div className="flex-1 space-y-2">
+              <div className="flex gap-2">
+                <label className="block text-sm font-medium text-blue-600 cursor-pointer hover:text-blue-700 transition-colors px-3 py-1 border border-blue-200 rounded-lg bg-blue-50">
+                  Change Photo
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploadingImage || removingImage}
+                  />
+                </label>
+
+                {user?.profileImage && (
+                  <button
+                    type="button"
+                    onClick={handleRemoveProfileImage}
+                    disabled={uploadingImage || removingImage}
+                    className="flex items-center gap-1 text-sm font-medium text-red-600 cursor-pointer hover:text-red-700 transition-colors px-3 py-1 border border-red-200 rounded-lg bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                    {removingImage ? "Removing..." : "Remove"}
+                  </button>
+                )}
+              </div>
+              <p className="text-xs text-slate-500">Max 5MB. JPG, PNG, GIF.</p>
             </div>
           </div>
 
