@@ -109,13 +109,6 @@ export const useSettingsPage = () => {
   };
 
   const handleDeleteAccount = async () => {
-    if (
-      !window.confirm(
-        "Are you sure you want to delete your account? This action is irreversible."
-      )
-    )
-      return;
-
     try {
       await removeAccount();
       cookies.remove("token");

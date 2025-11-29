@@ -76,7 +76,7 @@ export const changePassword = async (data: {
 
 export const deleteAccount = async (): Promise<void> => {
   try {
-    await api.delete("/account", {
+    await api.delete("user/account", {
       headers: { Authorization: `Bearer ${cookies.get("token")}` },
     });
   } catch (error: unknown) {

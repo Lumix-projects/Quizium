@@ -27,6 +27,13 @@ export default function SettingsPage() {
       onConfirm: handleRemoveProfileImage,
     });
   };
+  const confirmDeleteAccount = () => {
+    showConfirmToast({
+      message:
+        "Are you sure you want to delete your account? This action cannot be undone.",
+      onConfirm: handleDeleteAccount,
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -178,7 +185,7 @@ export default function SettingsPage() {
                 </p>
               </div>
               <button
-                onClick={handleDeleteAccount}
+                onClick={confirmDeleteAccount}
                 className="bg-red-50 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium"
               >
                 Delete Account
