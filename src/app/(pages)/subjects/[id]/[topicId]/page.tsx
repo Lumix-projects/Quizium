@@ -3,57 +3,15 @@
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTopicDetails } from "@/hooks/useSubject";
-import { FiArrowLeft, FiBook, FiClock, FiAward, FiList } from "react-icons/fi";
+import { FiArrowLeft, FiBook, FiAward, FiList } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
-import { Skeleton } from "@/components/shared/Skeleton";
 
 export default function TopicDetailsPage() {
   const { id, topicId } = useParams();
   const router = useRouter();
   const [imageError, setImageError] = useState(false);
-  const { topic, loading } = useTopicDetails(id as string, topicId as string);
-
-  if (loading) {
-    return (
-      <div className="space-y-8 max-w-5xl mx-auto">
-        <Skeleton className="h-6 w-32" />
-        <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
-          <div className="relative h-64 md:h-80 bg-muted/20">
-            <Skeleton className="w-full h-full" />
-          </div>
-          <div className="p-6 md:p-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="md:col-span-2 space-y-8">
-                <div className="space-y-4">
-                  <Skeleton className="h-8 w-48" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-2/3" />
-                  </div>
-                </div>
-                <Skeleton className="h-12 w-48 rounded-xl" />
-              </div>
-              <div className="bg-muted/30 rounded-xl p-6 h-fit border border-border/50 space-y-4">
-                <Skeleton className="h-6 w-32" />
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center py-2 border-b border-border/50">
-                    <Skeleton className="h-4 w-16" />
-                    <Skeleton className="h-5 w-16" />
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-border/50">
-                    <Skeleton className="h-4 w-16" />
-                    <Skeleton className="h-4 w-24" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const { topic } = useTopicDetails(id as string, topicId as string);
 
   if (!topic) {
     return null;

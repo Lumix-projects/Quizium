@@ -1,12 +1,10 @@
 "use client";
 import DashboardCard from "@/components/shared/dashboard/DashboardCard";
-import { Skeleton } from "@/components/shared/Skeleton";
 import { useSettingsPage } from "@/hooks/useSettings";
 
 export default function SettingsPage() {
   const {
     user,
-    userLoading,
     uploadingImage,
     profileData,
     setProfileData,
@@ -17,76 +15,6 @@ export default function SettingsPage() {
     handleImageUpload,
     handleDeleteAccount,
   } = useSettingsPage();
-
-  if (userLoading) {
-    return (
-      <div className="space-y-6">
-        <Skeleton className="h-8 w-32" />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Profile Skeleton */}
-          <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm">
-            <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-              <Skeleton className="h-6 w-40" />
-            </div>
-            <div className="p-6 pt-0 space-y-6">
-              <div className="flex items-center gap-4 mb-6">
-                <Skeleton className="h-20 w-20 rounded-full" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-3 w-32" />
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-10 w-full rounded-lg" />
-                </div>
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-10 w-full rounded-lg" />
-                </div>
-                <Skeleton className="h-10 w-32 rounded-lg mt-4" />
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            {/* Password Skeleton */}
-            <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm">
-              <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                <Skeleton className="h-6 w-40" />
-              </div>
-              <div className="p-6 pt-0 space-y-4">
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-32" />
-                  <Skeleton className="h-10 w-full rounded-lg" />
-                </div>
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-32" />
-                  <Skeleton className="h-10 w-full rounded-lg" />
-                </div>
-                <Skeleton className="h-10 w-40 rounded-lg mt-4" />
-              </div>
-            </div>
-
-            {/* Danger Zone Skeleton */}
-            <div className="rounded-xl border border-red-100 bg-card text-card-foreground shadow-sm">
-              <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                <Skeleton className="h-6 w-32" />
-              </div>
-              <div className="p-6 pt-0 flex justify-between items-center">
-                <div className="space-y-1">
-                  <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-3 w-48" />
-                </div>
-                <Skeleton className="h-9 w-32 rounded-lg" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">

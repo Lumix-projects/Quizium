@@ -1,19 +1,20 @@
-
 import api from "@/lib/axios";
 import { AxiosError } from "axios";
 import { Exam, Subject, SubjectDetail, Topic } from "@/types";
 
 // subjects fetch
-export const getAllSubjects = async (): Promise<Subject[]> => {
+export const getAllSubjects = async () => {
   try {
-    const response = await api.get<{ subjects: Subject[] }>("/subjects");
-    return response.data.subjects;
+    // const response = await api.get<{ subjects: Subject[] }>("/subjects");
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/subjects`,
+      { cache: "force-cache" }
+    );
+    return response.json();
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -31,9 +32,7 @@ export const getSubjectById = async (subjectId: string) => {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -51,9 +50,7 @@ export const getAllTopics = async (subjectId: string) => {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -79,9 +76,7 @@ export const getTopicById = async (
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -94,9 +89,7 @@ export const getAllExams = async (): Promise<Exam[]> => {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -111,9 +104,7 @@ export const getExamBySubject = async (subjectId: string): Promise<Exam[]> => {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
@@ -129,9 +120,7 @@ export const getExamById = async (examId: string): Promise<Exam> => {
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
     const message =
-      err.response?.data?.message ||
-      err.message ||
-      "Something went wrong";
+      err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);
   }
 };
