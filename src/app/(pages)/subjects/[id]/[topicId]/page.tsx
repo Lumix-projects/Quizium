@@ -82,16 +82,6 @@ export default function TopicDetailsPage() {
                     "No description available for this topic."}
                 </p>
               </div>
-
-              <div className="pt-4">
-                <Link
-                  href={`/quizzes?topic=${topic.id}`}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary-hover transition-all duration-200 active:scale-95 shadow-lg shadow-primary/20"
-                >
-                  <FiAward className="text-xl" />
-                  <span>Start Quiz for this Topic</span>
-                </Link>
-              </div>
             </div>
 
             <div className="bg-muted/30 rounded-xl p-6 h-fit border border-border/50">
