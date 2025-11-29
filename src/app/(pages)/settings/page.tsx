@@ -1,7 +1,9 @@
 "use client";
 import DashboardCard from "@/components/shared/dashboard/DashboardCard";
+import { showConfirmToast } from "@/components/shared/showConfirmToast";
 import { useSettingsPage } from "@/hooks/useSettings";
 import { Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function SettingsPage() {
   const {
@@ -18,6 +20,13 @@ export default function SettingsPage() {
     handleRemoveProfileImage,
     handleDeleteAccount,
   } = useSettingsPage();
+
+  const confirmRemoveProfileImage = () => {
+    showConfirmToast({
+      message: "Are you sure you want to remove your profile image?",
+      onConfirm: handleRemoveProfileImage,
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -61,7 +70,7 @@ export default function SettingsPage() {
                 {user?.profileImage && (
                   <button
                     type="button"
-                    onClick={handleRemoveProfileImage}
+                    onClick={confirmRemoveProfileImage}
                     disabled={uploadingImage || removingImage}
                     className="flex items-center gap-1 text-sm font-medium text-red-600 cursor-pointer hover:text-red-700 transition-colors px-3 py-1 border border-red-200 rounded-lg bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
