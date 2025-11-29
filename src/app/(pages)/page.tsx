@@ -11,6 +11,7 @@ import {
   getUserProfileServer,
   getUserScoresServer,
 } from "@/services/server/userServer";
+import Link from "next/link";
 
 export default async function HomePage() {
   // Fetch user, scores & exams
@@ -69,9 +70,9 @@ export default async function HomePage() {
       <DashboardCard
         title="Recent Activity"
         action={
-          <button className="text-sm text-primary font-medium hover:underline">
+          <Link href="/history" className="text-sm text-primary font-medium hover:underline">
             View All
-          </button>
+          </Link>
         }
       >
         <div className="space-y-3">
