@@ -1,6 +1,7 @@
+"use client";
 import { submitExam } from "@/services/exam";
 import { Question } from "@/types";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 

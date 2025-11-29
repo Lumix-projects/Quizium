@@ -1,4 +1,6 @@
 
+"use client";
+
 import { Question } from "@/types";
 import { FiCheckCircle } from "react-icons/fi";
 import { cn } from "@/lib/utils";
