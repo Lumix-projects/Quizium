@@ -52,9 +52,11 @@ export function useExam({ questions, examId, duration }: ExamInterfaceProps) {
       );
 
       await submitExam(examId, formattedAnswers);
-      toast.success(
-        autoSubmit ? "Exam submitted!" : "Exam submitted successfully!"
-      );
+      if (autoSubmit) {
+        toast.error("Time's up!");
+      } else {
+        toast.success("Exam submitted successfully!");
+      }
       router.push(`/exam/${examId}/result`);
     } catch (error) {
       toast.error(
@@ -65,7 +67,6 @@ export function useExam({ questions, examId, duration }: ExamInterfaceProps) {
   };
 
   if (timeRemaining === 0 && !isSubmitting) {
-    toast.error("Time's up! Exam is being submitted automatically.");
     handleSubmit(true);
   }
 
@@ -83,21 +84,24 @@ export function useExam({ questions, examId, duration }: ExamInterfaceProps) {
     return "text-foreground";
   };
 
-  const handleOptionSelect = (optionIndex: number) => {
+  const handleOptionSelect = (optionIndex: number, questionId?: string) => {
+    const targetQuestionId = questionId || currentQuestion._id;
+
     setAnswers((prev) => ({
       ...prev,
-      [currentQuestion._id]: optionIndex,
+      [targetQuestionId]: optionIndex,
     }));
-    console.log(answers);
 
-    if (isFlagged[currentQuestion._id]) {
+    if (isFlagged[targetQuestionId]) {
       setFlagged((prev) => ({
         ...prev,
-        [currentQuestion._id]: false,
+        [targetQuestionId]: false,
       }));
     }
 
-    handleNext();
+    if (!questionId) {
+      handleNext();
+    }
   };
 
   const handleNext = () => {

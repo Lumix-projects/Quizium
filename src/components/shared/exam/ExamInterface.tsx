@@ -74,13 +74,16 @@ export default function ExamInterface({
                         {question.options.map((option, optIndex) => {
                           const isSelected = userAnswer === optIndex;
                           return (
-                            <div
+                            <button
                               key={optIndex}
+                              onClick={() =>
+                                handleOptionSelect(optIndex, question._id)
+                              }
                               className={cn(
-                                "p-3 rounded-lg border-2 transition-all",
+                                "w-full text-left p-3 rounded-lg border-2 transition-all hover:border-primary/50",
                                 isSelected
                                   ? "border-primary bg-primary/10 font-medium"
-                                  : "border-border bg-background/50"
+                                  : "border-border bg-background/50 hover:bg-muted/50"
                               )}
                             >
                               <div className="flex items-center gap-2">
@@ -106,7 +109,7 @@ export default function ExamInterface({
                                   {option}
                                 </span>
                               </div>
-                            </div>
+                            </button>
                           );
                         })}
                         {isFlagged[question._id] && (
