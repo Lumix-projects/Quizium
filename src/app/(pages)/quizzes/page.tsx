@@ -1,7 +1,7 @@
 import ExamCard from "@/components/shared/dashboard/ExamCard";
 import { FiAlertCircle } from "react-icons/fi";
-import { getAllExams } from "@/services/content";
 import DifficultyFilter from "@/components/shared/dashboard/DifficultyFilter";
+import { getAllExamsServer } from "@/services/server/examServer";
 
 export default async function QuizzesPage({
   searchParams,
@@ -13,7 +13,7 @@ export default async function QuizzesPage({
   const difficulty = params.difficulty;
 
   // Fetch exams
-  const exams = await getAllExams();
+  const exams = await getAllExamsServer();
 
   if (!exams || exams.length === 0) {
     return (

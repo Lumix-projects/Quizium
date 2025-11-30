@@ -6,17 +6,18 @@ import {
   FiCheckCircle,
   FiClock,
 } from "react-icons/fi";
-import { getAllExams } from "@/services/content";
+
 import {
   getUserProfileServer,
   getUserScoresServer,
 } from "@/services/server/userServer";
 import Link from "next/link";
+import { getAllExamsServer } from "@/services/server/examServer";
 
 export default async function HomePage() {
   // Fetch user, scores & exams
   const [exams, user, scores] = await Promise.all([
-    getAllExams(),
+    getAllExamsServer(),
     getUserProfileServer(),
     getUserScoresServer(),
   ]);
@@ -70,7 +71,10 @@ export default async function HomePage() {
       <DashboardCard
         title="Recent Activity"
         action={
-          <Link href="/history" className="text-sm text-primary font-medium hover:underline">
+          <Link
+            href="/history"
+            className="text-sm text-primary font-medium hover:underline"
+          >
             View All
           </Link>
         }

@@ -1,6 +1,7 @@
 import api from "@/lib/axios";
 import { AxiosError } from "axios";
 import { Exam, Subject, SubjectDetail, Topic } from "@/types";
+import cookies from "js-cookie";
 
 // subjects fetch
 export const getAllSubjects = async (): Promise<Subject[]> => {
@@ -80,7 +81,9 @@ export const getTopicById = async (
 // exams fetch
 export const getAllExams = async (): Promise<Exam[]> => {
   try {
-    const response = await api.get<{ exams: Exam[] }>("/exams");
+    const response = await api.get<{ exams: Exam[] }>("/exams", {
+      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+    });
     return response.data.exams;
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
