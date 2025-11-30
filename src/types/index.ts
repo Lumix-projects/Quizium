@@ -5,8 +5,6 @@ export interface User {
   email: string;
   profileImage?: string;
   isAdmin: boolean;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface Subject {
@@ -15,7 +13,7 @@ export interface Subject {
   title: string;
   description?: string;
   image: string;
-  createdBy: string | User;
+  createdBy: string;
   createdAt: string;
   updatedAt: string;
 }
