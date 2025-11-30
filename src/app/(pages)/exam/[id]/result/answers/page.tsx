@@ -45,7 +45,7 @@ export default async function Answers({
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {result.answers.map((answerItem: any, index: number) => {
             const question = answerItem.question;
             const userAnswer = answerItem.selectedAnswer;
@@ -58,18 +58,18 @@ export default async function Answers({
               <div
                 key={question._id}
                 className={cn(
-                  "border-2 rounded-xl p-4 md:p-6 space-y-4",
+                  "border rounded-xl p-4 md:p-6 space-y-4 h-full flex flex-col",
                   isNotAnswered
-                    ? "border-yellow-500 bg-yellow-50"
+                    ? "border-yellow-500/50 bg-yellow-500/5"
                     : isCorrect
-                    ? "border-green-500 bg-green-50"
-                    : "border-red-500 bg-red-50"
+                    ? "border-green-500/50 bg-green-500/5"
+                    : "border-red-500/50 bg-red-500/5"
                 )}
               >
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3 flex-1">
                   <div
                     className={cn(
-                      "shrink-0 w-8 h-8 rounded-full text-white flex items-center justify-center font-semibold",
+                      "shrink-0 w-8 h-8 rounded-full text-white flex items-center justify-center font-semibold text-sm shadow-sm",
                       isNotAnswered
                         ? "bg-yellow-500"
                         : isCorrect
@@ -79,19 +79,19 @@ export default async function Answers({
                   >
                     {index + 1}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                      <h3 className="text-base sm:text-lg font-semibold text-foreground wrap-break-word">
+                  <div className="flex-1 min-w-0 flex flex-col h-full">
+                    <div className="flex flex-col gap-2 mb-4">
+                      <h3 className="text-base font-semibold text-foreground leading-snug">
                         {question.questionText}
                       </h3>
                       <span
                         className={cn(
-                          "px-2 py-1 rounded text-sm font-medium self-start whitespace-nowrap",
+                          "px-2.5 py-0.5 rounded-full text-xs font-medium self-start whitespace-nowrap border",
                           isNotAnswered
-                            ? "bg-yellow-100 text-yellow-800"
+                            ? "bg-yellow-500/10 text-yellow-700 border-yellow-500/20"
                             : isCorrect
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
+                            ? "bg-green-500/10 text-green-700 border-green-500/20"
+                            : "bg-red-500/10 text-red-700 border-red-500/20"
                         )}
                       >
                         {isNotAnswered
@@ -102,7 +102,7 @@ export default async function Answers({
                       </span>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-2.5 flex-1">
                       {question.options.map(
                         (option: string, optIndex: number) => {
                           const isSelected = userAnswer === optIndex;
@@ -112,18 +112,18 @@ export default async function Answers({
                             <div
                               key={optIndex}
                               className={cn(
-                                "w-full text-left p-3 rounded-lg border-2 transition-all",
+                                "w-full text-left p-3 rounded-lg border transition-all text-sm",
                                 isCorrectOption
-                                  ? "border-green-500 bg-green-100 font-medium"
+                                  ? "border-green-500/50 bg-green-500/10 font-medium"
                                   : isSelected
-                                  ? "border-red-500 bg-red-100 font-medium"
-                                  : "border-border bg-background/50"
+                                  ? "border-red-500/50 bg-red-500/10 font-medium"
+                                  : "border-border/50 bg-background/50"
                               )}
                             >
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2.5">
                                 <div
                                   className={cn(
-                                    "w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0",
+                                    "w-4 h-4 rounded-full border flex items-center justify-center shrink-0",
                                     isCorrectOption
                                       ? "border-green-500 bg-green-500"
                                       : isSelected
@@ -132,22 +132,20 @@ export default async function Answers({
                                   )}
                                 >
                                   {(isCorrectOption || isSelected) && (
-                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                    <div className="w-1.5 h-1.5 bg-white rounded-full" />
                                   )}
                                 </div>
                                 <span
                                   className={cn(
-                                    "wrap-break-word",
+                                    "leading-tight",
                                     isCorrectOption
                                       ? "text-green-700"
                                       : isSelected
                                       ? "text-red-700"
-                                      : "text-foreground/70"
+                                      : "text-foreground/80"
                                   )}
                                 >
                                   {option}
-                                  {isCorrectOption && " ✓"}
-                                  {isSelected && !isCorrectOption && " ✗"}
                                 </span>
                               </div>
                             </div>
@@ -158,11 +156,11 @@ export default async function Answers({
 
                     {/* Show message if not answered */}
                     {isNotAnswered && (
-                      <div className="mt-4 p-3 bg-yellow-100 border border-yellow-300 rounded-lg">
-                        <p className="text-sm text-yellow-800 font-medium">
-                          ⚠️ You did not answer this question.
+                      <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                        <p className="text-xs text-yellow-800 font-medium flex items-center gap-1.5">
+                          <span>⚠️</span> You did not answer this question.
                         </p>
-                        <p className="text-sm text-yellow-700 mt-1">
+                        <p className="text-xs text-yellow-700 mt-1 pl-5">
                           <span className="font-medium">Correct answer:</span>{" "}
                           {question.options[correctAnswer]}
                         </p>
@@ -171,8 +169,8 @@ export default async function Answers({
 
                     {/* Show correct answer if answered incorrectly */}
                     {isAnswered && !isCorrect && (
-                      <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                        <p className="text-sm text-blue-800">
+                      <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                        <p className="text-xs text-blue-800 pl-1">
                           <span className="font-medium">Correct answer:</span>{" "}
                           {question.options[correctAnswer]}
                         </p>
