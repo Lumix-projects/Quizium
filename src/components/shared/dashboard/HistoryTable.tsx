@@ -1,10 +1,5 @@
-import {
-  FiCheckCircle,
-  FiXCircle,
-  FiAward,
-  FiCalendar,
-  FiTrendingUp,
-} from "react-icons/fi";
+import Link from "next/link";
+import { FiCheckCircle, FiXCircle, FiAward, FiCalendar } from "react-icons/fi";
 
 interface Exam {
   _id: string;
@@ -13,7 +8,7 @@ interface Exam {
 
 interface Score {
   _id: string;
-  exam: string | Exam;
+  exam: Exam;
   createdAt: string;
   score: number;
   totalMarks: number;
@@ -116,14 +111,12 @@ export default function HistoryTable({ scores }: HistoryTableProps) {
                 </div>
               </div>
 
-              <a
-                href={`/exam/${
-                  typeof score.exam === "string" ? score.exam : score.exam._id
-                }/result/answers`}
+              <Link
+                href={`answers/${score.exam._id}`}
                 className="main-btn block w-full text-center"
               >
                 View Answers
-              </a>
+              </Link>
             </div>
           );
         })}
@@ -219,16 +212,12 @@ export default function HistoryTable({ scores }: HistoryTableProps) {
                       </span>
                     </td>
                     <td className="py-4 px-6 text-center">
-                      <a
-                        href={`/exam/${
-                          typeof score.exam === "string"
-                            ? score.exam
-                            : score.exam._id
-                        }/result/answers`}
-                        className="main-btn inline-block w-fit ms-auto"
+                      <Link
+                        href={`answers/${score.exam._id}`}
+                        className="main-btn block w-full text-center"
                       >
                         View Answers
-                      </a>
+                      </Link>
                     </td>
                   </tr>
                 );

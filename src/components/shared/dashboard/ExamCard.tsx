@@ -6,11 +6,16 @@ import {
   FiPlay,
   FiUser,
   FiCalendar,
+  FiEye,
+  FiAlertCircle,
 } from "react-icons/fi";
 import Link from "next/link";
 
 interface ExamCardProps {
-  exam: Exam;
+  exam: Exam & {
+    canTakeExam?: boolean;
+    remainingAttempts?: number;
+  };
 }
 
 // Format creation date into human-friendly text
@@ -76,6 +81,10 @@ export default function ExamCard({ exam }: ExamCardProps) {
 
   // Difficulty badge styles based on exam difficulty
   const difficultyStyles = getDifficultyStyles(exam.difficulty);
+
+  // Determine if user can take the exam
+  const canTakeExam = exam.canTakeExam ?? true;
+  const remainingAttempts = exam.remainingAttempts ?? 2;
 
   return (
     <div className="rounded-xl shadow-md transition-all duration-300 overflow-hidden border border-border group bg-background hover:shadow-xl hover:border-primary/20 flex flex-col">
@@ -149,22 +158,55 @@ export default function ExamCard({ exam }: ExamCardProps) {
         </div>
       </div>
 
-      {/* Footer: creation date + start button */}
-      <div className="px-6 py-4 flex items-center justify-between border-t border-border bg-border/20">
-        {/* Date */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <FiCalendar className="w-4 h-4" />
-          <span>{formatDate(exam.createdAt)}</span>
+      {/* Footer: creation date + attempts info + button */}
+      <div className="px-6 py-4 flex items-start justify-between border-t border-border bg-border/20">
+        <div className="flex flex-col md:flex-row md:items-center gap-4">
+          {/* Date */}
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <FiCalendar className="w-4 h-4" />
+            <span>{formatDate(exam.createdAt)}</span>
+          </div>
+
+          {/* Attempts info - always shown */}
+          <div className="flex items-center gap-2">
+            <div
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${
+                remainingAttempts > 1
+                  ? "bg-blue-50 text-blue-700 border border-blue-200"
+                  : remainingAttempts === 1
+                  ? "bg-yellow-50 text-yellow-700 border border-yellow-200"
+                  : "bg-red-50 text-red-700 border border-red-200"
+              }`}
+            >
+              {!canTakeExam && remainingAttempts === 0 && (
+                <FiAlertCircle className="w-3.5 h-3.5 mr-0.5" />
+              )}
+              <span className="font-bold">{remainingAttempts}</span>
+              <span>attempt{remainingAttempts !== 1 ? "s" : ""} left</span>
+            </div>
+          </div>
         </div>
 
-        {/* Start exam button */}
-        <Link
-          href={`/exam/${exam._id}`}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer bg-primary text-white shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-95 transition-all duration-300"
-        >
-          <FiPlay className="w-4 h-4" />
-          Start Quiz
-        </Link>
+        {/* Conditional button based on canTakeExam */}
+        {canTakeExam ? (
+          /* Start Quiz button - enabled */
+          <Link
+            href={`/exam/${exam._id}`}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer bg-primary text-white shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-95 transition-all duration-300"
+          >
+            <FiPlay className="w-4 h-4" />
+            Start Quiz
+          </Link>
+        ) : (
+          /* View Answers button - when attempts exhausted */
+          <Link
+            href={`/answers/${exam._id}`}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer bg-gray-200 text-gray-700 shadow-sm hover:bg-gray-300 hover:shadow-md active:scale-95 transition-all duration-300"
+          >
+            <FiEye className="w-4 h-4" />
+            View Answers
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -65,9 +65,22 @@ export async function getAnswersServer(examId: string) {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    return response.data.result;
+    return response.data;
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
+
+    // Check if this is the "not taken" error
+    if (
+      err.response?.data?.message ===
+      "You have not taken this exam yet or no results found"
+    ) {
+      // Return this as a normal response, not an error
+      return {
+        message: "You have not taken this exam yet or no results found",
+      };
+    }
+
+    // For all other errors, throw as usual
     const message =
       err.response?.data?.message || err.message || "Something went wrong";
     throw new Error(message);

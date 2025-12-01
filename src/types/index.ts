@@ -79,4 +79,6 @@ export interface Exam {
   createdBy: string | User;
   createdAt: string;
   updatedAt: string;
+  canTakeExam?: boolean;
+  remainingAttempts?: number;
 }
