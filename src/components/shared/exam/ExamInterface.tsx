@@ -151,7 +151,7 @@ export default function ExamInterface({
   }
 
   if (result) {
-    return <ExamResults data={result} />;
+    return <ExamResults data={result} examId={examId} />;
   }
 
   return (

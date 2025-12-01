@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BackBtn from "@/components/shared/BackBtn";
 import { cn } from "@/lib/utils";
-import { getResultServer } from "@/services/server/examServer";
+import { getAnswersServer } from "@/services/server/examServer";
 
 export default async function Answers({
   params,
@@ -9,11 +9,12 @@ export default async function Answers({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const result = await getResultServer(id as string);
+  const result = await getAnswersServer(id as string);
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6">
-      <BackBtn />
+      <BackBtn to="/history" label="Go to History" />
+
       <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-sm">
         <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
           Exam Results
@@ -45,7 +46,7 @@ export default async function Answers({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex flex-col gap-6">
           {result.answers.map((answerItem: any, index: number) => {
             const question = answerItem.question;
             const userAnswer = answerItem.selectedAnswer;
@@ -161,16 +162,6 @@ export default async function Answers({
                           <span>⚠️</span> You did not answer this question.
                         </p>
                         <p className="text-xs text-yellow-700 mt-1 pl-5">
-                          <span className="font-medium">Correct answer:</span>{" "}
-                          {question.options[correctAnswer]}
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Show correct answer if answered incorrectly */}
-                    {isAnswered && !isCorrect && (
-                      <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                        <p className="text-xs text-blue-800 pl-1">
                           <span className="font-medium">Correct answer:</span>{" "}
                           {question.options[correctAnswer]}
                         </p>

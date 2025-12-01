@@ -56,3 +56,20 @@ export const getAllExamsServer = async () => {
     throw new Error(message);
   }
 };
+
+export async function getAnswersServer(examId: string) {
+  const token = await getServerToken();
+
+  try {
+    const response = await api.get(`scores/answers/${examId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return response.data.result;
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
+    const message =
+      err.response?.data?.message || err.message || "Something went wrong";
+    throw new Error(message);
+  }
+}

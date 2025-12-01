@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Trophy,
   TrendingUp,
@@ -12,7 +11,13 @@ import { cn } from "@/lib/utils";
 import BackBtn from "../BackBtn";
 import Button from "../Button";
 
-const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
+const ExamResults = ({
+  data,
+  examId,
+}: {
+  data: ExamSubmitResponse;
+  examId: string;
+}) => {
   const { message, result, comparison } = data;
   const {
     score,
@@ -58,7 +63,7 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
       )}
     >
       {/* Back Button */}
-      <BackBtn />
+      <BackBtn to="/history" label="Go to History" />
 
       {/* Result Content */}
       <div
@@ -153,13 +158,15 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
           </div>
 
           {/* Render Review Answers if there is no Previous Attempt */}
-          {!comparison?.previousAttempt && <Button>Review Answers</Button>}
+          {!comparison?.previousAttempt && (
+            <Button href={`/answers/${examId}`}>Review Answers</Button>
+          )}
         </div>
 
         {/* Comparison Section */}
         {comparison?.previousAttempt && comparison?.improvement && (
-          <div>
-            <div className="bg-card border border-border rounded-xl p-6 space-y-4 self-start mb-6">
+          <div className="flex flex-col gap-6 ">
+            <div className="bg-card border border-border rounded-xl p-6 space-y-4 self-start w-full">
               <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <Target className="w-5 h-5 text-primary" />
                 Performance Comparison
@@ -245,7 +252,7 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
                 </div>
               </div>
             </div>
-            <Button>Review Answers</Button>
+            <Button href={`/answers/${examId}`}>Review Answers</Button>
           </div>
         )}
       </div>
