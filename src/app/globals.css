@@ -1,40 +1,78 @@
 @import "tailwindcss";
 
 :root {
+  /* Light Mode Colors */
   --background: #ffffff;
-  --foreground: #171717;
-  --primary: #243642;
-  --secondary: #387478;
-  --main: #629584;
-  --subMain: #e2f1e7;
-  --border: #d1d5dc;
-  --input: #d1e9ff;
-  --muted: #6a7282;
-  --input-focus: #93c9ff;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-hover: #fafafa;
+  --border: #e4e4e7;
+  --input: #f4f4f5;
+  --input-border: #e4e4e7;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary: #71717a;
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --muted: #a1a1aa;
+  --muted-foreground: #71717a;
+  --sidebar: #fafafa;
+  --sidebar-border: #e4e4e7;
+}
+
+.dark {
+  /* Dark Mode Colors */
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #18181b;
+  --card-hover: #27272a;
+  --border: #27272a;
+  --input: #18181b;
+  --input-border: #3f3f46;
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --secondary: #a1a1aa;
+  --accent: #a78bfa;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
+  --muted: #52525b;
+  --muted-foreground: #a1a1aa;
+  --sidebar: #18181b;
+  --sidebar-border: #27272a;
 }
 
 @theme inline {
   --color-muted: var(--muted);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-secondary: var(--secondary);
-  --color-main: var(--main);
-  --color-subMain: var(--subMain);
-  --color-input: var(--input);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
   --color-border: var(--border);
-  --color-input-focus: var(--input-focus);
+  --color-input: var(--input);
+  --color-input-border: var(--input-border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-border: var(--sidebar-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-inter: var(--font-inter);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ffffff;
-  }
-}
+/* * {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+} */
 
 body {
   background: var(--background);
@@ -43,9 +81,33 @@ body {
 
 @layer components {
   .input {
-    @apply border-2 border-input rounded-lg px-3 py-1.5 outline-0 focus:border-input-focus duration-300 w-full;
+    @apply bg-input border border-input-border rounded-lg px-3 py-2 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 duration-300 w-full text-foreground;
   }
+
   .main-btn {
-    @apply bg-primary text-background py-2 rounded-lg w-full cursor-pointer transition-all duration-300 hover:bg-primary/95 hover:-translate-y-0.5;
+    @apply bg-primary text-white py-2.5 px-4 rounded-lg w-full cursor-pointer transition-all duration-300 hover:bg-primary-hover active:scale-95 font-medium;
   }
+
+  .secondary-btn {
+    @apply p-2.5 rounded-full bg-card hover:bg-card-hover border border-border transition-all duration-300 cursor-pointer;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
 }
