@@ -16,6 +16,7 @@ export interface Subject {
   createdBy: string;
   createdAt: string;
   updatedAt: string;
+  status: "available" | "upcoming";
 }
 
 export interface SubjectDetail {
@@ -23,6 +24,7 @@ export interface SubjectDetail {
   title: string;
   description?: string;
   image?: string;
+  status: "available" | "upcoming";
   topics: Topic[];
 }
 

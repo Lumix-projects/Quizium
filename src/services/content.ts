@@ -6,7 +6,9 @@ import cookies from "js-cookie";
 // subjects fetch
 export const getAllSubjects = async (): Promise<Subject[]> => {
   try {
-    const response = await api.get<{ subjects: Subject[] }>("/subjects");
+    const response = await api.get<{ subjects: Subject[] }>("/subjects", {
+      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+    });
     return response.data.subjects;
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
@@ -83,21 +85,6 @@ export const getAllExams = async (): Promise<Exam[]> => {
   try {
     const response = await api.get<{ exams: Exam[] }>("/exams", {
       headers: { Authorization: `Bearer ${cookies.get("token")}` },
-    });
-    return response.data.exams;
-  } catch (error: unknown) {
-    const err = error as AxiosError<{ message: string }>;
-    const message =
-      err.response?.data?.message || err.message || "Something went wrong";
-    throw new Error(message);
-  }
-};
-
-// Get Exam by subject
-export const getExamBySubject = async (subjectId: string): Promise<Exam[]> => {
-  try {
-    const response = await api.get<{ exams: Exam[] }>("/exams", {
-      params: { subject: subjectId },
     });
     return response.data.exams;
   } catch (error: unknown) {
