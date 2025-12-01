@@ -83,4 +83,5 @@ export interface Exam {
   updatedAt: string;
   canTakeExam?: boolean;
   remainingAttempts?: number;
+  isPassed: boolean;
 }

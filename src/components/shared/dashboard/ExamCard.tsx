@@ -8,6 +8,7 @@ import {
   FiCalendar,
   FiEye,
   FiAlertCircle,
+  FiCheckCircle,
 } from "react-icons/fi";
 import Link from "next/link";
 
@@ -15,6 +16,7 @@ interface ExamCardProps {
   exam: Exam & {
     canTakeExam?: boolean;
     remainingAttempts?: number;
+    isPassed?: boolean;
   };
 }
 
@@ -85,6 +87,7 @@ export default function ExamCard({ exam }: ExamCardProps) {
   // Determine if user can take the exam
   const canTakeExam = exam.canTakeExam ?? true;
   const remainingAttempts = exam.remainingAttempts ?? 2;
+  const isPassed = exam.isPassed ?? false;
 
   return (
     <div className="rounded-xl shadow-md transition-all duration-300 overflow-hidden border border-border group bg-background hover:shadow-xl hover:border-primary/20 flex flex-col">
@@ -167,28 +170,46 @@ export default function ExamCard({ exam }: ExamCardProps) {
             <span>{formatDate(exam.createdAt)}</span>
           </div>
 
-          {/* Attempts info - always shown */}
-          <div className="flex items-center gap-2">
-            <div
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${
-                remainingAttempts > 1
-                  ? "bg-blue-50 text-blue-700 border border-blue-200"
-                  : remainingAttempts === 1
-                  ? "bg-yellow-50 text-yellow-700 border border-yellow-200"
-                  : "bg-red-50 text-red-700 border border-red-200"
-              }`}
-            >
-              {!canTakeExam && remainingAttempts === 0 && (
-                <FiAlertCircle className="w-3.5 h-3.5 mr-0.5" />
-              )}
-              <span className="font-bold">{remainingAttempts}</span>
-              <span>attempt{remainingAttempts !== 1 ? "s" : ""} left</span>
+          {/* Status badge - shows passed status instead of attempts if passed */}
+          {isPassed ? (
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-200">
+                <FiCheckCircle className="w-3.5 h-3.5" />
+                <span>Passed</span>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <div
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${
+                  remainingAttempts > 1
+                    ? "bg-blue-50 text-blue-700 border border-blue-200"
+                    : remainingAttempts === 1
+                    ? "bg-yellow-50 text-yellow-700 border border-yellow-200"
+                    : "bg-red-50 text-red-700 border border-red-200"
+                }`}
+              >
+                {!canTakeExam && remainingAttempts === 0 && (
+                  <FiAlertCircle className="w-3.5 h-3.5 mr-0.5" />
+                )}
+                <span className="font-bold">{remainingAttempts}</span>
+                <span>attempt{remainingAttempts !== 1 ? "s" : ""} left</span>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Conditional button based on canTakeExam */}
-        {canTakeExam ? (
+        {/* Conditional button based on isPassed and canTakeExam */}
+        {isPassed ? (
+          /* View Answers button - when passed */
+          <Link
+            href={`/answers/${exam._id}`}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer bg-green-500 text-white shadow-sm hover:bg-green-600 hover:shadow-md active:scale-95 transition-all duration-300"
+          >
+            <FiCheckCircle className="w-4 h-4" />
+            View Results
+          </Link>
+        ) : canTakeExam ? (
           /* Start Quiz button - enabled */
           <Link
             href={`/exam/${exam._id}`}
