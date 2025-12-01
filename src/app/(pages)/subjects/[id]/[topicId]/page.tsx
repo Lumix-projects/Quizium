@@ -21,7 +21,7 @@ export default function TopicDetailsPage() {
     <div className="space-y-8 max-w-5xl mx-auto">
       {/* Back Button */}
 
-      <BackBtn backTo="Subject" />
+      <BackBtn label="Back to Subject" />
 
       {/* Hero Section */}
       <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
