@@ -10,6 +10,7 @@ import { ExamSubmitResponse } from "@/types/exam";
 import { cn } from "@/lib/utils";
 import BackBtn from "../BackBtn";
 import Button from "../Button";
+import { formatShortDate } from "@/lib/date";
 
 const ExamResults = ({
   data,
@@ -44,15 +45,6 @@ const ExamResults = ({
     if (percent >= 75) return "Good";
     if (percent >= 60) return "Fair";
     return "Needs Improvement";
-  };
-
-  // Get the Format Date
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
   };
 
   return (
@@ -180,7 +172,7 @@ const ExamResults = ({
                     Previous Attempt
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    {formatDate(comparison.previousAttempt.completedAt)}
+                    {formatShortDate(comparison.previousAttempt.completedAt)}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">

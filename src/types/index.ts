@@ -64,6 +64,7 @@ export interface Score {
   percentage: number;
   answers: AnswerResult[];
   createdAt: string;
+  attemptNumber: number;
 }
 
 export interface Exam {

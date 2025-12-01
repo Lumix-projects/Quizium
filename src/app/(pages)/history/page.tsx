@@ -18,7 +18,7 @@ export default async function HistoryPage() {
           <span className="block text-2xl font-bold text-slate-800">
             {scores.length}
           </span>
-          <span className="text-xs text-slate-500">Total Attempts</span>
+          <span className="text-xs text-slate-500">Quizzes taken</span>
         </div>
       </div>
 
