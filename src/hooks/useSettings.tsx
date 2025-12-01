@@ -111,7 +111,7 @@ export const useSettingsPage = () => {
   const handleDeleteAccount = async () => {
     try {
       await removeAccount();
-      cookies.remove("token");
+      cookies.remove("auth_token");
       router.push("/register");
     } catch (error) {}
   };

@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { Question, Exam } from "@/types";
 
 export const getServerToken = async () => {
-  return (await cookies()).get("token")?.value;
+  return (await cookies()).get("auth_token")?.value;
 };
 
 export async function getExamDetailsServer(examId: string) {

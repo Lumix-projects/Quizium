@@ -7,7 +7,7 @@ import cookies from "js-cookie";
 export const getAllSubjects = async (): Promise<Subject[]> => {
   try {
     const response = await api.get<{ subjects: Subject[] }>("/subjects", {
-      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+      headers: { Authorization: `Bearer ${cookies.get("auth_token")}` },
     });
     return response.data.subjects;
   } catch (error: unknown) {
@@ -84,7 +84,7 @@ export const getTopicById = async (
 export const getAllExams = async (): Promise<Exam[]> => {
   try {
     const response = await api.get<{ exams: Exam[] }>("/exams", {
-      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+      headers: { Authorization: `Bearer ${cookies.get("auth_token")}` },
     });
     return response.data.exams;
   } catch (error: unknown) {

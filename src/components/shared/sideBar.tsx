@@ -52,7 +52,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
 
   // Logout Function
   const handleLogout = () => {
-    cookies.remove("token");
+    cookies.remove("auth_token");
     toast.success("Logged out successfully");
     router.push("/login");
   };

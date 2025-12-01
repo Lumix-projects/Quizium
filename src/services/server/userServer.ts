@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { User, Score, Exam } from "@/types";
 
 export const getServerToken = async () => {
-  return (await cookies()).get("token")?.value;
+  return (await cookies()).get("auth_token")?.value;
 };
 
 export const getUserProfileServer = async (): Promise<User> => {

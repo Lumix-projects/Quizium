@@ -6,7 +6,7 @@ import cookies from "js-cookie";
 export const getUserProfile = async (): Promise<User> => {
   try {
     const response = await api.get<{ user: User }>("/user/profile", {
-      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+      headers: { Authorization: `Bearer ${cookies.get("auth_token")}` },
     });
     return response.data.user;
   } catch (error: unknown) {
@@ -23,7 +23,7 @@ export const updateUserProfile = async (data: {
 }): Promise<User> => {
   try {
     const response = await api.put<{ user: User }>("/profile", data, {
-      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+      headers: { Authorization: `Bearer ${cookies.get("auth_token")}` },
     });
     return response.data.user;
   } catch (error: unknown) {
@@ -44,7 +44,7 @@ export const uploadProfileImage = async (file: File): Promise<string> => {
       formData,
       {
         headers: {
-          Authorization: `Bearer ${cookies.get("token")}`,
+          Authorization: `Bearer ${cookies.get("auth_token")}`,
           "Content-Type": "multipart/form-data",
         },
       }
@@ -64,7 +64,7 @@ export const changePassword = async (data: {
 }): Promise<void> => {
   try {
     await api.put("/change-password", data, {
-      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+      headers: { Authorization: `Bearer ${cookies.get("auth_token")}` },
     });
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
@@ -77,7 +77,7 @@ export const changePassword = async (data: {
 export const deleteAccount = async (): Promise<void> => {
   try {
     await api.delete("user/account", {
-      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+      headers: { Authorization: `Bearer ${cookies.get("auth_token")}` },
     });
   } catch (error: unknown) {
     const err = error as AxiosError<{ message: string }>;
@@ -90,7 +90,7 @@ export const deleteAccount = async (): Promise<void> => {
 export const getUserScores = async (): Promise<Score[]> => {
   try {
     const response = await api.get<{ scores: Score[] }>("/scores/my-scores", {
-      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+      headers: { Authorization: `Bearer ${cookies.get("auth_token")}` },
     });
     return response.data.scores;
   } catch (error: unknown) {
@@ -104,7 +104,7 @@ export const getUserScores = async (): Promise<Score[]> => {
 export const deleteProfileImage = async (): Promise<User> => {
   try {
     const response = await api.delete<{ user: User }>("user/profile/image", {
-      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+      headers: { Authorization: `Bearer ${cookies.get("auth_token")}` },
     });
     return response.data.user;
   } catch (error: unknown) {

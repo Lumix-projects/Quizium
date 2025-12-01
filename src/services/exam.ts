@@ -5,7 +5,7 @@ import cookies from "js-cookie";
 export async function getExamQuestions(examId: string) {
   try {
     const response = await api.get(`questions/exam/${examId}`, {
-      headers: { Authorization: `Bearer ${cookies.get("token")}` },
+      headers: { Authorization: `Bearer ${cookies.get("auth_token")}` },
     });
 
     return response.data.questions;
@@ -26,7 +26,7 @@ export async function submitExam(
       `/scores/exam/${examId}/submit`,
       { answers },
       {
-        headers: { Authorization: `Bearer ${cookies.get("token")}` },
+        headers: { Authorization: `Bearer ${cookies.get("auth_token")}` },
       }
     );
 
