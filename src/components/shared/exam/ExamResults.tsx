@@ -10,6 +10,7 @@ import {
 import { ExamSubmitResponse } from "@/types/exam";
 import { cn } from "@/lib/utils";
 import BackBtn from "../BackBtn";
+import Button from "../Button";
 
 const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
   const { message, result, comparison } = data;
@@ -24,6 +25,7 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
     totalQuestions,
   } = result;
 
+  // Get the Grade text Color
   const getGradeColor = (percent: number) => {
     if (percent >= 90) return "text-success";
     if (percent >= 75) return "text-primary";
@@ -31,6 +33,7 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
     return "text-error";
   };
 
+  // Get The Grade Label
   const getGradeLabel = (percent: number) => {
     if (percent >= 90) return "Excellent";
     if (percent >= 75) return "Good";
@@ -38,6 +41,7 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
     return "Needs Improvement";
   };
 
+  // Get the Format Date
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       month: "short",
@@ -84,9 +88,10 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
           <div className="bg-card border border-border rounded-xl p-6">
             <div className="text-center mb-6">
               <div
-                className={`text-3xl md:text-6xl font-bold ${getGradeColor(
-                  percentage
-                )} mb-2`}
+                className={cn(
+                  "text-3xl md:text-6xl font-bold mb-2",
+                  getGradeColor(percentage)
+                )}
               >
                 {percentage.toFixed(1)}%
               </div>
@@ -94,9 +99,10 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
                 {score} / {totalMarks}
               </div>
               <div
-                className={`inline-block px-4 py-1.5 rounded-full text-sm ${getGradeColor(
-                  percentage
-                )} bg-opacity-10 font-medium`}
+                className={cn(
+                  "inline-block px-4 py-1.5 rounded-full text-sm  bg-opacity-10 font-medium",
+                  getGradeColor(percentage)
+                )}
               >
                 {getGradeLabel(percentage)}
               </div>
@@ -104,8 +110,10 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
 
             {/* Score Breakdown */}
             <div className="w-full bg-input rounded-full h-3 overflow-hidden">
+              {/* Score Bar */}
               <div
-                className={`h-full ${
+                className={cn(
+                  "h-full transition-all duration-500",
                   percentage >= 90
                     ? "bg-success"
                     : percentage >= 75
@@ -113,7 +121,7 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
                     : percentage >= 60
                     ? "bg-warning"
                     : "bg-error"
-                } transition-all duration-500`}
+                )}
                 style={{ width: `${percentage}%` }}
               />
             </div>
@@ -145,9 +153,7 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
           </div>
 
           {/* Render Review Answers if there is no Previous Attempt */}
-          {!comparison?.previousAttempt && (
-            <button className="main-btn">Review Answers</button>
-          )}
+          {!comparison?.previousAttempt && <Button>Review Answers</Button>}
         </div>
 
         {/* Comparison Section */}
@@ -239,7 +245,7 @@ const ExamResults = ({ data }: { data: ExamSubmitResponse }) => {
                 </div>
               </div>
             </div>
-            <button className="main-btn">Review Answers</button>
+            <Button>Review Answers</Button>
           </div>
         )}
       </div>
