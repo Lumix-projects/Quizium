@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import { TriangleAlert, Clock } from "lucide-react";
 import { useExam } from "@/hooks/useExam";
 
+import ExamResults from "./ExamResults";
+
 interface ExamInterfaceProps {
   questions: Question[];
   examId: string;
@@ -28,6 +30,7 @@ export default function ExamInterface({
     isFlagged,
     isSubmitting,
     timeRemaining,
+    result,
     handleOptionSelect,
     handleFlagToggle,
     handleSubmit,
@@ -145,6 +148,10 @@ export default function ExamInterface({
         </div>
       </div>
     );
+  }
+
+  if (result) {
+    return <ExamResults data={result} />;
   }
 
   return (

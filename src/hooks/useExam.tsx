@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { submitExam } from "@/services/exam";
 import { Question } from "@/types";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -13,13 +13,13 @@ interface ExamInterfaceProps {
 }
 
 export function useExam({ questions, examId, duration }: ExamInterfaceProps) {
-  const router = useRouter();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isReviewMode, setIsReviewMode] = useState(false);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [isFlagged, setFlagged] = useState<Record<string, boolean>>({});
   const [timeRemaining, setTimeRemaining] = useState(duration * 60);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [result, setResult] = useState<any>(null);
   const currentQuestion = questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
 
@@ -51,13 +51,15 @@ export function useExam({ questions, examId, duration }: ExamInterfaceProps) {
         })
       );
 
-      await submitExam(examId, formattedAnswers);
+      const response = await submitExam(examId, formattedAnswers);
+      console.log(response);
+      setResult(response);
+
       if (autoSubmit) {
         toast.error("Time's up!");
       } else {
         toast.success("Exam submitted successfully!");
       }
-      router.push(`/exam/${examId}/result`);
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Failed to submit exam"
@@ -133,6 +135,7 @@ export function useExam({ questions, examId, duration }: ExamInterfaceProps) {
     isFlagged,
     timeRemaining,
     isSubmitting,
+    result,
     formatTime,
     getTimerColor,
     handleOptionSelect,
