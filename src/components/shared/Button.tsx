@@ -16,6 +16,7 @@ export default function Button({
   href,
   className,
   type = "button",
+  ...props
 }: ButtonProps) {
   // Base ClassName
   const base =
@@ -32,7 +33,7 @@ export default function Button({
   // If href exists → render Link
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} className={classes} {...props}>
         {children}
       </Link>
     );
@@ -40,7 +41,7 @@ export default function Button({
 
   // Otherwise → render button
   return (
-    <button type={type} className={classes}>
+    <button type={type} className={classes} {...props}>
       {children}
     </button>
   );
