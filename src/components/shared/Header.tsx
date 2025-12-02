@@ -4,10 +4,10 @@ import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { HiX } from "react-icons/hi";
 import { Bell, Search } from "lucide-react";
-import Logo from "@/components/Logo";
+import Logo from "@/components/shared/Logo";
 import ThemeToggle from "./ThemeToggle";
 import SearchBar from "./SearchBar";
-import Button from "./Button";
+import Button from "../ui/Button";
 
 interface HeaderProps {
   onMenuClick: () => void;

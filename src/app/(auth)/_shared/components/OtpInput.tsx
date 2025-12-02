@@ -1,6 +1,11 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
-import { Divider } from "@/components/Divider";
-import Button from "@/components/shared/Button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/Card";
+import { Divider } from "@/components/ui/Divider";
+import Button from "@/components/ui/Button";
 import { Clock } from "lucide-react";
 import OTPInput from "react-otp-input";
 import useVerifyOTP from "../hooks/useVerifyOTP";

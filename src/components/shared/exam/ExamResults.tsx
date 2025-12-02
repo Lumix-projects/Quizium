@@ -8,8 +8,8 @@ import {
 } from "lucide-react";
 import { ExamSubmitResponse } from "@/types/exam";
 import { cn } from "@/lib/utils";
-import BackBtn from "../BackBtn";
-import Button from "../Button";
+import BackBtn from "../../ui/BackBtn";
+import Button from "../../ui/Button";
 import { formatShortDate } from "@/lib/date";
 
 const ExamResults = ({

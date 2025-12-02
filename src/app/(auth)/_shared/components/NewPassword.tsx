@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader } from "@/components/Card";
+import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import InputField from "@/app/(auth)/_shared/components/InputField";
-import Button from "@/components/shared/Button";
+import Button from "@/components/ui/Button";
 import useNewPassword from "../hooks/useNewPassword";
 import AuthHeader from "./AuthHeader";
 

@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { HiMoon, HiSun } from "react-icons/hi";
-import Button from "./Button";
+import Button from "../ui/Button";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();

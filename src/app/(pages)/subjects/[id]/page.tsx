@@ -6,7 +6,7 @@ import { getAllTopics, getSubjectById } from "@/services/content";
 import DifficultyFilter from "@/components/shared/dashboard/DifficultyFilter";
 import TopicsList from "@/components/shared/dashboard/TopicsList";
 import ExamsList from "@/components/shared/dashboard/ExamsList";
-import BackBtn from "@/components/shared/BackBtn";
+import BackBtn from "@/components/ui/BackBtn";
 import { getExamBySubject } from "@/services/server/userServer";
 
 export const revalidate = 600;

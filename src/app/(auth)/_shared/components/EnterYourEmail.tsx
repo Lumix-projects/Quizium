@@ -1,5 +1,10 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
-import Button from "@/components/shared/Button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/Card";
+import Button from "@/components/ui/Button";
 import Link from "next/link";
 import useForgotPasswordEmail from "../hooks/useForgotPasswordEmail";
 import AuthHeader from "./AuthHeader";

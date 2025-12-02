@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useUser } from "@/hooks/useUser";
-import Button from "./Button";
+import Button from "../ui/Button";
 
 interface SidebarProps {
   isOpen: boolean;
