@@ -4,7 +4,7 @@ import Link from "next/link";
 
 interface BaseButtonProps {
   children: React.ReactNode;
-  variant?: "default" | "outline";
+  variant?: "default" | "outline" | "icon";
   className?: string;
 }
 
@@ -27,12 +27,14 @@ export default function Button({
 }: ButtonProps) {
   // Base ClassName
   const base =
-    "py-2.5 px-4 rounded-lg w-full cursor-pointer transition-all duration-300 active:scale-95 font-medium text-center disabled:opacity-50";
+    "cursor-pointer transition-all duration-300 active:scale-95 font-medium text-center disabled:opacity-50";
 
   const variants = {
-    default: "bg-primary text-white hover:bg-primary-hover",
+    default:
+      "bg-primary text-white hover:bg-primary-hover w-full rounded-lg py-2.5 px-4",
     outline:
-      "border-2 border-primary text-primary bg-white hover:bg-primary/10",
+      "border-2 border-primary text-primary bg-white hover:bg-primary/10 w-full rounded-lg py-2.5 px-4",
+    icon: "border border-border rounded-full p-2 bg-background",
   };
 
   const classes = clsx(base, variants[variant], className);

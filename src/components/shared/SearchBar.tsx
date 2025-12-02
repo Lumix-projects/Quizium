@@ -8,9 +8,14 @@ import useSearchBar from "@/hooks/useSearchBar";
 interface SearchBarProps {
   className?: string;
   autoFocus?: boolean;
+  onBlur?: () => void;
 }
 
-export default function SearchBar({ className, autoFocus }: SearchBarProps) {
+export default function SearchBar({
+  className,
+  autoFocus,
+  onBlur,
+}: SearchBarProps) {
   const {
     searchRef,
     inputRef,
@@ -59,6 +64,7 @@ export default function SearchBar({ className, autoFocus }: SearchBarProps) {
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         onFocus={() => setIsOpen(true)}
+        onBlur={onBlur}
         className="w-2/3 focus:w-full duration-300 border-s-0 border-e-0 py-2.5 bg-background text-foreground placeholder-muted-foreground outline-none border-y-2 border-input-border focus:border-primary group-focus-within:border-primary"
       />
 
@@ -95,9 +101,9 @@ export default function SearchBar({ className, autoFocus }: SearchBarProps) {
                           }
                           className="w-full px-4 py-2 cursor-pointer hover:bg-card-hover transition-colors duration-200 flex items-center gap-3 text-left group/item"
                         >
-                          <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-muted">
+                          <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-muted/20">
                             <Image
-                              src={subject.image}
+                              src={subject.image || "/subject_fallback.webp"}
                               alt={subject.title}
                               fill
                               className="object-cover"

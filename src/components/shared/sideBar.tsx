@@ -15,13 +15,14 @@ import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useUser } from "@/hooks/useUser";
+import Button from "./Button";
 
 interface SidebarProps {
-  open: boolean;
-  setOpen: (value: boolean) => void;
+  isOpen: boolean;
+  onClose: (value: boolean) => void;
 }
 
-export default function Sidebar({ open, setOpen }: SidebarProps) {
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useUser();
@@ -60,20 +61,20 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
   return (
     <>
       {/* Overlay for mobile */}
-      {open && (
+      {isOpen && (
         <div
           className="xl:hidden fixed inset-0 bg-black/50 z-30"
-          onClick={() => setOpen(false)}
+          onClick={() => onClose(false)}
         ></div>
       )}
+
+      {/* Main Sidebar */}
       <aside
         className={cn(
           "flex flex-col gap-5 h-screen w-72 bg-sidebar border-r border-sidebar-border fixed top-0 z-40 xl:static py-4 transition-all duration-300 ease-in-out",
-          open ? "translate-x-0 w-80" : "-translate-x-full xl:translate-x-0"
+          isOpen ? "translate-x-0 w-80" : "-translate-x-full xl:translate-x-0"
         )}
       >
-        {/* Logo & Navigation */}
-
         {/* Logo */}
         <header className="flex items-center gap-3 border-b border-border px-4 pb-2">
           <div className=" flex items-center gap-3 text-foreground overflow-hidden">
@@ -90,12 +91,13 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
               <span className="text-xs">{user?.email}</span>
             </div>
           </div>
-          <button
-            className="ms-auto cursor-pointer secondary-btn lg:hidden"
-            onClick={() => setOpen(false)}
+          <Button
+            variant="icon"
+            className="ms-auto lg:hidden"
+            onClick={() => onClose(false)}
           >
             <HiX />
-          </button>
+          </Button>
         </header>
 
         {/* Navigation */}
@@ -108,7 +110,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
               <Link
                 key={item.id}
                 href={item.href}
-                onClick={() => setOpen(false)}
+                onClick={() => onClose(false)}
                 className={cn(
                   "flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium",
                   isActive
