@@ -5,11 +5,11 @@ import { getServerToken } from "@/lib/getServerToken";
 import { apiClient } from "@/lib/apiClient";
 import { UserResponse } from "@/types/user";
 
-// Server Token
-const token = await getServerToken();
-
 // Get User data
 export const getUserProfileServer = async () => {
+  // Server Token
+  const token = await getServerToken();
+
   return apiClient<UserResponse>("/user/profile", {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },

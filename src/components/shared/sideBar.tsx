@@ -14,18 +14,18 @@ import cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useUser } from "@/hooks/useUser";
 import Button from "../ui/Button";
+import { UserData } from "@/types/user";
 
 interface SidebarProps {
   isOpen: boolean;
   onClose: (value: boolean) => void;
+  user: UserData;
 }
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user } = useUser();
 
   // Menu Links
   const menuItems = [
@@ -51,6 +51,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     { id: "settings", href: "/settings", icon: FaCog, label: "Settings" },
   ];
 
+  console.log(user);
+
   // Logout Function
   const handleLogout = () => {
     cookies.remove("auth_token");
@@ -75,7 +77,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           isOpen ? "translate-x-0 w-80" : "-translate-x-full xl:translate-x-0"
         )}
       >
-        {/* Logo */}
+        {/* User Details */}
         <header className="flex items-center gap-3 border-b border-border px-4 pb-2">
           <div className=" flex items-center gap-3 text-foreground overflow-hidden">
             <Image

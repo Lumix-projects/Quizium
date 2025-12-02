@@ -7,18 +7,14 @@ import {
   FiClock,
 } from "react-icons/fi";
 
-import {
-  getUserProfileServer,
-  getUserScoresServer,
-} from "@/services/server/userServer";
+import { getUserScoresServer } from "@/services/server/userServer";
 import Link from "next/link";
 import { getAllExamsServer } from "@/services/server/examServer";
 
 export default async function HomePage() {
   // Fetch user, scores & exams
-  const [exams, user, scores] = await Promise.all([
+  const [exams, scores] = await Promise.all([
     getAllExamsServer(),
-    getUserProfileServer(),
     getUserScoresServer(),
   ]);
 
@@ -34,7 +30,7 @@ export default async function HomePage() {
         <div>
           <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
           <p className="text-muted-foreground">
-            Welcome back, {user?.name || "User"}!
+            {/* Welcome back, {user?.name || "User"}! */}
           </p>
         </div>
       </div>

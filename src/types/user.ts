@@ -1,4 +1,8 @@
 export interface UserResponse {
+  user: UserData;
+}
+
+export interface UserData {
   _id: string;
   name: string;
   username: string;

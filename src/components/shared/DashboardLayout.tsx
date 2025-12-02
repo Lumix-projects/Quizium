@@ -3,18 +3,25 @@
 import { useState } from "react";
 import Header from "./Header";
 import Sidebar from "./sideBar";
+import { UserData } from "@/types/user";
 
 export default function DashboardLayout({
   children,
+  user,
 }: {
   children: React.ReactNode;
+  user: UserData;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+        user={user}
+      />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col ">
