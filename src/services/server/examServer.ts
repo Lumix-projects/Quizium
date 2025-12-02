@@ -1,11 +1,7 @@
 import api from "@/lib/axios";
 import { AxiosError } from "axios";
-import { cookies } from "next/headers";
 import { Question, Exam } from "@/types";
-
-export const getServerToken = async () => {
-  return (await cookies()).get("auth_token")?.value;
-};
+import { getServerToken } from "@/lib/getServerToken";
 
 export async function getExamDetailsServer(examId: string) {
   const token = await getServerToken();
