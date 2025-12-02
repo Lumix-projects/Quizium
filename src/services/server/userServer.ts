@@ -4,9 +4,10 @@ import { Score, Exam } from "@/types";
 import { getServerToken } from "@/lib/getServerToken";
 import { apiClient } from "@/lib/apiClient";
 import { UserResponse } from "@/types/user";
+import { cache } from "react";
 
-// Get User data
-export const getUserProfileServer = async () => {
+// Get User data - wrapped with React cache for request memoization
+const getUserProfileServerInternal = async () => {
   // Server Token
   const token = await getServerToken();
 
@@ -20,6 +21,9 @@ export const getUserProfileServer = async () => {
     },
   });
 };
+
+// Export the cached version
+export const getUserProfileServer = cache(getUserProfileServerInternal);
 
 export const getUserScoresServer = async (): Promise<Score[]> => {
   const token = await getServerToken();

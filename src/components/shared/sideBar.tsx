@@ -51,8 +51,6 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
     { id: "settings", href: "/settings", icon: FaCog, label: "Settings" },
   ];
 
-  console.log(user);
-
   // Logout Function
   const handleLogout = () => {
     cookies.remove("auth_token");
