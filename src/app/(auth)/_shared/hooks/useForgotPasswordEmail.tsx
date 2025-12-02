@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useWizard } from "react-use-wizard";
-import { forgotPassword } from "../_services/auth";
+import { forgotPassword } from "../services/auth";
 
 export default function useForgotPasswordEmail({
   email,

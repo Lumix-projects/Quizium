@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { SetNewPassword } from "../_services/auth";
+import { SetNewPassword } from "../services/auth";
 import { resetPasswordSchema, ResetPasswordSchema } from "@/schemas/AuthSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { Wizard } from "react-use-wizard";
-import EnterYourEmail from "../_components/EnterYourEmail";
-import OtpInput from "../_components/OtpInput";
-import NewPassword from "../_components/NewPassword";
+import EnterYourEmail from "../_shared/components/EnterYourEmail";
+import OtpInput from "../_shared/components/OtpInput";
+import NewPassword from "../_shared/components/NewPassword";
 
 // Parent: manages wizard steps + email state
 export default function ForgotPassword() {

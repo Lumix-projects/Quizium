@@ -3,7 +3,7 @@ import { Divider } from "@/components/Divider";
 import Button from "@/components/shared/Button";
 import { Clock } from "lucide-react";
 import OTPInput from "react-otp-input";
-import useVerifyOTP from "../_hooks/useVerifyOTP";
+import useVerifyOTP from "../hooks/useVerifyOTP";
 
 export default function OtpInput({
   email,

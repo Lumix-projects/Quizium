@@ -2,9 +2,9 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
 import InputField from "@/components/InputField";
 import Button from "@/components/shared/Button";
-import { useRegister } from "@/app/(auth)/_hooks/useRegister";
+import { useRegister } from "@/app/(auth)/_shared/hooks/useRegister";
 import Link from "next/link";
-import AuthHeader from "../_components/AuthHeader";
+import AuthHeader from "../_shared/components/AuthHeader";
 
 export default function RegisterPage() {
   const { register, handleSubmit, SignUp, errors, isSubmitting } =

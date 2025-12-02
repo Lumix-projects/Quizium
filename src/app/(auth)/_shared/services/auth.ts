@@ -1,4 +1,4 @@
-import { LoginData, SignUpData } from "@/types/auth";
+import { LoginData, SignUpData } from "@/app/(auth)/_shared/types/auth";
 import api from "@/lib/axios";
 import { GetErrorMessage } from "@/lib/getErrorMessage";
 

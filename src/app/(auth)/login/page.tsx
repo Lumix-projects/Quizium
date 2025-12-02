@@ -2,10 +2,10 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
 import InputField from "@/components/InputField";
 import Button from "@/components/shared/Button";
-import { useLogin } from "@/app/(auth)/_hooks/useLogin";
+import { useLogin } from "@/app/(auth)/_shared/hooks/useLogin";
 import Link from "next/link";
-import AuthHeader from "../_components/AuthHeader";
-import RememberMe from "../_components/RememberMe";
+import AuthHeader from "../_shared/components/AuthHeader";
+import RememberMe from "../_shared/components/RememberMe";
 
 function LoginPage() {
   const { register, handleSubmit, login, errors, isSubmitting } = useLogin();

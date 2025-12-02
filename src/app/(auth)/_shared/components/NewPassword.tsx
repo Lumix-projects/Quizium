@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/Card";
 import InputField from "@/components/InputField";
 import Button from "@/components/shared/Button";
-import useNewPassword from "../_hooks/useNewPassword";
+import useNewPassword from "../hooks/useNewPassword";
 import AuthHeader from "./AuthHeader";
 
 export default function NewPassword({ email }: { email: string | null }) {

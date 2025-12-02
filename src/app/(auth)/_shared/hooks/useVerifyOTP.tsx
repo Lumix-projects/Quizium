@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useWizard } from "react-use-wizard";
-import { forgotPassword, verifyOTP } from "../_services/auth";
+import { forgotPassword, verifyOTP } from "../services/auth";
 
 type UseVerifyOTPProps = {
   email: string | null;

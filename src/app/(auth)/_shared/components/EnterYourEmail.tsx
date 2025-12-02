@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
 import Button from "@/components/shared/Button";
 import Link from "next/link";
-import useForgotPasswordEmail from "../_hooks/useForgotPasswordEmail";
+import useForgotPasswordEmail from "../hooks/useForgotPasswordEmail";
 import AuthHeader from "./AuthHeader";
 
 export default function EnterYourEmail({
