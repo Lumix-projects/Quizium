@@ -5,9 +5,10 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { LoginData } from "@/app/(auth)/_shared/types/auth";
 import { useRouter } from "next/navigation";
-import { setAuthCookie } from "@/lib/token";
+import { setAuthCookie } from "@/app/(auth)/_shared/lib/token";
 import { loginSchema, LoginSchema } from "@/schemas/AuthSchema";
 import { loginUser } from "@/app/(auth)/_shared/services/auth";
+import { handleApiError } from "@/lib/handleApiError";
 
 export function useLogin() {
   // Hooks
@@ -28,29 +29,26 @@ export function useLogin() {
   });
 
   async function login(values: LoginData) {
-    // Call backend registration service
-    const result = await loginUser(values);
+    try {
+      // Call backend registration service
+      const result = await loginUser(values);
 
-    // Show error and abort if registration failed
-    if (result.error) {
-      toast.error(result.error);
-      return;
+      // Show error and abort if registration failed
+      setAuthCookie(result.token);
+
+      // Redirect based on user role (admin goes to admin dashboard, user goes to home)
+      const redirectPath = result.user.isAdmin ? "/admin" : "/";
+      router.push(redirectPath);
+
+      // Show success toast
+      toast.success("login successful!");
+
+      // Reset form after registration
+      reset();
+    } catch (err) {
+      handleApiError(err);
+      reset();
     }
-
-    // Set auth cookie and handle errors
-    if (!setAuthCookie(result.data.token)) {
-      toast.error("Error during login");
-    }
-
-    // Show success toast
-    toast.success("login successful!");
-
-    // Redirect based on user role (admin goes to admin dashboard, user goes to home)
-    const redirectPath = result.data.user.isAdmin ? "/admin" : "/";
-    router.push(redirectPath);
-
-    // Reset form after registration
-    reset();
   }
   return { register, handleSubmit, errors, login, isSubmitting };
 }

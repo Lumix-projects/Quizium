@@ -1,5 +1,5 @@
 export interface SignUpData {
-  name:string;
+  name: string;
   username: string;
   email: string;
   password: string;
@@ -10,4 +10,19 @@ export interface SignUpData {
 export interface LoginData {
   email: string;
   password: string;
+}
+
+// Auth Response
+export interface User {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  isAdmin: boolean;
+}
+
+export interface AuthResponse {
+  message: string;
+  token: string;
+  user: User;
 }

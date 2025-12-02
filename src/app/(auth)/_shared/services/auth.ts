@@ -1,63 +1,53 @@
-import { LoginData, SignUpData } from "@/app/(auth)/_shared/types/auth";
-import api from "@/lib/axios";
-import { GetErrorMessage } from "@/lib/getErrorMessage";
+import {
+  AuthResponse,
+  LoginData,
+  SignUpData,
+} from "@/app/(auth)/_shared/types/auth";
+import { apiClient } from "@/lib/apiClient";
 
 // Register new user
 export async function registerUser(
   values: Omit<SignUpData, "rePassword" | "phone">
 ) {
-  try {
-    const response = await api.post("/auth/register", values);
-    return { data: response.data, error: null };
-  } catch (err) {
-    const message = GetErrorMessage(err);
-    return { data: null, error: message };
-  }
+  return apiClient<AuthResponse>("/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values),
+  });
 }
 
 // Login user
 export async function loginUser(values: LoginData) {
-  try {
-    const response = await api.post("/auth/login", values);
-    return { data: response.data, error: null };
-  } catch (err) {
-    const message = GetErrorMessage(err);
-    return { data: null, error: message };
-  }
+  return apiClient<AuthResponse>("/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values),
+  });
 }
 
 // Send forgot password request
 export async function forgotPassword(email: string) {
-  try {
-    const response = await api.post("/auth/forgot-password", { email });
-    return { data: response.data, error: null };
-  } catch (err) {
-    const message = GetErrorMessage(err);
-    return { data: null, error: message };
-  }
+  return apiClient<{ message: string }>("/auth/forgot-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
 }
 
 // Verify OTP request
 export async function verifyOTP(email: string, otp: string) {
-  try {
-    const response = await api.post("/auth/reset-password", { email, otp });
-    return { data: response.data, error: null };
-  } catch (err) {
-    const message = GetErrorMessage(err);
-    return { data: null, error: message };
-  }
+  return apiClient<{ message: string }>("/auth/reset-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, otp }),
+  });
 }
 
 // Set New Password
-export async function SetNewPassword(email: string, newPassword: string) {
-  try {
-    const response = await api.post("/auth/set-new-password", {
-      email,
-      newPassword,
-    });
-    return { data: response.data, error: null };
-  } catch (err) {
-    const message = GetErrorMessage(err);
-    return { data: null, error: message };
-  }
+export async function setNewPassword(email: string, newPassword: string) {
+  return apiClient<{ message: string }>("/auth/set-new-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, newPassword }),
+  });
 }

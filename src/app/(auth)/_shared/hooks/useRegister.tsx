@@ -3,12 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { setAuthCookie } from "@/lib/token";
+import { setAuthCookie } from "@/app/(auth)/_shared/lib/token";
 import { registerSchema, RegisterSchema } from "@/schemas/AuthSchema";
 import { registerUser } from "@/app/(auth)/_shared/services/auth";
+import { handleApiError } from "@/lib/handleApiError";
 
 export function useRegister() {
-  // Hooks
   const router = useRouter();
 
   const {
@@ -30,32 +30,27 @@ export function useRegister() {
   });
 
   async function SignUp(values: RegisterSchema) {
-    // Remove frontend-only fields before sending to backend
     const { rePassword, phone, ...payload } = values;
 
-    // Call backend registration service
-    const result = await registerUser(payload);
+    try {
+      const result = await registerUser(payload);
 
-    // Show error and abort if registration failed
-    if (result.error) {
-      toast.error(result.error);
-      return;
+      // Set auth cookie
+      setAuthCookie(result.token);
+
+      // Redirect based on role
+      const redirectPath = result.user.isAdmin ? "/admin" : "/";
+      router.push(redirectPath);
+
+      // Show success toast
+      toast.success("Registration successful!");
+
+      // Reset form
+      reset();
+    } catch (err) {
+      handleApiError(err);
+      reset();
     }
-
-    // Set auth cookie and handle errors
-    if (!setAuthCookie(result.data.token)) {
-      toast.error("Error during registration");
-    }
-
-    // Show success toast
-    toast.success("Registration successful!");
-
-    // Redirect based on user role (admin goes to admin dashboard, user goes to home)
-    const redirectPath = result.data.user.isAdmin ? "/admin" : "/";
-    router.push(redirectPath);
-
-    // Reset form after registration
-    reset();
   }
 
   return { register, handleSubmit, errors, SignUp, isSubmitting };

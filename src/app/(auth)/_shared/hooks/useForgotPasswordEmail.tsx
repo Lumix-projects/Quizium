@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useWizard } from "react-use-wizard";
 import { forgotPassword } from "../services/auth";
+import { handleApiError } from "@/lib/handleApiError";
 
 export default function useForgotPasswordEmail({
   email,
@@ -26,25 +27,25 @@ export default function useForgotPasswordEmail({
 
   // Handle email submission + send OTP
   const onSubmit = async ({ emailValue }: { emailValue: string }) => {
-    // Call backend sendOTP service
-    const result = await forgotPassword(emailValue);
+    try {
+      // Call backend sendOTP service
+      const result = await forgotPassword(emailValue);
 
-    // Show error and abort if Verifying failed
-    if (result.error) {
-      toast.error(result.error);
+      // Show success toast
+      toast.success(result.message);
+
+      // Save Email & Move to reset password step
+      setEmail(emailValue);
+      nextStep();
+
+      // reset Form
       reset();
-      return;
+    } catch (err) {
+      // Show error toast
+      handleApiError(err);
+      reset();
     }
-
-    // Show success toast
-    toast.success(result.data.message);
-
-    // Save Email & Move to reset password step
-    setEmail(emailValue);
-    nextStep();
-
-    // reset Form
-    reset();
   };
+
   return { register, handleSubmit, isSubmitting, onSubmit };
 }

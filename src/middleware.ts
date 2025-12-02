@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getUserFromToken, isTokenValid } from "./lib/token";
+import { getUserFromToken, isTokenValid } from "./app/(auth)/_shared/lib/token";
 
 // util function to clear cookies and redirect
 function clearAuthAndRedirect(req: NextRequest) {
