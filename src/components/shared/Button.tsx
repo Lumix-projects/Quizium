@@ -2,25 +2,32 @@ import clsx from "clsx";
 import React from "react";
 import Link from "next/link";
 
-interface ButtonProps {
+interface BaseButtonProps {
   children: React.ReactNode;
   variant?: "default" | "outline";
-  href?: string;
   className?: string;
-  type?: "button" | "submit" | "reset";
 }
+
+// Button case
+type ButtonOnlyProps = BaseButtonProps &
+  React.ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined };
+
+// Link case
+type LinkOnlyProps = BaseButtonProps &
+  React.ComponentPropsWithoutRef<typeof Link> & { href: string };
+
+type ButtonProps = ButtonOnlyProps | LinkOnlyProps;
 
 export default function Button({
   children,
   variant = "default",
   href,
   className,
-  type = "button",
   ...props
 }: ButtonProps) {
   // Base ClassName
   const base =
-    "py-2.5 px-4 rounded-lg w-full cursor-pointer transition-all duration-300 active:scale-95 font-medium text-center";
+    "py-2.5 px-4 rounded-lg w-full cursor-pointer transition-all duration-300 active:scale-95 font-medium text-center disabled:opacity-50";
 
   const variants = {
     default: "bg-primary text-white hover:bg-primary-hover",
@@ -33,7 +40,10 @@ export default function Button({
   // If href exists → render Link
   if (href) {
     return (
-      <Link href={href} className={classes} {...props}>
+      <Link
+        className={classes}
+        {...(props as React.ComponentPropsWithoutRef<typeof Link>)}
+      >
         {children}
       </Link>
     );
@@ -41,7 +51,10 @@ export default function Button({
 
   // Otherwise → render button
   return (
-    <button type={type} className={classes} {...props}>
+    <button
+      className={classes}
+      {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+    >
       {children}
     </button>
   );

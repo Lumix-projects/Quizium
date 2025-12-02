@@ -1,8 +1,11 @@
 "use client";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
 import InputField from "@/components/InputField";
-import { useLogin } from "@/hooks/useLogin";
+import Button from "@/components/shared/Button";
+import { useLogin } from "@/app/(auth)/_hooks/useLogin";
 import Link from "next/link";
+import AuthHeader from "../_components/AuthHeader";
+import RememberMe from "../_components/RememberMe";
 
 function LoginPage() {
   const { register, handleSubmit, login, errors, isSubmitting } = useLogin();
@@ -11,12 +14,10 @@ function LoginPage() {
     <Card>
       {/* Header */}
       <CardHeader>
-        <h1 className="text-2xl font-bold text-primary">
-          Login into your account
-        </h1>
-        <p className="text-sm text-muted">
-          Please log in or sign up to continue using our app.
-        </p>
+        <AuthHeader
+          title="Login into your account"
+          desc="Please log in or sign up to continue using our app."
+        />
       </CardHeader>
 
       {/* Form */}
@@ -43,13 +44,7 @@ function LoginPage() {
 
           {/* Remember Me + Forgot Password */}
           <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 text-muted-foreground cursor-pointer">
-              <input
-                type="checkbox"
-                className="w-4 h-4 accent-primary cursor-pointer"
-              />
-              Remember me
-            </label>
+            <RememberMe />
 
             <Link
               href="/forgot-password"
@@ -60,13 +55,9 @@ function LoginPage() {
           </div>
 
           {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="main-btn w-full disabled:opacity-50"
-          >
+          <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Logging in..." : "Login"}
-          </button>
+          </Button>
         </form>
       </CardContent>
 

@@ -1,13 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { registerUser } from "@/services/auth";
+import { LoginData } from "@/types/auth";
+import { useRouter } from "next/navigation";
 import { setAuthCookie } from "@/lib/token";
-import { registerSchema, RegisterSchema } from "@/schemas/AuthSchema";
+import { loginSchema, LoginSchema } from "@/schemas/AuthSchema";
+import { loginUser } from "@/app/(auth)/_services/auth";
 
-export function useRegister() {
+export function useLogin() {
   // Hooks
   const router = useRouter();
 
@@ -16,25 +18,18 @@ export function useRegister() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterSchema>({
-    resolver: zodResolver(registerSchema),
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      name: "",
-      username: "",
       email: "",
       password: "",
-      rePassword: "",
-      phone: "",
     },
     mode: "onSubmit",
   });
 
-  async function SignUp(values: RegisterSchema) {
-    // Remove frontend-only fields before sending to backend
-    const { rePassword, phone, ...payload } = values;
-
+  async function login(values: LoginData) {
     // Call backend registration service
-    const result = await registerUser(payload);
+    const result = await loginUser(values);
 
     // Show error and abort if registration failed
     if (result.error) {
@@ -44,11 +39,11 @@ export function useRegister() {
 
     // Set auth cookie and handle errors
     if (!setAuthCookie(result.data.token)) {
-      toast.error("Error during registration");
+      toast.error("Error during login");
     }
 
     // Show success toast
-    toast.success("Registration successful!");
+    toast.success("login successful!");
 
     // Redirect based on user role (admin goes to admin dashboard, user goes to home)
     const redirectPath = result.data.user.isAdmin ? "/admin" : "/";
@@ -57,6 +52,5 @@ export function useRegister() {
     // Reset form after registration
     reset();
   }
-
-  return { register, handleSubmit, errors, SignUp, isSubmitting };
+  return { register, handleSubmit, errors, login, isSubmitting };
 }

@@ -1,22 +1,19 @@
-import { forgotPassword, verifyOTP } from "@/services/auth";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useWizard } from "react-use-wizard";
+import { forgotPassword, verifyOTP } from "../_services/auth";
 
 type UseVerifyOTPProps = {
   email: string | null;
   setEmail: (email: string | null) => void;
-  nextStep: () => void;
-  previousStep: () => void;
 };
 
-export default function useVerifyOTP({
-  email,
-  setEmail,
-  nextStep,
-  previousStep,
-}: UseVerifyOTPProps) {
+export default function useVerifyOTP({ email, setEmail }: UseVerifyOTPProps) {
   // ! Hooks
   const [otp, setOtp] = useState("");
+
+  // Wizard Steps
+  const { nextStep, previousStep } = useWizard();
 
   // Countdown for resend button (1 minute)
   const [countdown, setCountdown] = useState(60);
