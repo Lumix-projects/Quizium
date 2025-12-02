@@ -24,24 +24,24 @@
 
 .dark {
   /* Dark Mode Colors */
-  --background: #09090b;
-  --foreground: #fafafa;
-  --card: #18181b;
-  --card-hover: #27272a;
-  --border: #27272a;
-  --input: #18181b;
+  --background: #18181b;
+  --foreground: #f4f4f5;
+  --card: #1f1f23;
+  --card-hover: #2a2a2f;
+  --border: #3f3f46;
+  --input: #27272a;
   --input-border: #3f3f46;
   --primary: #3b82f6;
   --primary-hover: #60a5fa;
   --secondary: #a1a1aa;
-  --accent: #a78bfa;
-  --success: #34d399;
-  --warning: #fbbf24;
-  --error: #f87171;
-  --muted: #52525b;
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --muted: #71717a;
   --muted-foreground: #a1a1aa;
-  --sidebar: #18181b;
-  --sidebar-border: #27272a;
+  --sidebar: #1f1f23;
+  --sidebar-border: #3f3f46;
 }
 
 @theme inline {
