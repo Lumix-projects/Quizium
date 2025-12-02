@@ -1,6 +1,6 @@
 "use client";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
-import InputField from "@/components/InputField";
+import InputField from "@/app/(auth)/_shared/components/InputField";
 import Button from "@/components/shared/Button";
 import { useLogin } from "@/app/(auth)/_shared/hooks/useLogin";
 import Link from "next/link";
