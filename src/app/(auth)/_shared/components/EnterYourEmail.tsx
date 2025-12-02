@@ -12,7 +12,7 @@ export default function EnterYourEmail({
   setEmail: (email: string) => void;
 }) {
   // Component Custom Hooks
-  const { register, handleSubmit, isSubmitting, onSubmit } =
+  const { register, handleSubmit, isSubmitting, onSubmit, errors } =
     useForgotPasswordEmail({ email, setEmail });
 
   return (
@@ -45,6 +45,12 @@ export default function EnterYourEmail({
             className="input w-full pr-10"
             placeholder="Enter your email"
           />
+
+          {errors.emailValue && (
+            <p className="text-red-500 text-xs px-3 py-2 border border-border rounded-lg mt-2">
+              {errors.emailValue.message?.toString()}
+            </p>
+          )}
 
           {/* Submit button */}
           <Button type="submit" disabled={isSubmitting} className="mt-3">

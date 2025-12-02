@@ -16,7 +16,7 @@ export default function useForgotPasswordEmail({
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm({
     defaultValues: { emailValue: email ?? "" },
     mode: "onSubmit",
@@ -43,9 +43,8 @@ export default function useForgotPasswordEmail({
     } catch (err) {
       // Show error toast
       handleApiError(err);
-      reset();
     }
   };
 
-  return { register, handleSubmit, isSubmitting, onSubmit };
+  return { register, handleSubmit, isSubmitting, onSubmit, errors };
 }

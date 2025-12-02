@@ -4,7 +4,10 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { setAuthCookie } from "@/app/(auth)/_shared/lib/token";
-import { registerSchema, RegisterSchema } from "@/schemas/AuthSchema";
+import {
+  registerSchema,
+  RegisterSchema,
+} from "@/app/(auth)/_shared/schemas/AuthSchema";
 import { registerUser } from "@/app/(auth)/_shared/services/auth";
 import { handleApiError } from "@/lib/handleApiError";
 

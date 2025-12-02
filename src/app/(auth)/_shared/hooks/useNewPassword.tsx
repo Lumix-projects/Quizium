@@ -1,5 +1,8 @@
 import toast from "react-hot-toast";
-import { resetPasswordSchema, ResetPasswordSchema } from "@/schemas/AuthSchema";
+import {
+  resetPasswordSchema,
+  ResetPasswordSchema,
+} from "@/app/(auth)/_shared/schemas/AuthSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";

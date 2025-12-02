@@ -6,7 +6,10 @@ import toast from "react-hot-toast";
 import { LoginData } from "@/app/(auth)/_shared/types/auth";
 import { useRouter } from "next/navigation";
 import { setAuthCookie } from "@/app/(auth)/_shared/lib/token";
-import { loginSchema, LoginSchema } from "@/schemas/AuthSchema";
+import {
+  loginSchema,
+  LoginSchema,
+} from "@/app/(auth)/_shared/schemas/AuthSchema";
 import { loginUser } from "@/app/(auth)/_shared/services/auth";
 import { handleApiError } from "@/lib/handleApiError";
 
