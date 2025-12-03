@@ -7,7 +7,7 @@ import { UserResponse } from "@/types/user";
 import { cache } from "react";
 
 // Get User data - wrapped with React cache for request memoization
-const getUserProfileServerInternal = async () => {
+const getUserProfile = async () => {
   // Server Token
   const token = await getServerToken();
 
@@ -23,7 +23,7 @@ const getUserProfileServerInternal = async () => {
 };
 
 // Export the cached version
-export const getUserProfileServer = cache(getUserProfileServerInternal);
+export const getUserProfileCached = cache(getUserProfile);
 
 export const getUserScoresServer = async (): Promise<Score[]> => {
   const token = await getServerToken();

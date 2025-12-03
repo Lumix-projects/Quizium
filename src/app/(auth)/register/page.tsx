@@ -6,7 +6,7 @@ import {
   CardHeader,
 } from "@/components/ui/Card";
 import InputField from "@/app/(auth)/_shared/components/InputField";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { useRegister } from "@/app/(auth)/_shared/hooks/useRegister";
 import Link from "next/link";
 import AuthHeader from "../_shared/components/AuthHeader";
@@ -88,7 +88,7 @@ export default function RegisterPage() {
             error={errors.rePassword}
           />
 
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting} className="w-full">
             {isSubmitting ? "Signing up..." : "Sign Up"}
           </Button>
         </form>

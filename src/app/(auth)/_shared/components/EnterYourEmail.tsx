@@ -4,7 +4,8 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
+
+import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import useForgotPasswordEmail from "../hooks/useForgotPasswordEmail";
 import AuthHeader from "./AuthHeader";
@@ -58,7 +59,7 @@ export default function EnterYourEmail({
           )}
 
           {/* Submit button */}
-          <Button type="submit" disabled={isSubmitting} className="mt-3">
+          <Button type="submit" disabled={isSubmitting} className="mt-3 w-full">
             {isSubmitting ? "Sending..." : "Send Verification Code"}
           </Button>
         </form>

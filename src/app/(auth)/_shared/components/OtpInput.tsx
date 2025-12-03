@@ -5,7 +5,7 @@ import {
   CardHeader,
 } from "@/components/ui/Card";
 import { Divider } from "@/components/ui/Divider";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { Clock } from "lucide-react";
 import OTPInput from "react-otp-input";
 import useVerifyOTP from "../hooks/useVerifyOTP";
@@ -86,6 +86,7 @@ export default function OtpInput({
         <Button
           onClick={handleVerifyOTP}
           disabled={isVerifying || otp.length !== 6}
+          className="w-full"
         >
           {isVerifying ? "Verifying..." : "Verify Code"}
         </Button>
@@ -95,6 +96,7 @@ export default function OtpInput({
         {/* Resend OTP button */}
         <Button
           variant="outline"
+          className="w-full"
           onClick={handleResendOTP}
           disabled={countdown > 0 || isResending}
         >

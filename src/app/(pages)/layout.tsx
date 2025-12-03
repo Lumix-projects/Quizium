@@ -1,11 +1,11 @@
 import DashboardLayout from "@/components/shared/DashboardLayout";
-import { getUserProfileServer } from "@/services/server/userServer";
+import { getUserProfileCached } from "@/services/server/userServer";
 
 export default async function UserLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = await getUserProfileServer();
+  const { user } = await getUserProfileCached();
   return <DashboardLayout user={user}>{children}</DashboardLayout>;
 }

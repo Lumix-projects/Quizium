@@ -6,7 +6,7 @@ import {
   CardHeader,
 } from "@/components/ui/Card";
 import InputField from "@/app/(auth)/_shared/components/InputField";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { useLogin } from "@/app/(auth)/_shared/hooks/useLogin";
 import Link from "next/link";
 import AuthHeader from "../_shared/components/AuthHeader";
@@ -60,7 +60,7 @@ function LoginPage() {
           </div>
 
           {/* Submit Button */}
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting} className="w-full">
             {isSubmitting ? "Logging in..." : "Login"}
           </Button>
         </form>

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import InputField from "@/app/(auth)/_shared/components/InputField";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import useNewPassword from "../hooks/useNewPassword";
 import AuthHeader from "./AuthHeader";
 
@@ -43,7 +43,7 @@ export default function NewPassword({ email }: { email: string | null }) {
           />
 
           {/* Submit button */}
-          <Button type="submit" disabled={isSubmitting} className="mt-3">
+          <Button type="submit" disabled={isSubmitting} className="mt-3 w-full">
             {isSubmitting ? "Updating..." : "Update Password"}
           </Button>
         </form>

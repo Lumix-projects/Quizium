@@ -7,7 +7,7 @@ import { Bell, Search } from "lucide-react";
 import Logo from "@/components/shared/Logo";
 import ThemeToggle from "./ThemeToggle";
 import SearchBar from "./SearchBar";
-import Button from "../ui/Button";
+import {Button} from "../ui/Button";
 
 interface HeaderProps {
   onMenuClick: () => void;
