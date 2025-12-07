@@ -71,7 +71,7 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
       {/* Main Sidebar */}
       <aside
         className={cn(
-          "flex flex-col gap-5 min-h-screen w-72 bg-sidebar border-r border-sidebar-border fixed inset-y-0 z-40 xl:static py-4 transition-all duration-300 ease-in-out",
+          "flex flex-col gap-5 h-screen w-72 bg-sidebar border-r border-sidebar-border fixed inset-y-0 z-40 xl:sticky xl:top-0 py-4 transition-all duration-300 ease-in-out",
           isOpen ? "translate-x-0 w-80" : "-translate-x-full xl:translate-x-0"
         )}
       >

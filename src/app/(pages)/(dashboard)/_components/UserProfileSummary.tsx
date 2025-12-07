@@ -22,7 +22,7 @@ export default function UserProfileSummary({ user }: { user: UserData }) {
   ];
 
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="max-w-none w-full">
       <CardContent className="flex flex-col items-center flex-1 justify-center">
         {/* User Image */}
         <Image

@@ -60,7 +60,7 @@ const ActivityItem = ({ score }: ActivityItemProps) => {
 
 export default function RecentActivity({ scores }: { scores: Score[] }) {
     // Limit to most recent 5 attempts
-    const recentScores = scores.slice(0, 5);
+    const recentScores = scores.slice(0, 3);
 
     return (
         <Card className="max-w-none">

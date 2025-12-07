@@ -7,7 +7,7 @@ import { Bell, Search } from "lucide-react";
 import Logo from "@/components/shared/Logo";
 import ThemeToggle from "./ThemeToggle";
 import SearchBar from "./SearchBar";
-import {Button} from "../ui/Button";
+import { Button } from "../ui/Button";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -20,7 +20,7 @@ export default function Header({ onMenuClick, isSidebarOpen }: HeaderProps) {
   return (
     <>
       {/* Main Header */}
-      <header className="bg-sidebar py-2 px-6 md:px-8 flex justify-between items-center gap-2 border-b border-border sticky top-0">
+      <header className="bg-sidebar py-2 px-6 md:px-8 flex justify-between items-center gap-2 border-b border-border sticky top-0 z-20">
         {/* Sidebar Toggler and Logo */}
         <div className="flex items-center gap-4">
           {/* Sidebar Toggle Button */}
