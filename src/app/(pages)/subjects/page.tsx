@@ -1,4 +1,4 @@
-import SubjectCard from "@/components/shared/dashboard/SubjectCard";
+import SubjectCard from "@/app/(pages)/subjects/_shared/components/SubjectCard";
 import DashboardCard from "@/components/shared/dashboard/DashboardCard";
 import { FiLayers } from "react-icons/fi";
 import { getAllSubjects } from "@/services/content";

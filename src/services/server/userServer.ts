@@ -1,27 +1,29 @@
 import api from "@/lib/axios";
 import { AxiosError } from "axios";
-import { cookies } from "next/headers";
-import { User, Score, Exam } from "@/types";
+import { Score, Exam } from "@/types";
+import { getServerToken } from "@/lib/getServerToken";
+import { apiClient } from "@/lib/apiClient";
+import { UserResponse } from "@/types/user";
+import { cache } from "react";
 
-export const getServerToken = async () => {
-  return (await cookies()).get("auth_token")?.value;
-};
-
-export const getUserProfileServer = async (): Promise<User> => {
+// Get User data - wrapped with React cache for request memoization
+const getUserProfile = async () => {
+  // Server Token
   const token = await getServerToken();
 
-  try {
-    const response = await api.get<{ user: User }>("/user/profile", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data.user;
-  } catch (error: unknown) {
-    const err = error as AxiosError<{ message: string }>;
-    const message =
-      err.response?.data?.message || err.message || "Something went wrong";
-    throw new Error(message);
-  }
+  return apiClient<UserResponse>("/user/profile", {
+    method: "GET",
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "force-cache",
+    next: {
+      tags: ["user-profile"],
+      revalidate: 3600,
+    },
+  });
 };
+
+// Export the cached version
+export const getUserProfileCached = cache(getUserProfile);
 
 export const getUserScoresServer = async (): Promise<Score[]> => {
   const token = await getServerToken();

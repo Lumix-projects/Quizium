@@ -1,9 +1,15 @@
 "use client";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/Card";
-import InputField from "@/components/InputField";
-import { useRegister } from "@/hooks/useRegister";
-import { Loader } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/Card";
+import InputField from "@/app/(auth)/_shared/components/InputField";
+import { Button } from "@/components/ui/Button";
+import { useRegister } from "@/app/(auth)/_shared/hooks/useRegister";
 import Link from "next/link";
+import AuthHeader from "../_shared/components/AuthHeader";
 
 export default function RegisterPage() {
   const { register, handleSubmit, SignUp, errors, isSubmitting } =
@@ -13,12 +19,10 @@ export default function RegisterPage() {
     <Card>
       {/* Register Header */}
       <CardHeader>
-        <h1 className="text-xl lg:text-2xl font-bold text-primary">
-          Create your account
-        </h1>
-        <p className="text-xs lg:text-sm text-muted">
-          Please sign up to get started and enjoy all our quizzes.
-        </p>
+        <AuthHeader
+          title="Create your account"
+          desc="Please sign up to get started and enjoy all our quizzes."
+        />
       </CardHeader>
 
       {/* Register Form */}
@@ -84,13 +88,9 @@ export default function RegisterPage() {
             error={errors.rePassword}
           />
 
-          <button
-            type="submit"
-            className="main-btn w-full flex items-center justify-center"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? <Loader className="animate-spin" /> : "Sign Up"}
-          </button>
+          <Button type="submit" disabled={isSubmitting} className="w-full">
+            {isSubmitting ? "Signing up..." : "Sign Up"}
+          </Button>
         </form>
       </CardContent>
 

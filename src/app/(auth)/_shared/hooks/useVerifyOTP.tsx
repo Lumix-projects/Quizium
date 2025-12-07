@@ -1,22 +1,20 @@
-import { forgotPassword, verifyOTP } from "@/services/auth";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useWizard } from "react-use-wizard";
+import { forgotPassword, verifyOTP } from "../services/auth";
+import { handleApiError } from "@/lib/handleApiError";
 
 type UseVerifyOTPProps = {
   email: string | null;
   setEmail: (email: string | null) => void;
-  nextStep: () => void;
-  previousStep: () => void;
 };
 
-export default function useVerifyOTP({
-  email,
-  setEmail,
-  nextStep,
-  previousStep,
-}: UseVerifyOTPProps) {
+export default function useVerifyOTP({ email, setEmail }: UseVerifyOTPProps) {
   // ! Hooks
   const [otp, setOtp] = useState("");
+
+  // Wizard Steps
+  const { nextStep, previousStep } = useWizard();
 
   // Countdown for resend button (1 minute)
   const [countdown, setCountdown] = useState(60);
@@ -64,26 +62,22 @@ export default function useVerifyOTP({
     // Trigger Verify loading state
     setIsVerifying(true);
 
-    // Call backend VerifyingOTP service
-    const result = await verifyOTP(email, otp);
+    try {
+      // Call backend VerifyingOTP service
+      const result = await verifyOTP(email, otp);
 
-    // Show error and abort if Verifying failed
-    if (result.error) {
-      toast.error(result.error);
+      // Show success toast
+      toast.success(result.message);
+
+      // Move to reset password step
+      nextStep();
+    } catch (error) {
+      handleApiError(error);
+    } finally {
+      // Reset OTP Input & stop verifying loading state
       setOtp("");
       setIsVerifying(false);
-      return;
     }
-
-    // Show success toast
-    toast.success(result.data.message);
-
-    // Move to reset password step
-    nextStep();
-
-    // Reset OTP Input & stop verifying loading state
-    setOtp("");
-    setIsVerifying(false);
   };
 
   // Resend OTP when countdown finishes
@@ -93,13 +87,20 @@ export default function useVerifyOTP({
     // Trigger Resending loading state
     setIsResending(true);
 
-    // Call backend sendOTP service
-    const result = await forgotPassword(email);
+    try {
+      // Call backend sendOTP service
+      const result = await forgotPassword(email);
 
-    // Show error and abort if request failed
-    if (result.error) {
-      toast.error(result.error);
+      // Show success toast
+      toast.success(result.message);
 
+      // Restart the two timers
+      setCountdown(60);
+      setExpiry(600);
+
+      setIsResending(false);
+    } catch (error) {
+      handleApiError(error);
       // Reset OTP
       setOtp("");
 
@@ -111,17 +112,7 @@ export default function useVerifyOTP({
 
       // Navigate back to enter his email
       previousStep();
-      return;
     }
-
-    // Show success toast
-    toast.success("Code sent successfully");
-
-    // Restart the two timers
-    setCountdown(60);
-    setExpiry(600);
-
-    setIsResending(false);
   };
 
   const handleChangeEmail = () => {

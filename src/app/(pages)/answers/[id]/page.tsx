@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import BackBtn from "@/components/shared/BackBtn";
+import BackBtn from "@/components/ui/BackBtn";
 import { cn } from "@/lib/utils";
 import { getAnswersServer } from "@/services/server/examServer";
 import Link from "next/link";

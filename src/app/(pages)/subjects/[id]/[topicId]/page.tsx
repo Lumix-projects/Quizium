@@ -6,7 +6,7 @@ import { useTopicDetails } from "@/hooks/useSubject";
 import { FiBook, FiAward, FiList } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
-import BackBtn from "@/components/shared/BackBtn";
+import BackBtn from "@/components/ui/BackBtn";
 
 export default function TopicDetailsPage() {
   const { id, topicId } = useParams();

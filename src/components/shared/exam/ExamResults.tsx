@@ -8,9 +8,10 @@ import {
 } from "lucide-react";
 import { ExamSubmitResponse } from "@/types/exam";
 import { cn } from "@/lib/utils";
-import BackBtn from "../BackBtn";
-import Button from "../Button";
+import BackBtn from "../../ui/BackBtn";
+
 import { formatShortDate } from "@/lib/date";
+import { LinkButton } from "@/components/ui/LinkButton";
 
 const ExamResults = ({
   data,
@@ -151,7 +152,7 @@ const ExamResults = ({
 
           {/* Render Review Answers if there is no Previous Attempt */}
           {!comparison?.previousAttempt && (
-            <Button href={`/answers/${examId}`}>Review Answers</Button>
+            <LinkButton href={`/answers/${examId}`}>Review Answers</LinkButton>
           )}
         </div>
 
@@ -244,7 +245,7 @@ const ExamResults = ({
                 </div>
               </div>
             </div>
-            <Button href={`/answers/${examId}`}>Review Answers</Button>
+            <LinkButton href={`/answers/${examId}`}>Review Answers</LinkButton>
           </div>
         )}
       </div>
