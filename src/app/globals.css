@@ -1,26 +1,113 @@
 @import "tailwindcss";
 
 :root {
+  /* Light Mode Colors */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-hover: #fafafa;
+  --border: #e4e4e7;
+  --input: #f4f4f5;
+  --input-border: #e4e4e7;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary: #71717a;
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --muted: #a1a1aa;
+  --muted-foreground: #71717a;
+  --sidebar: #fafafa;
+  --sidebar-border: #e4e4e7;
+}
+
+.dark {
+  /* Dark Mode Colors */
+  --background: #18181b;
+  --foreground: #f4f4f5;
+  --card: #1f1f23;
+  --card-hover: #2a2a2f;
+  --border: #3f3f46;
+  --input: #27272a;
+  --input-border: #3f3f46;
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --secondary: #a1a1aa;
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --muted: #71717a;
+  --muted-foreground: #a1a1aa;
+  --sidebar: #1f1f23;
+  --sidebar-border: #3f3f46;
 }
 
 @theme inline {
+  --color-muted: var(--muted);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-border: var(--input-border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-border: var(--sidebar-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-inter: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* * {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+} */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+  .input {
+    @apply bg-input border border-input-border rounded-lg px-3 py-2 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 duration-300 w-full text-foreground;
+  }
+
+  .main-btn {
+    @apply bg-primary text-white py-2.5 px-4 rounded-lg w-full cursor-pointer transition-all duration-300 hover:bg-primary-hover active:scale-95 font-medium;
+  }
+
+  .secondary-btn {
+    @apply p-2.5 rounded-full bg-card hover:bg-card-hover border border-border transition-all duration-300 cursor-pointer;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
 }
