@@ -14,7 +14,7 @@ import cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import {Button} from "../ui/Button";
+import { Button } from "../ui/Button";
 import { UserData } from "@/types/user";
 
 interface SidebarProps {
@@ -71,7 +71,7 @@ export default function Sidebar({ isOpen, onClose, user }: SidebarProps) {
       {/* Main Sidebar */}
       <aside
         className={cn(
-          "flex flex-col gap-5 h-screen w-72 bg-sidebar border-r border-sidebar-border fixed top-0 z-40 xl:static py-4 transition-all duration-300 ease-in-out",
+          "flex flex-col gap-5 min-h-screen w-72 bg-sidebar border-r border-sidebar-border fixed inset-y-0 z-40 xl:static py-4 transition-all duration-300 ease-in-out",
           isOpen ? "translate-x-0 w-80" : "-translate-x-full xl:translate-x-0"
         )}
       >
