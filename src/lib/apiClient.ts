@@ -6,14 +6,24 @@ export async function apiClient<T>(
   options?: RequestInit
 ): Promise<T> {
   const url = `${API_BASE_URL}${endpoint}`;
-  const response = await fetch(url, options);
-  const data = await response.json();
 
-  if (!response.ok) {
-    console.log(data.message);
+  try {
+    const response = await fetch(url, options);
 
-    throw new Error(data.message || `HTTP error! status: ${response.status}`);
+    // Response received but server returned error status
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      console.error("API Error:", data?.message || response.statusText);
+      throw new Error(
+        data?.message || `HTTP error! status: ${response.status}`
+      );
+    }
+
+    return data;
+  } catch (error) {
+    // THIS catches real CORS/network errors
+    console.error("NETWORK/CORS ERROR:", error);
+    throw error;
   }
-
-  return data;
 }
