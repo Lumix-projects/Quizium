@@ -10,6 +10,8 @@ export async function apiClient<T>(
   const data = await response.json();
 
   if (!response.ok) {
+    console.log(data.message);
+
     throw new Error(data.message || `HTTP error! status: ${response.status}`);
   }
 
