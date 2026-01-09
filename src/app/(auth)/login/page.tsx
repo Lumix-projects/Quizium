@@ -99,9 +99,7 @@ function LoginPage() {
               {/* Quick Login Text */}
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <h6 className="font-semibold text-gray-900 dark:text-gray-100">
-                    Quick Demo Access
-                  </h6>
+                  <h6 className="font-semibold">Quick Demo Access</h6>
                   <span className="px-2 py-0.5 bg-primary text-white text-xs font-medium rounded-full">
                     Demo
                   </span>
