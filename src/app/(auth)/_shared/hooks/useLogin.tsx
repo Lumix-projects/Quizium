@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { LoginData } from "@/app/(auth)/_shared/types/auth";
 import { useRouter } from "next/navigation";
@@ -16,6 +17,7 @@ import { handleApiError } from "@/lib/handleApiError";
 export function useLogin() {
   // Hooks
   const router = useRouter();
+  const [isQuickLoginLoading, setIsQuickLoginLoading] = useState(false);
 
   const {
     register,
@@ -44,7 +46,7 @@ export function useLogin() {
       router.push(redirectPath);
 
       // Show success toast
-      toast.success("login successful!");
+      toast.success("Login successful!");
 
       // Reset form after registration
       reset();
@@ -53,5 +55,26 @@ export function useLogin() {
       reset();
     }
   }
-  return { register, handleSubmit, errors, login, isSubmitting };
+
+  async function handleQuickLogin() {
+    setIsQuickLoginLoading(true);
+    try {
+      await login({
+        email: "quiziumuser@gmail.com",
+        password: "quizium123",
+      });
+    } finally {
+      setIsQuickLoginLoading(false);
+    }
+  }
+
+  return {
+    register,
+    handleSubmit,
+    errors,
+    login,
+    isSubmitting,
+    handleQuickLogin,
+    isQuickLoginLoading,
+  };
 }
