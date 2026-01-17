@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/Button";
 import { CircleQuestionMark, Play } from "lucide-react";
 import { Exam } from "../../exam/_shared/types/exam";
+import Link from "next/link";
 
 export default function ExamCard({ exam }: { exam: Exam }) {
   return (
@@ -21,9 +21,12 @@ export default function ExamCard({ exam }: { exam: Exam }) {
         </div>
       </div>
 
-      <Button className="ms-auto text-sm w-full md:w-fit">
+      <Link
+        href={`/exam/${exam._id}`}
+        className="ms-auto text-sm w-full md:w-fit cursor-pointer transition-all duration-300 active:scale-95 font-medium text-center flex items-center justify-center gap-2 bg-primary text-white hover:bg-primary-hover rounded-lg py-2.5 px-4"
+      >
         <Play size={18} /> Start Exam
-      </Button>
+      </Link>
     </div>
   );
 }
