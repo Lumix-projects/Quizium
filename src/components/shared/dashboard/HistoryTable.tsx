@@ -99,7 +99,7 @@ export default function HistoryTable({ scores }: HistoryTableProps) {
                   </div>
                   <div
                     className={`text-sm font-semibold ${getGradeColor(
-                      score.percentage
+                      score.percentage,
                     )}`}
                   >
                     {score.percentage.toFixed(1)}% Score
@@ -182,7 +182,7 @@ export default function HistoryTable({ scores }: HistoryTableProps) {
                         </span>
                         <span
                           className={`text-xs font-semibold ${getGradeColor(
-                            score.percentage
+                            score.percentage,
                           )}`}
                         >
                           {score.percentage.toFixed(1)}%
@@ -239,9 +239,9 @@ export default function HistoryTable({ scores }: HistoryTableProps) {
           <p className="text-muted-foreground mb-6">
             Start taking quizzes to see your history here
           </p>
-          <a href="/exams" className="main-btn inline-block">
+          <Link href="/quizzes" className="main-btn inline-block">
             Browse Quizzes
-          </a>
+          </Link>
         </div>
       )}
     </>
