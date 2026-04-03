@@ -176,7 +176,7 @@ export default function SettingsPage() {
           </DashboardCard>
 
           {/* Danger Zone */}
-          <DashboardCard title="Danger Zone" className="border-red-100">
+          {/* <DashboardCard title="Danger Zone" className="border-red-100">
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="font-medium text-slate-800">Delete Account</h4>
@@ -191,7 +191,7 @@ export default function SettingsPage() {
                 Delete Account
               </button>
             </div>
-          </DashboardCard>
+          </DashboardCard> */}
         </div>
       </div>
     </div>
